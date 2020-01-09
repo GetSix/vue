@@ -13,9 +13,6 @@
 </template>
 
 <style>
-html {
-  font-size: 100px;
-}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

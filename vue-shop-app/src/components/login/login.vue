@@ -22,6 +22,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 .left {
   flex: 5;
@@ -31,15 +32,19 @@ export default {
   overflow: hidden;
 }
 .left img {
-  width: 1rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: 50%;
 }
 .left p {
   font-size: 0.4rem;
-  color: red;
+  color: #ffffff;
 }
 .right {
   flex: 5;
+  text-align: right;
+  margin-right: 0.5rem;
+  font-size: 0.4rem;
+  color: #cccccc;
 }
 </style>
