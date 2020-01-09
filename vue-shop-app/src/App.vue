@@ -1,20 +1,23 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
 
-  <van-tabbar route>
-    <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
-    <van-tabbar-item to="/sort" icon="search">分类</van-tabbar-item>
-    <van-tabbar-item to="/eat" icon="star-o">吃什么</van-tabbar-item>
-    <van-tabbar-item to="/cart" icon="cart-o" info="5">购物车</van-tabbar-item>
-    <van-tabbar-item to="/user" icon="user-o">我的</van-tabbar-item>
-  </van-tabbar>
+    <van-tabbar route>
+      <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
+      <van-tabbar-item to="/sort" icon="search">分类</van-tabbar-item>
+      <van-tabbar-item to="/eat" icon="star-o">吃什么</van-tabbar-item>
+      <van-tabbar-item to="/cart" icon="cart-o" info="5">购物车</van-tabbar-item>
+      <van-tabbar-item :to="{name:'user'}" icon="user-o">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
 <style>
+html {
+  font-size: 100px;
+}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
