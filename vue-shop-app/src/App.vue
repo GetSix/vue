@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-       <router-link to="/eat">吃什么</router-link>
-    </div>
     <router-view/>
+
+  <van-tabbar route>
+    <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
+    <van-tabbar-item to="/sort" icon="search">分类</van-tabbar-item>
+    <van-tabbar-item to="/eat" icon="star-o">吃什么</van-tabbar-item>
+    <van-tabbar-item to="/cart" icon="cart-o" info="5">购物车</van-tabbar-item>
+    <van-tabbar-item to="/user" icon="user-o">我的</van-tabbar-item>
+  </van-tabbar>
   </div>
 </template>
 
