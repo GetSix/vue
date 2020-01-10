@@ -187,7 +187,6 @@ export default {
               this.$router.push({ name: "home" });
               console.log(res.data.token);
               localStorage.setItem("token", res.data.token);
-              this.logined();
             } else if (res.data.code == "error") {
               console.log(res);
               if (res.data.message == "user not found") {

@@ -10,10 +10,12 @@
 
     <section>
       <div class="orderform">
-        <div class="myorder" :to="{name:'order'}">
-          <van-icon class="ordericon" name="label" color="#3bba63"></van-icon>
-          <p>我的订单</p>
-        </div>
+        <router-link :to="{name:'orderHandle'}">
+          <div class="myorder">
+            <van-icon class="ordericon" name="label" color="#3bba63"></van-icon>
+            <p>我的订单</p>
+          </div>
+        </router-link>
         <div class="allorder">
           <p>查看全部订单</p>
           <van-icon class="allordericon" name="arrow"></van-icon>
@@ -21,22 +23,30 @@
       </div>
 
       <div class="funicon">
-        <div class="pay">
-          <van-icon class="payicon" name="cart-circle-o"></van-icon>
-          <p>待支付</p>
-        </div>
-        <div class="pay">
-          <van-icon class="payicon" name="point-gift-o"></van-icon>
-          <p>代收货</p>
-        </div>
-        <div class="pay">
-          <van-icon class="payicon" name="smile-comment-o"></van-icon>
-          <p>待评价</p>
-        </div>
-        <div class="pay">
-          <van-icon class="payicon" name="cash-back-record"></van-icon>
-          <p>售后/退款</p>
-        </div>
+        <router-link :to="{name:'orderHandle',query:{index:0}}">
+          <div class="pay">
+            <van-icon class="payicon" name="cart-circle-o"></van-icon>
+            <p>待支付</p>
+          </div>
+        </router-link>
+        <router-link :to="{name:'orderHandle',query:{index:1}}">
+          <div class="pay">
+            <van-icon class="payicon" name="point-gift-o"></van-icon>
+            <p>代收货</p>
+          </div>
+        </router-link>
+        <router-link :to="{name:'orderHandle',query:{index:2}}">
+          <div class="pay">
+            <van-icon class="payicon" name="smile-comment-o"></van-icon>
+            <p>待评价</p>
+          </div>
+        </router-link>
+        <router-link :to="{name:'orderHandle',query:{index:3}}">
+          <div class="pay">
+            <van-icon class="payicon" name="cash-back-record"></van-icon>
+            <p>售后/退款</p>
+          </div>
+        </router-link>
       </div>
 
       <div class="orderform coupons">
@@ -50,10 +60,12 @@
         </div>
       </div>
       <div class="orderform">
-        <div class="myorder">
-          <van-icon class="ordericon" name="todo-list" color="#3bba63"></van-icon>
-          <p>我的收货地址</p>
-        </div>
+        <router-link :to="{name:'address'}">
+          <div class="myorder">
+            <van-icon class="ordericon" name="todo-list" color="#3bba63"></van-icon>
+            <p>我的收货地址</p>
+          </div>
+        </router-link>
         <div class="allorder">
           <van-icon class="allordericon" name="arrow"></van-icon>
         </div>
@@ -126,6 +138,9 @@ export default {
 </script>
 
 <style scope>
+a {
+  color: #000000;
+}
 .user {
   width: 100%;
   background: #3bba63;
