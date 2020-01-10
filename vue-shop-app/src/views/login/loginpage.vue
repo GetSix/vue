@@ -129,7 +129,9 @@ export default {
         .then(() => {
           this.yanzheng = random;
         })
-        .catch(() => {});
+        .catch(() => {
+          this.isSendYZ = false;
+        });
     },
     islogined() {
       if (localStorage.getItem("username")) {
