@@ -8,7 +8,6 @@
 </template>
 <script>
 export default {
-<<<<<<< HEAD
     data(){
         return {
             list:[]
@@ -17,10 +16,5 @@ export default {
     methods: {
         
     },
-=======
-  name: 'eat',
-  components: {
-  }
->>>>>>> 449a300a3bcc7bf83ceaf35acf4d68c428504d6e
 }
 </script>
