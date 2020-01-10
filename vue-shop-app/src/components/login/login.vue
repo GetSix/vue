@@ -1,14 +1,17 @@
 <template>
-  <div class="login">
-    <div class="left">
-      <img
-        src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1111759211,550942899&fm=26&gp=0.jpg"
-      />
-      <p>立即登录</p>
+  <router-link :to="{name:'loginpage'}">
+    <div class="login">
+      <div class="left">
+        <img
+          src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1111759211,550942899&fm=26&gp=0.jpg"
+        />
+        <p>立即登录</p>
+      </div>
+      <van-icon class="right" name="arrow"></van-icon>
     </div>
-    <van-icon class="right" name="arrow"></van-icon>
-  </div>
+  </router-link>
 </template>
+
 
 <script>
 export default {

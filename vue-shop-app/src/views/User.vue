@@ -4,6 +4,7 @@
       <header>
         <p class="me">我的</p>
         <Login></Login>
+        <router-view></router-view>
       </header>
     </van-sticky>
 
@@ -103,6 +104,7 @@
 <script>
 import Login from "../components/login/login";
 export default {
+  path: "/User",
   name: "user",
   components: {
     Login
