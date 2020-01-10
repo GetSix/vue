@@ -4,12 +4,13 @@
       <header>
         <p class="me">我的</p>
         <Login></Login>
+        <router-view></router-view>
       </header>
     </van-sticky>
 
     <section>
       <div class="orderform">
-        <div class="myorder">
+        <div class="myorder" :to="{name:'order'}">
           <van-icon class="ordericon" name="label" color="#3bba63"></van-icon>
           <p>我的订单</p>
         </div>
@@ -103,6 +104,7 @@
 <script>
 import Login from "../components/login/login";
 export default {
+  path: "/User",
   name: "user",
   components: {
     Login
@@ -110,17 +112,17 @@ export default {
 };
 
 // ？？？？？
-window.onload = function() {
-  var html = document.querySelector("html");
-  html.style.fontSize = (html.offsetWidth / 750) * 100 + "px";
-  addEventListener(
-    "resize",
-    function() {
-      html.style.fontSize = (html.offsetWidth / 750) * 100 + "px";
-    },
-    false
-  );
-};
+// window.onload = function() {
+//   var html = document.querySelector("html");
+//   html.style.fontSize = (html.offsetWidth / 750) * 100 + "px";
+//   addEventListener(
+//     "resize",
+//     function() {
+//       html.style.fontSize = (html.offsetWidth / 750) * 100 + "px";
+//     },
+//     false
+//   );
+// };
 </script>
 
 <style scope>
@@ -133,14 +135,14 @@ window.onload = function() {
 }
 .user header {
   width: 100%;
-  height: 3rem;
+  height: 150px;
   background: #3bba63;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 .user header .me {
-  font-size: 0.4rem;
+  font-size: 20px;
   color: aliceblue;
   line-height: 0;
 }
@@ -153,7 +155,7 @@ section {
 }
 section .orderform {
   width: 100%;
-  height: 1rem;
+  height: 50px;
   border-bottom: 1px solid #cccccc;
   display: flex;
   justify-content: space-between;
@@ -165,11 +167,11 @@ section .orderform .myorder {
   align-items: center;
 }
 section .orderform .myorder p {
-  font-size: 0.3rem;
+  font-size: 15px;
 }
 section .orderform .myorder .ordericon {
-  font-size: 0.6rem;
-  margin-left: 0.3rem;
+  font-size: 30px;
+  margin-left: 15px;
 }
 section .orderform .allorder {
   display: flex;
@@ -178,22 +180,22 @@ section .orderform .allorder {
 }
 section .orderform .allorder .allordericon {
   color: #cccccc;
-  font-size: 0.3rem;
-  margin-right: 0.4rem;
-  margin-left: 0.1rem;
+  font-size: 15px;
+  margin-right: 20px;
+  margin-left: 5px;
 }
 section .orderform .allorder p {
   color: #cccccc;
-  font-size: 0.3rem;
+  font-size: 15px;
 }
 .funicon {
-  height: 2rem;
+  height: 100px;
   display: flex;
   justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid #cccccc;
   background: #ffffff;
-  margin-bottom: 0.2rem;
+  margin-bottom: 10px;
 }
 .funicon .pay {
   display: flex;
@@ -201,27 +203,27 @@ section .orderform .allorder p {
   align-content: center;
 }
 .funicon .pay p {
-  font-size: 0.3rem;
+  font-size: 15px;
   line-height: 0;
 }
 .funicon .pay .payicon {
-  font-size: 0.8rem;
+  font-size: 40px;
 }
 .user section .coupons {
-  margin-top: 0.2rem;
+  margin-top: 10px;
   border: 0;
   margin: 0;
   /* margin-top: 0.2rem; */
 }
 .user section .greencart {
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .user section .greencart .myorder div {
   color: #ffffff;
   background: red;
-  font-size: 0.3rem;
-  border-radius: 0.2rem;
-  padding: 0.1rem;
+  font-size: 15px;
+  border-radius: 10px;
+  padding: 5px;
 }
 </style>
