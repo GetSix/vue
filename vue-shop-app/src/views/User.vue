@@ -1,11 +1,102 @@
 <template>
   <div class="user">
-    <header>
-      <p class="me">我的</p>
-      <Login></Login>
-    </header>
+    <van-sticky>
+      <header>
+        <p class="me">我的</p>
+        <Login></Login>
+      </header>
+    </van-sticky>
+
     <section>
-      <div>111</div>
+      <div class="orderform">
+        <div class="myorder">
+          <van-icon class="ordericon" name="label" color="#3bba63"></van-icon>
+          <p>我的订单</p>
+        </div>
+        <div class="allorder">
+          <p>查看全部订单</p>
+          <van-icon class="allordericon" name="arrow"></van-icon>
+        </div>
+      </div>
+
+      <div class="funicon">
+        <div class="pay">
+          <van-icon class="payicon" name="cart-circle-o"></van-icon>
+          <p>待支付</p>
+        </div>
+        <div class="pay">
+          <van-icon class="payicon" name="point-gift-o"></van-icon>
+          <p>代收货</p>
+        </div>
+        <div class="pay">
+          <van-icon class="payicon" name="smile-comment-o"></van-icon>
+          <p>待评价</p>
+        </div>
+        <div class="pay">
+          <van-icon class="payicon" name="cash-back-record"></van-icon>
+          <p>售后/退款</p>
+        </div>
+      </div>
+
+      <div class="orderform coupons">
+        <div class="myorder">
+          <van-icon class="ordericon" name="gold-coin" color="#3bba63"></van-icon>
+          <p>我的优惠券</p>
+        </div>
+        <div class="allorder">
+          <p>2</p>
+          <van-icon class="allordericon" name="arrow"></van-icon>
+        </div>
+      </div>
+      <div class="orderform">
+        <div class="myorder">
+          <van-icon class="ordericon" name="todo-list" color="#3bba63"></van-icon>
+          <p>我的收货地址</p>
+        </div>
+        <div class="allorder">
+          <van-icon class="allordericon" name="arrow"></van-icon>
+        </div>
+      </div>
+      <div class="orderform greencart">
+        <div class="myorder">
+          <van-icon class="ordericon" name="gold-coin" color="#3bba63"></van-icon>
+          <p>我的绿卡</p>
+          <div>NEW</div>
+        </div>
+        <div class="allorder">
+          <p>2</p>
+          <van-icon class="allordericon" name="arrow"></van-icon>
+        </div>
+      </div>
+      <div class="orderform coupons">
+        <div class="myorder">
+          <van-icon class="ordericon" name="phone" color="#3bba63"></van-icon>
+          <p>联系客服</p>
+        </div>
+        <div class="allorder">
+          <p>客服时间 07:00-22:00</p>
+          <van-icon class="allordericon" name="arrow"></van-icon>
+        </div>
+      </div>
+      <div class="orderform coupons">
+        <div class="myorder">
+          <van-icon class="ordericon" name="comment-circle" color="#3bba63"></van-icon>
+          <p>意见反馈</p>
+        </div>
+        <div class="allorder">
+          <van-icon class="allordericon" name="arrow"></van-icon>
+        </div>
+      </div>
+      <div class="orderform coupons">
+        <div class="myorder">
+          <van-icon class="ordericon" name="underway" color="#3bba63"></van-icon>
+          <p>语言切换</p>
+        </div>
+        <div class="allorder">
+          <van-icon class="allordericon" name="arrow"></van-icon>
+        </div>
+      </div>
+      <p style="font-size:12px;">当前版本1.3.0</p>
     </section>
   </div>
 </template>
@@ -35,10 +126,10 @@ window.onload = function() {
 <style scope>
 .user {
   width: 100%;
-  flex: 1;
-  /* background: #3bba63; */
+  background: #3bba63;
   display: flex;
   flex-direction: column;
+  /* overflow-x: auto; */
 }
 .user header {
   width: 100%;
@@ -49,11 +140,88 @@ window.onload = function() {
   justify-content: space-around;
 }
 .user header .me {
-  font-size: 0.5rem;
+  font-size: 0.4rem;
   color: aliceblue;
   line-height: 0;
 }
 section {
+  background: #dfdfdf;
+  flex: 1;
+  /* height: 4rem; */
+  overflow-x: auto;
+  padding-bottom: 50px;
+}
+section .orderform {
+  width: 100%;
+  height: 1rem;
+  border-bottom: 1px solid #cccccc;
+  display: flex;
+  justify-content: space-between;
+  background: #ffffff;
+}
+section .orderform .myorder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+section .orderform .myorder p {
+  font-size: 0.3rem;
+}
+section .orderform .myorder .ordericon {
+  font-size: 0.6rem;
+  margin-left: 0.3rem;
+}
+section .orderform .allorder {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+section .orderform .allorder .allordericon {
+  color: #cccccc;
+  font-size: 0.3rem;
+  margin-right: 0.4rem;
+  margin-left: 0.1rem;
+}
+section .orderform .allorder p {
+  color: #cccccc;
+  font-size: 0.3rem;
+}
+.funicon {
+  height: 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid #cccccc;
+  background: #ffffff;
+  margin-bottom: 0.2rem;
+}
+.funicon .pay {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+.funicon .pay p {
+  font-size: 0.3rem;
+  line-height: 0;
+}
+.funicon .pay .payicon {
+  font-size: 0.8rem;
+}
+.user section .coupons {
+  margin-top: 0.2rem;
+  border: 0;
+  margin: 0;
+  /* margin-top: 0.2rem; */
+}
+.user section .greencart {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+.user section .greencart .myorder div {
+  color: #ffffff;
   background: red;
+  font-size: 0.3rem;
+  border-radius: 0.2rem;
+  padding: 0.1rem;
 }
 </style>
