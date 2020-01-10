@@ -5,7 +5,7 @@
             <van-search shape="round" placeholder="请输入商品名称" v-model="value" />
         </van-sticky>
       <div class="swipe">
-      <van-swipe :autoplay="3000" indicator-color="white" style="height: 200px;">
+      <van-swipe :autoplay="3000" indicator-color="white" style="height: 200px; margin-top:3px;">
         <van-swipe-item><img  src="https://img.ddimg.mobi/0ec4a32cbd84b1575892960355.jpg" alt=""></van-swipe-item>
         <van-swipe-item><img src="https://img.ddimg.mobi/d3d83d40395221575808767181.jpg" alt=""></van-swipe-item>
         <van-swipe-item><img src="https://img.ddimg.mobi/b7efb94de888d1575820057576.jpg" alt=""></van-swipe-item>
@@ -43,11 +43,12 @@
       </van-grid>
       <div class="member-warp">
         <div class="member">
-          <span class="left" >加入会员·每年预计节省806元</span>
-          <span class="right">5折开卡></span>
+          <span class="left" style="float:left;" >加入会员·每年预计节省806元</span>
+          <span class="right" style="float:right;">5折开卡></span>
         </div>
       </div>
-      <div class="title">
+      <div style="height:30px;">
+        <div class="title">
         限时抢购
       </div>
       <van-count-down :time="3000000000">
@@ -58,9 +59,127 @@
         </template>
       </van-count-down>
       <div class="more">更多</div>
-      <div>
-        
       </div>
+
+      <div class='nav-warp'>
+        <div class="nav">
+          <ul style="width:1514px; height:192px;">
+            <li v-for="item in items" :key="item.id" @click="load">
+              <img :src="item.img" alt="">
+              <p class="tit">{{item.title}}</p>
+              <p class="price">¥{{item.price}}</p>
+              <van-icon  color="#3bba63" size="30" name="cart-circle-o" />
+              <p class="price2" >¥{{item.price}}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="titleWrapper" style="margin-top: 20px; margin-bottom:10px;">
+             <div class="title" >
+              特色专区
+              </div>
+      </div>
+      <div class="wrapperItem">
+        <div class="newItem">
+          <span class="itemTitle">新品尝鲜</span>
+          <p class="itemSubTitle">不时不食，又闻菱角香~~</p>
+          <img class="itemImg" src="http://img.ddimg.mobi/product/1ff533e6f0fe91548468615264.jpg?imageView2/3/w/750/format/q/90" alt="">
+          <img class="itemImg" src="http://ddimg.ddxq.mobi/d3421059fd5ef1541779787379.jpg?imageView2/3/w/305/format/q/90" alt="">
+        </div>
+        <div class="hotItem">
+          <span class="itemTitle">十二月爆款</span>
+          <p class="itemSubTitle">世界之大不过一盘番茄炒蛋</p>
+          <img class="itemImg" src="https://ddimg.ddxq.mobi/be51d2b7e7cfb1541779541044.jpg?imageMogr2/thumbnail/200x200" alt="">
+          <img class="itemImg" src="https://ddimg.ddxq.mobi/d9570a42c1a2f1541779412213.jpg?imageMogr2/thumbnail/200x200" alt="">
+        </div>
+        <div class="vipItem">
+          <span class="itemTitle">VIP 专享</span>
+          <p class="itemSubTitle">阳光玫瑰 VIP只要12.9</p>
+          <img class="itemImg" src="http://img.ddimg.mobi/product/98a74efe088f81565858857802.jpg?imageView2/3/w/305/format/q/90" alt="">
+          <img class="itemImg" src="http://img.ddimg.mobi/product/6a422523dbab1564042389882.jpg?imageView2/3/w/305/format/q/90" alt="">
+        </div>
+        <div class="otherItem">
+          <span class="itemTitle">吃什么</span>
+          <p class="itemSubTitle">童年落花生</p>
+          <img class="itemImg" src="http://localhost:8081/img/peanut.7c7a8e68.jpeg" alt="">
+        </div>
+        <div class="lowPrice">
+          <span class="itemTitle">平价菜场</span>
+          <p class="itemSubTitle">豆芽0.99</p>
+          <img class="itemImg" src="http://ddimg.ddxq.mobi/1fac18844ddea1539673001469.jpg?imageView2/3/w/750/format/q/90" alt="">
+        </div>
+      </div>
+
+      <van-tabs class="all" :offset-top=50  sticky>
+        <van-tab title="全部">
+          <van-grid :gutter="10" :column-num="2">
+          <van-grid-item
+          v-for=" item in active"
+          :key="item.id"  @click="load">
+          <img :src="item.img" alt="">
+
+          <p class="tit">{{item.title}}</p>
+          <p class="desc">{{item.desc}}</p>
+          <div class="price-warp">
+              <span  class="price">¥{{ item.price }}</span>
+              <span class="originPrice">¥{{ item.price }}</span>
+              <van-icon style="margin-left: 30px; " color="#3bba63" size="30" name="cart-circle-o" />
+          </div>
+          </van-grid-item>
+          </van-grid>
+        </van-tab>
+        <van-tab title="晚餐">
+           <van-grid :gutter="10" :column-num="2">
+          <van-grid-item
+          v-for=" item in active"
+          :key="item.id" @click="load">
+          <img :src="item.img" alt="">
+          <p class="tit">{{item.title}}</p>
+          <p class="desc">{{item.desc}}</p>
+          <div class="price-warp">
+              <span  class="price">¥{{ item.price }}</span>
+              <span class="originPrice">¥{{ item.price }}</span>
+              <van-icon style="margin-left: 30px; " color="#3bba63" size="30" name="cart-circle-o" />
+          </div>
+          </van-grid-item>
+          </van-grid>
+        </van-tab>
+        <van-tab title="人气">
+           <van-grid :gutter="10" :column-num="2">
+          <van-grid-item
+          v-for=" item in active"
+          :key="item.id" @click="load">
+          <img :src="item.img" alt="">
+          <p class="tit">{{item.title}}</p>
+          <p class="desc">{{item.desc}}</p>
+          <div class="price-warp">
+              <span  class="price">¥{{ item.price }}</span>
+              <span class="originPrice">¥{{ item.price }}</span>
+              <van-icon style="margin-left: 30px; " color="#3bba63" size="30" name="cart-circle-o" />
+          </div>
+          </van-grid-item>
+          </van-grid>
+        </van-tab>
+        <van-tab title="心选">
+          <van-grid :gutter="10" :column-num="2">
+          <van-grid-item
+          v-for=" item in active"
+          :key="item.id" @click="load">
+          <img :src="item.img" alt="">
+          <p class="tit">{{item.title}}</p>
+          <p class="desc">{{item.desc}}</p>
+          <div class="price-warp">
+              <span  class="price">¥{{ item.price }}</span>
+              <span class="originPrice">¥{{ item.price }}</span>
+              <van-icon style="margin-left: 30px; " color="#3bba63" size="30" name="cart-circle-o" />
+          </div>
+          </van-grid-item>
+          </van-grid>
+          </van-tab>
+      </van-tabs>
+
+
 </div>
 
 </template>
@@ -73,6 +192,73 @@ export default {
   data() {
     return {
       value:'',
+      active:[{
+        id:1,
+        img:'https://img.ddimg.mobi/product/73729284b788d1558072397291.jpg!deliver.product.list',
+        title:'康师傅大食代红烧牛肉面 5包/袋',
+        desc:'124g*5包 大块满足 畅快分享 ',
+        price:15.90,
+      },{
+        id:2,
+        img:'https://ddimg.ddxq.mobi/abf3023fb51611526109391551.jpg!maicai.product.list',
+        title:'四季宝柔滑花生酱 340g/瓶',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:16.90,
+      },{
+        id:3,
+        img:'https://ddimg.ddxq.mobi/becc0e6b257781528108118451.jpg!maicai.product.list',
+        title:'粮全其美葱香味手抓饼 900g/袋',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:18.80,
+      },{
+        id:4,
+        img:'https://ddimg.ddxq.mobi/47a79cef49d661492078512642.jpeg!maicai.product.list',
+        title:'松花菜半颗 约500g',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:7.59,
+      },{
+        id:5,
+        img:'https://img.ddimg.mobi/product/b960de0ed28d11562551037392.jpg!deliver.product.list',
+        title:'美国车厘子 250g',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:25.90,
+      },{
+        id:6,
+        img:'https://img.ddimg.mobi/product/73c7833c39d6d1545274259948.jpg!maicai.product.list',
+        title:'芸豆 300g',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:9.90,
+      },{
+        id:7,
+        img:'https://img.ddimg.mobi/product/e0f55322f48ae1543472645397.jpg!maicai.product.list',
+        title:'艺杏小油豆腐130g/袋',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:4.29,
+      },{
+        id:8,
+        img:'https://img.ddimg.mobi/product/9f71a4750f1591554301429547.jpg!deliver.product.list',
+        title:'农夫山泉饮用天然水 550ml*28瓶',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:32.80,
+      },{
+        id:9,
+        img:'https://img.ddimg.mobi/product/718558731a1eb1562568919636.jpg!deliver.product.list',
+        title:'伊赛澳洲原切冷冻牛腱 1kg',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:79.90,
+      },{
+        id:10,
+        img:'https://ddimg.ddxq.mobi/cedd7697d12571533723350035.jpg!maicai.product.list',
+        title:'妙可蓝多马苏里拉奶酪碎 125g/袋',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:19.90,
+      },{
+        id:11,
+        img:'https://img.ddimg.mobi/product/d9df7fe10be381548472525847.jpg!deliver.product.list',
+        title:'加费尔德舟山冷冻去脏小黄鱼 300g',
+        desc:'124g*5包 大块满足 畅快分享',
+        price:18.80,
+      }],
       list:[{
         id:1,
         img:'https://img.ddimg.mobi/faed0c89b1ac61561979943620.jpg',
@@ -114,6 +300,71 @@ export default {
         img:'https://img.ddimg.mobi/17964fae5012d1561980650167.jpg',
         text:'调味品'
       }],
+      items:[{
+        id:1,
+        img:'https://img.ddimg.mobi/product/4513b9fc5935f1548406258985.jpg!deliver.product.list',
+        title:'爱森五花肉 500g',
+        price:41.80,
+      },{
+        id:2,
+        img:'https://ddimg.ddxq.mobi/abf3023fb51611526109391551.jpg!maicai.product.list',
+        title:'四季宝柔滑花生酱 340g/瓶',
+        price:16.90,
+      },{
+        id:3,
+        img:'https://ddimg.ddxq.mobi/becc0e6b257781528108118451.jpg!maicai.product.list',
+        title:'粮全其美葱香味手抓饼 900g/袋',
+        price:18.80,
+      },{
+        id:4,
+        img:'https://ddimg.ddxq.mobi/47a79cef49d661492078512642.jpeg!maicai.product.list',
+        title:'松花菜半颗 约500g',
+        price:7.59,
+      },{
+        id:5,
+        img:'https://img.ddimg.mobi/product/b960de0ed28d11562551037392.jpg!deliver.product.list',
+        title:'美国车厘子 250g',
+        price:25.90,
+      },{
+        id:6,
+        img:'https://img.ddimg.mobi/product/73c7833c39d6d1545274259948.jpg!maicai.product.list',
+        title:'芸豆 300g',
+        price:9.90,
+      },{
+        id:7,
+        img:'https://img.ddimg.mobi/product/e0f55322f48ae1543472645397.jpg!maicai.product.list',
+        title:'艺杏小油豆腐130g/袋',
+        price:4.29,
+      },{
+        id:8,
+        img:'https://img.ddimg.mobi/product/9f71a4750f1591554301429547.jpg!deliver.product.list',
+        title:'农夫山泉饮用天然水 550ml*28瓶',
+        price:32.80,
+      },{
+        id:9,
+        img:'https://img.ddimg.mobi/product/718558731a1eb1562568919636.jpg!deliver.product.list',
+        title:'伊赛澳洲原切冷冻牛腱 1kg',
+        price:79.90,
+      },{
+        id:10,
+        img:'https://ddimg.ddxq.mobi/cedd7697d12571533723350035.jpg!maicai.product.list',
+        title:'妙可蓝多马苏里拉奶酪碎 125g/袋',
+        price:19.90,
+      },{
+        id:11,
+        img:'https://img.ddimg.mobi/product/d9df7fe10be381548472525847.jpg!deliver.product.list',
+        title:'加费尔德舟山冷冻去脏小黄鱼 300g',
+        price:18.80,
+      }],
+    }
+  },
+  methods: {
+    load(){
+      this.$toast.loading({
+           forbidClick: true,
+  loadingType: 'spinner',
+          message: '加载中...'
+        });
     }
   },
 }
@@ -155,33 +406,31 @@ export default {
   }
   .member-warp .member{
     background-color: #3BBa63;
-    width: 100%;
+    width: 90%;
     height: 100%;
     border-radius: 8px;
     margin: 20px auto;
+    padding: 0 5%;
   }
   .member span{
     line-height: 35px;
     font-size: 14px;
     color: white;
   }
-  .member .left{
-    margin-right: 80px;
-  }
   .title{
     display: inline-block;
     border-left: 4px #3cb963 solid;
-    padding-left: 0.3125rem;
-    height: 1.3125rem;
-    line-height: 1.3125rem;
+    padding-left: 12px;
+    height: 18px;
+    line-height: 18px;
     vertical-align: middle;
-    font-size: 1.1875rem;
+    font-size: 16px;
     float: left;
     margin-left: 15px;
   }
   .van-count-down{
     float: left;
-    margin-left: 30px
+    margin-left: 2.5%;
   }
   .item {
   display: inline-block;
@@ -197,4 +446,122 @@ export default {
   float: right;
   margin-right: 15px;
 }
+.nav{
+  margin-top: 5px;
+ width: 100%;
+ height: 220px;
+ overflow-x: auto;
+}
+.nav ul li{
+  float: left;
+  padding-right: 10px;
+}
+.nav ul li img{
+  width:116px;
+  height:116px;
+}
+.nav ul li .tit{
+  margin: 0px;
+  width: 116px;
+  height: 42px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.nav ul li .price{
+  margin: 0px;
+  width: 80px;
+  height: 18px;
+  font-size: 18px;
+  color: #f37078;
+  display: inline-block;
+}
+
+.nav ul li .price2{
+  margin: 0px;
+  width: 80px;
+  font-size: 14px;
+  color: #999;
+  text-decoration:line-through;
+}
+.titleWrapper{
+    margin: 0 8px 0 0;
+    height: 18px;
+}
+.wrapperItem{
+    width: 95%;
+    height: 195px;
+    border: 1px solid #dddbc0;
+    margin-left: 2.5%;
+}
+.newItem , .vipItem{
+  float: left;
+    width: 49.8%;
+    height: 97px;
+    border-right: 1px solid #dddbc0;
+    border-bottom: 1px solid #dddbc0;
+}
+.hotItem{
+  float: left;
+    width: 49.8%;
+    height: 97px;
+    border-bottom: 1px solid #dddbc0;
+}
+.itemTitle{
+  float: left;
+    font-size: 14px;
+    color: orange;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+.itemSubTitle{
+    font-size: 14px;
+    color: grey;
+    text-align: left;
+    padding-left: 5px;
+    padding-top: 5px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+.itemImg{
+    padding: 4px 8px 0 10px;
+    width:70px;
+    height:45px;
+}
+.otherItem{
+    float: left;
+    width: 25%;
+    border-right: 1px solid #dddbc0;
+    height: 97px;
+}
+.lowPrice{
+    float: left;
+    width: 24.5%;
+    height: 97px;
+} 
+.all img{
+  width: 116px;
+  height: 116px;
+}
+
+.desc{
+  margin-top: 0;
+  color: #808080;
+}
+.all span{
+  display: inline-block;
+}
+
+.all .price{
+    color: #f37078;
+    font-size: 18px;
+}
+
+.all .originPrice{
+  padding-left: 8px;
+    color: #999;
+    font-size: 14px;
+    text-decoration: line-through;
+}
 </style>
+ 
