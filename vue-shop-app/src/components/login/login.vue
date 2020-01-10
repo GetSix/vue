@@ -32,20 +32,20 @@ export default {
   overflow: hidden;
 }
 .left img {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  margin-left: 0.2rem;
+  margin-left: 10px;
 }
 .left p {
-  font-size: 0.3rem;
+  font-size: 15px;
   color: #ffffff;
 }
 .right {
   flex: 5;
   text-align: right;
-  margin-right: 0.4rem;
-  font-size: 0.3rem;
+  margin-right: 20px;
+  font-size: 15px;
   color: #cccccc;
 }
 </style>
