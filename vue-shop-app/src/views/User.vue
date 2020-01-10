@@ -10,7 +10,7 @@
 
     <section>
       <div class="orderform">
-        <div class="myorder">
+        <div class="myorder" :to="{name:'order'}">
           <van-icon class="ordericon" name="label" color="#3bba63"></van-icon>
           <p>我的订单</p>
         </div>

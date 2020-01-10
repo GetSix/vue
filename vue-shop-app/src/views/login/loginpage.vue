@@ -29,9 +29,12 @@
                 placeholder="请输入短信验证码"
                 :error-message="errormessage2"
               >
-                <van-button slot="button" size="small" type="primary">
-                  发送验证码
-                  <van-count-down v-if="sendYZ" :time="time" format="DD 天 HH 时 mm 分 ss 秒" />
+                <van-button slot="button" @click="sendYZM" size="small" type="primary">
+                  <p class="sengyzm" v-if="!isSendYZ">发送验证码</p>
+                  <p class="senddjs" v-else style="line-height:0; display:flex;">
+                    <span>剩余</span>
+                    <van-count-down class="djs" style="color:#ffffff" :time="60000" format="ss" />
+                  </p>
                 </van-button>
               </van-field>
             </van-cell-group>
@@ -81,6 +84,15 @@
   </van-overlay>
 </template>
 <script>
+import Vue from "vue";
+import { Toast } from "vant";
+import { CountDown } from "vant";
+import { Dialog } from "vant";
+
+// 全局注册
+Vue.use(Dialog);
+Vue.use(CountDown);
+Vue.use(Toast);
 import axios from "axios";
 export default {
   name: "loginpage",
@@ -101,10 +113,24 @@ export default {
       errormessagepw: "",
       checked: true,
       sendYZ: false,
-      yanzheng: ""
+      yanzheng: "",
+      isSendYZ: false,
+      nickName: "",
+      avatar: ""
     };
   },
   methods: {
+    sendYZM() {
+      let random = Math.ceil(Math.random() * 100000 + 9999);
+      this.isSendYZ = !this.isSendYZ;
+      Dialog.confirm({
+        message: "验证码" + random
+      })
+        .then(() => {
+          this.yanzheng = random;
+        })
+        .catch(() => {});
+    },
     islogined() {
       if (localStorage.getItem("username")) {
       }
@@ -114,54 +140,68 @@ export default {
       this.$router.push({ name: "user" });
     },
     register() {
-      axios
-        .post("http://api.cat-shop.penkuoer.com/api/v1/auth/reg", {
-          userName: this.zcphone,
-          password: this.zcpassword,
-          nickName: "石宽宽",
-          avatar:
-            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1111759211,550942899&fm=26&gp=0.jpg"
-        })
-        .then(res => {
-          console.log(res);
-          if (res.data.code == "success") {
-            this.active = 0;
-            this.phone = this.zcphone;
-            this.password = this.zcpassword;
-            this.zcphone = "";
-            this.zcpassword = "";
+      let test = /^1[3456789]\d{9}$/;
+      if (test.test(parseInt(this.zcphone))) {
+        if (/^[\w]{6,12}$/.test(this.zcpassword)) {
+          if (this.checked) {
+            axios
+              .post("http://api.cat-shop.penkuoer.com/api/v1/auth/reg", {
+                userName: this.zcphone,
+                password: this.zcpassword,
+                nickName: "FKK",
+                avatar:
+                  "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2124649906,4117816182&fm=26&gp=0.jpg"
+              })
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "success") {
+                  this.active = 0;
+                  this.phone = this.zcphone;
+                  this.password = this.zcpassword;
+                  this.zcphone = "";
+                  this.zcpassword = "";
+                } else {
+                  this.errormessage3 = "手机号已存在";
+                }
+              });
           } else {
-            this.errormessage3 = "手机号已存在";
+            Toast("请勾选用户协议");
           }
-        });
+        } else {
+          this.errormessage4 = "密码格式错误";
+        }
+      } else {
+        this.errormessage3 = "手机号格式错误";
+      }
     },
     login() {
-      axios
-        .post("http://api.cat-shop.penkuoer.com/api/v1/auth/login", {
-          userName: this.phone,
-          password: this.password
-        })
-        .then(res => {
-          console.log(res);
-          if (res.data.code == "success") {
-            this.$router.push({ name: "home" });
-            console.log(res.data.token);
-            localStorage.setItem("token", res.data.token);
-            this.logined();
-          }
-        });
-    },
-    logined() {
-      console.log(localStorage.getItem("token"));
-      axios
-        .get("http://api.cat-shop.penkuoer.com/api/v1/users/info", {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token")
-          }
-        })
-        .then(resed => {
-          console.log(111, resed);
-        });
+      this.isSendYZ = false;
+      if (this.yanzheng) {
+        axios
+          .post("http://api.cat-shop.penkuoer.com/api/v1/auth/login", {
+            userName: this.phone,
+            password: this.password
+          })
+          .then(res => {
+            if (res.data.code == "success") {
+              this.$router.push({ name: "home" });
+              console.log(res.data.token);
+              localStorage.setItem("token", res.data.token);
+              this.logined();
+            } else if (res.data.code == "error") {
+              console.log(res);
+              if (res.data.message == "user not found") {
+                this.errormessage1 = "手机号错误";
+              } else {
+                this.errormessagepw = "密码错误";
+              }
+              // if(res.data.){
+              // }
+            }
+          });
+      } else {
+        this.errormessage2 = "请输入验证码";
+      }
     }
   }
 };
@@ -191,4 +231,14 @@ export default {
   display: flex;
   justify-content: space-between;
 } */
+.sengyzm {
+  line-height: 0px;
+}
+.senddjs {
+  display: flex;
+  justify-content: center;
+}
+.djs {
+  line-height: 0;
+}
 </style>

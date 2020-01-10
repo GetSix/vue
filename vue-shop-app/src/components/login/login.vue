@@ -2,10 +2,8 @@
   <router-link :to="{name:'loginpage'}">
     <div class="login">
       <div class="left">
-        <img
-          src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1111759211,550942899&fm=26&gp=0.jpg"
-        />
-        <p>立即登录</p>
+        <img :src="avatar" />
+        <p>{{nickName}}</p>
       </div>
       <van-icon class="right" name="arrow"></van-icon>
     </div>
@@ -14,9 +12,41 @@
 
 
 <script>
+import axios from "axios";
 export default {
   name: "Login",
-  props: {}
+  props: {},
+  data() {
+    return {
+      nickName: "立即登录",
+      avatar:
+        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1111759211,550942899&fm=26&gp=0.jpg"
+    };
+  },
+  created() {
+    this.logined();
+  },
+  methods: {
+    logined() {
+      if (localStorage.getItem("token")) {
+        axios
+          .get("http://api.cat-shop.penkuoer.com/api/v1/users/info", {
+            headers: {
+              authorization: "Bearer " + localStorage.getItem("token")
+            }
+          })
+          .then(resed => {
+            this.nickName = resed.data.nickName;
+            this.avatar = resed.data.avatar;
+          });
+      } else {
+        this.$router.push({ name: "loginpage" });
+        this.nickName = "立即登录";
+        this.avatar =
+          "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1111759211,550942899&fm=26&gp=0.jpg";
+      }
+    }
+  }
 };
 </script>
 
