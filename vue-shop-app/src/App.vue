@@ -4,7 +4,7 @@
 
     <van-tabbar route>
       <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item to="/sort" icon="search">分类</van-tabbar-item>
+      <van-tabbar-item to="/sort/tuijian" icon="search">分类</van-tabbar-item>
       <van-tabbar-item to="/eat" icon="star-o">吃什么</van-tabbar-item>
       <van-tabbar-item to="/cart" icon="cart-o" info="5">购物车</van-tabbar-item>
       <van-tabbar-item :to="{name:'user'}" icon="user-o">我的</van-tabbar-item>

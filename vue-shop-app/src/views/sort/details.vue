@@ -11,9 +11,7 @@
       </div>
       <div class="info" style="position:relative">
         <van-card :price="price" :desc="desc" :title="name" :origin-price="price" />
-        <span
-          style="position:absolute;right:1rem;top:4.6rem; font-size:14px; color:#e25450;"
-        >已售:999</span>
+        <span style="position:absolute;right:1rem;top:4.6rem; font-size:14px; color:#e25450;">已售:999</span>
       </div>
       <div class="info-b" style="position:relative;">
         <van-icon name="cluster-o" style="position:absolute; left:1rem;top:0.2rem;" />
@@ -52,24 +50,19 @@
     </section>
     <footer style="position:fixed;z-index:999">
       <van-goods-action>
-        <van-goods-action-icon icon="chat-o" text="客服"  />
+        <van-goods-action-icon icon="chat-o" text="客服" />
         <van-goods-action-icon icon="cart-o" @click="toCart" text="购物车" info="5" />
         <van-goods-action-icon icon="shop-o" text="店铺" info="12" />
         <van-goods-action-button type="warning" @click="addCart(id)" text="加入购物车" />
         <van-goods-action-button type="danger" text="立即购买" @click="show=true" />
       </van-goods-action>
-      <van-sku
-  v-model="show"
-  :custom-stepper-config="customStepperConfig"
-   :sku="sku"
-    :goods="goods"
-/>
+      <van-sku v-model="show" :sku="sku" :goods="goods"  @add-cart="onAddCartClicked(id)" />
     </footer>
   </div>
 </template>
 <script>
-import axios from "axios"
-import { toast } from'../../js/toast'
+import axios from "axios";
+import { toast } from "../../js/toast";
 export default {
   data() {
     return {
@@ -78,107 +71,101 @@ export default {
       name: "",
       desc: "",
       price: "",
-       show: false,
+      show: false,
       sku: {
-  // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
-  // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
-  tree: [
-    {
-      k: '颜色', // skuKeyName：规格类目名称
-      v: [
-        {
-          id: '30349', // skuValueId：规格值 id
-          name: '红色', // skuValueName：规格值名称
-          imgUrl: 'https://img.yzcdn.cn/2.jpg', // 规格类目图片，只有第一个规格类目可以定义图片
-          previewImgUrl: 'https://img.yzcdn.cn/1p.jpg', // 用于预览显示的规格类目图片
-        },
-        {
-          id: '1215',
-          name: '蓝色',
-          imgUrl: 'https://img.yzcdn.cn/2.jpg',
-          previewImgUrl: 'https://img.yzcdn.cn/2p.jpg',
-        }
-      ],
-      k_s: 's1' // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
-    }
-  ],
-  // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
-  list: [
-    {
-      id: 2259, // skuId，下单时后端需要
-      price: 100, // 价格（单位分）
-      s1: '1215', // 规格类目 k_s 为 s1 的对应规格值 id
-      s2: '1193', // 规格类目 k_s 为 s2 的对应规格值 id
-      s3: '0', // 最多包含3个规格值，为0表示不存在该规格
-      stock_num: 110 // 当前 sku 组合对应的库存
-    }
-  ],
-  price: '1.00', // 默认价格（单位元）
-  stock_num: 227, // 商品总库存
-  collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
-  none_sku: false, // 是否无规格商品
-  messages: [
-    {
-      // 商品留言
-      datetime: '0', // 留言类型为 time 时，是否含日期。'1' 表示包含
-      multiple: '0', // 留言类型为 text 时，是否多行文本。'1' 表示多行
-      name: '留言', // 留言名称
-      type: 'text', // 留言类型，可选: id_no（身份证）, text, tel, date, time, email
-      required: '1', // 是否必填 '1' 表示必填
-      placeholder: '' // 可选值，占位文本
-    }
-  ],
-  hide_stock: false // 是否隐藏剩余库存
-},
-     goods: {
-  // 商品标题
-  title: '测试商品',
-  // 默认商品 sku 缩略图
-  picture: 'https://img.yzcdn.cn/1.jpg'
-},
+        // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
+        // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
+        tree: [
+          {
+            k: "颜色", // skuKeyName：规格类目名称
+            v: [
+              {
+                id: "30349", // skuValueId：规格值 id
+                name: "红色", // skuValueName：规格值名称
+                imgUrl: "https://img.yzcdn.cn/2.jpg", // 规格类目图片，只有第一个规格类目可以定义图片
+                previewImgUrl: "https://img.yzcdn.cn/vant/cat.jpeg" // 用于预览显示的规格类目图片
+              },
+              {
+                id: "1215",
+                name: "蓝色",
+                imgUrl: "https://img.yzcdn.cn/2.jpg",
+                previewImgUrl: "https://img.yzcdn.cn/vant/cat.jpeg"
+              },
+              {
+                id: "1216",
+                name: "黑色",
+                imgUrl: "https://img.yzcdn.cn/2.jpg",
+                previewImgUrl: "https://img.yzcdn.cn/vant/cat.jpeg"
+              }
+            ],
+            k_s: "s1" // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
+          }
+        ],
+        // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
+        list: [
+          {
+            id: 2259, // skuId，下单时后端需要
+            price: 100, // 价格（单位分）
+            s1: "30349", // 规格类目 k_s 为 s1 的对应规格值 id
+            s2: "0", // 规格类目 k_s 为 s2 的对应规格值 id
+            s3: "0", // 最多包含3个规格值，为0表示不存在该规格
+            stock_num: 110 // 当前 sku 组合对应的库存
+          },
+          {
+            id: 2259, // skuId，下单时后端需要
+            price: 10200, // 价格（单位分）
+            s1: "1215", // 规格类目 k_s 为 s1 的对应规格值 id
+            s2: "0", // 规格类目 k_s 为 s2 的对应规格值 id
+            s3: "0", // 最多包含3个规格值，为0表示不存在该规格
+            stock_num: 110 // 当前 sku 组合对应的库存
+          },
+          {
+            id: 2259, // skuId，下单时后端需要
+            price: 10000, // 价格（单位分）
+            s1: "1216", // 规格类目 k_s 为 s1 的对应规格值 id
+            s2: "0", // 规格类目 k_s 为 s2 的对应规格值 id
+            s3: "0", // 最多包含3个规格值，为0表示不存在该规格
+            stock_num: 110 // 当前 sku 组合对应的库存
+          }
+        ],
+        price: "", // 默认价格（单位元）
+        stock_num: 227, // 商品总库存
+        collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
+        none_sku: false, // 是否无规格商品
+        hide_stock: true // 是否隐藏剩余库存
+      },
+
       messageConfig: {
         // 数据结构见下方文档
-      },
-      messageConfig: {
-  // 图片上传回调，需要返回一个promise，promise正确执行的结果需要是一个图片url
-  uploadImg: () => {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve('https://img.yzcdn.cn/upload_files/2017/02/21/FjKTOxjVgnUuPmHJRdunvYky9OHP.jpg!100x100.jpg'), 1000);
-    });
-  },
-  // 最大上传体积 (MB)
-  uploadMaxSize: 3,
-  // placeholder 配置
-  placeholderMap: {
-    text: 'xxx',
-    tel: 'xxx',
-  
-  }
-}
+      }
     };
   },
   created() {
     this.id = localStorage.getItem("id");
     console.log(this.id);
     axios
-      .get("http://jx.xuzhixiang.top/ap/api/detail.php", {
-        params: {
-          id: this.id
-        }
-      })
+      .get("http://192.168.16.39:3009/api/v1/products/"+this.id)
       .then(res => {
-        console.log(res.data.data);
-        this.id = res.data.data.pid;
-        
-        this.name = res.data.data.pname;
-        this.desc = res.data.data.pdesc;
-        this.price = res.data.data.pprice;
-        if(res.data.data.pimg){
-            this.img = res.data.data.pimg;
+        console.log(res.data);
+        //当前商品id
+        this.id = res.data._id;
+        this.collection_id = res.data._id;
+        // 当前商品名称
+        this.name = res.data.name;
+        // 当前商品描述
+        this.desc = res.data.descriptions;
+        // 当前商品价格
+        this.price = res.data.price;
+        // 弹出层商品价格
+        this.sku.price = res.data.price;
+        // 弹出层商品图片
+        this.goods.picture = res.data.coverImg;
+        // 判断是否有商品，有就显示
+        if (res.data.coverImg) {
+          this.img = res.data.coverImg;
         } else {
-            this.img='https://img.yzcdn.cn/vant/cat.jpeg'
+          this.img = "https://img.yzcdn.cn/vant/cat.jpeg";
         }
-         
       });
   },
   methods: {
@@ -186,16 +173,25 @@ export default {
       history.back();
     },
     addCart(id) {
-        console.log(id)
-       toast('添加购物车成功');
- 
+      console.log(id);
+      toast("添加购物车成功");
     },
-    toCart(){
-        this.$router.push({
-            name:'cart'
-        })
+    toCart() {
+      this.$router.push({
+        name: "cart"
+      });
     }
- 
+   
+  },
+  computed: {
+    goods() {
+      return {
+        // 商品标题
+        title: this.name,
+        // 默认商品 sku 缩略图
+        picture: ""
+      };
+    }
   }
 };
 </script>
