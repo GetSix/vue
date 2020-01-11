@@ -24,7 +24,7 @@
         <router-link :to="{name:'ngbh'}"><van-sidebar-item title="南干北货" /></router-link>
         <router-link :to="{name:'baby'}"><van-sidebar-item title="宝宝餐" /></router-link>
         <router-link :to="{name:'chicken'}"><van-sidebar-item title="厨房用品" /></router-link> -->
-          <router-link :to="{name:item.name,query:{}}" :key="item._id" v-for="item in category" ><van-sidebar-item :title="item.name" @click="to(item._id)" /></router-link>
+          <router-link  :to="{name:item.name,query:{}}" :key="item._id" v-for="item in category" ><van-sidebar-item :title="item.name" @click="to(item._id,item.name)" /></router-link>
       </van-sidebar>
      <div class="right">
        <router-view></router-view>
@@ -55,12 +55,11 @@ export default {
       
   },
   methods: {
-     to(id){
-       console.log(1);
-       axios.get('http://192.168.16.39:3009/api/v1/product_categories/'+id).then(res=>{
-       console.log(res)
+     to(id,cname){
+       localStorage.setItem('cname',cname)
       //  this.category=res.data.categories
-     })
+      
+     
      }
   },
 };
