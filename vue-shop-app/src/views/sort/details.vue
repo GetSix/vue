@@ -173,8 +173,17 @@ export default {
       history.back();
     },
     addCart(id) {
+      let num =1
       console.log(id);
       toast("添加购物车成功");
+      axios.post('http://192.168.16.39:3009/api/v1/shop_carts',{
+        params:{
+          product:id,
+          quantity:num
+        }
+      }).then(res=>{
+        console.log(res)
+      })
     },
     toCart() {
       this.$router.push({
