@@ -33,7 +33,7 @@
       <img src="http://518taole.7-orange.cn/homead2.gif" alt="">
     </div>
       <van-grid square :column-num="5">
-      <van-grid-item 
+      <van-grid-item  :to='{name:"tuijian"}'
         v-for="value in list"
         :key="value.id"
       >
@@ -63,7 +63,7 @@
 
       <div class='nav-warp'>
         <div class="nav">
-          <ul style="width:1514px; height:192px;">
+          <ul style="width:1400px; height:192px; margin-left:8px;">
             <li v-for="item in items" :key="item.id" @click="load">
               <img :src="item.img" alt="">
               <p class="tit">{{item.title}}</p>
@@ -370,6 +370,8 @@ export default {
 }
 </script>
 <style scoped>
+/* 让nav滚动条隐藏起来  */
+.nav::-webkit-scrollbar { width: 0 !important }
   .head{
     background: url('http://518taole.7-orange.cn/backImage.png') no-repeat;
     height: 300px;
@@ -449,7 +451,6 @@ export default {
 .nav{
   margin-top: 5px;
  width: 100%;
- height: 220px;
  overflow-x: auto;
 }
 .nav ul li{
