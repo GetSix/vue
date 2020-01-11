@@ -3,7 +3,8 @@
     <van-sticky>
       <header>
         <p class="me">我的</p>
-        <Login></Login>
+        <islogined v-if="islogin"></islogined>
+        <Login v-else></Login>
         <router-view></router-view>
       </header>
     </van-sticky>
@@ -115,11 +116,30 @@
 </template>
 <script>
 import Login from "../components/login/login";
+import islogined from "../components/login/islogined";
 export default {
   path: "/User",
   name: "user",
   components: {
-    Login
+    Login,
+    islogined
+  },
+  data() {
+    return {
+      islogin: false
+    };
+  },
+  created() {
+    this.isLogin();
+  },
+  methods: {
+    isLogin() {
+      if (localStorage.getItem("token")) {
+        this.islogin = true;
+      } else {
+        this.islogin = false;
+      }
+    }
   }
 };
 
@@ -240,5 +260,8 @@ section .orderform .allorder p {
   font-size: 15px;
   border-radius: 10px;
   padding: 5px;
+}
+.par-type ::-webkit-scrollbar {
+  display: none;
 }
 </style>

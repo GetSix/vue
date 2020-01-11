@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name:'loginpage'}">
+  <router-link :to="{name:'PIM'}">
     <div class="login">
       <div class="left">
         <img :src="avatar" />
@@ -9,17 +9,14 @@
     </div>
   </router-link>
 </template>
-
-
 <script>
 import axios from "axios";
 export default {
-  name: "Login",
+  name: "islogined",
   props: {},
   data() {
     return {
       nickName: "立即登录",
-      imgUrl: "",
       avatar:
         "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1111759211,550942899&fm=26&gp=0.jpg"
     };
@@ -37,8 +34,17 @@ export default {
             }
           })
           .then(resed => {
+            console.log(resed);
             this.nickName = resed.data.nickName;
-            this.avatar = resed.data.avatar;
+            this.avatar =
+              "http://api.cat-shop.penkuoer.com" + resed.data.avatar;
+            console.log(resed.data.avatar);
+            localStorage.setItem(
+              "avatar",
+              "http://api.cat-shop.penkuoer.com" + resed.data.avatar
+            );
+            localStorage.setItem("nickName", resed.data.nickName);
+            localStorage.setItem("phone", resed.data.userName);
           });
       } else {
         this.$router.push({ name: "loginpage" });
@@ -50,7 +56,6 @@ export default {
   }
 };
 </script>
-
 <style scope>
 .login {
   width: 100%;
