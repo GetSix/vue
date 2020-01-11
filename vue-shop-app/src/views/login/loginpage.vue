@@ -1,7 +1,8 @@
 <template>
-  <van-overlay :show="show" @click="show=false">
+  <van-overlay class="box" :show="show" @click="show=false">
     <div class="wrapper" @click.stop>
       <div class="block">
+        <img class="topimg" src="http://localhost:8082/img/normal.0447fe9b.png" alt />
         <van-nav-bar title="登录页">
           <van-icon name="cross" slot="right" @click="goUser" />
         </van-nav-bar>
@@ -48,14 +49,23 @@
             </van-grid>
           </van-tab>
 
+          <!-- 注册 -->
           <van-tab style="padding:0 20px;" :title="'注册'">
             <van-cell-group name="2">
+              <van-uploader :max-count="1" v-model="imgUrl" :after-read="loadImgEnd" />
               <van-field
                 v-model="zcphone"
                 required
                 label="手机号"
                 placeholder="请输入手机号"
                 :error-message="errormessage3"
+              />
+              <van-field
+                v-model="zcnickName"
+                required
+                label="昵称"
+                placeholder="请输入昵称"
+                :error-message="errormessageNC"
               />
               <van-field
                 v-model="zcpassword"
@@ -103,6 +113,7 @@ export default {
       show: true,
       zcphone: "",
       zcpassword: "",
+      zcnickName: "",
       phone: "",
       user: "立即登录",
       password: "",
@@ -111,12 +122,14 @@ export default {
       errormessage3: "",
       errormessage4: "",
       errormessagepw: "",
+      errormessageNC: "",
       checked: true,
       sendYZ: false,
       yanzheng: "",
       isSendYZ: false,
       nickName: "",
-      avatar: ""
+      avatar: "",
+      imgUrl: []
     };
   },
   methods: {
@@ -141,31 +154,54 @@ export default {
       console.log(111);
       this.$router.push({ name: "user" });
     },
+    loadImgEnd(file) {
+      console.log(file);
+      const formData = new FormData();
+      formData.append("file", file.file);
+      axios
+        .post(
+          "http://api.cat-shop.penkuoer.com:3009/api/v1/common/file_upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data" // 设置请求头传递二进制文件
+            }
+          }
+        )
+        .then(res => {
+          this.avatar = res.data.info;
+          console.log(res);
+        });
+    },
     register() {
       let test = /^1[3456789]\d{9}$/;
       if (test.test(parseInt(this.zcphone))) {
         if (/^[\w]{6,12}$/.test(this.zcpassword)) {
           if (this.checked) {
-            axios
-              .post("http://api.cat-shop.penkuoer.com/api/v1/auth/reg", {
-                userName: this.zcphone,
-                password: this.zcpassword,
-                nickName: "FKK",
-                avatar:
-                  "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2124649906,4117816182&fm=26&gp=0.jpg"
-              })
-              .then(res => {
-                console.log(res);
-                if (res.data.code == "success") {
-                  this.active = 0;
-                  this.phone = this.zcphone;
-                  this.password = this.zcpassword;
-                  this.zcphone = "";
-                  this.zcpassword = "";
-                } else {
-                  this.errormessage3 = "手机号已存在";
-                }
-              });
+            if (this.zcnickName != "") {
+              axios
+                .post("http://api.cat-shop.penkuoer.com/api/v1/auth/reg", {
+                  userName: this.zcphone,
+                  password: this.zcpassword,
+                  nickName: this.zcnickName,
+                  avatar: this.avatar
+                  // "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2124649906,4117816182&fm=26&gp=0.jpg"
+                })
+                .then(res => {
+                  console.log(res);
+                  if (res.data.code == "success") {
+                    this.active = 0;
+                    this.phone = this.zcphone;
+                    this.password = this.zcpassword;
+                    this.zcphone = "";
+                    this.zcpassword = "";
+                  } else {
+                    this.errormessage3 = "手机号已存在";
+                  }
+                });
+            } else {
+              this.errormessageNC = "昵称不能为空";
+            }
           } else {
             Toast("请勾选用户协议");
           }
@@ -214,7 +250,9 @@ export default {
   justify-content: center;
   height: 100%;
 }
-
+.box {
+  background: url("http://localhost:8082/img/back2.a864ff79.jpg");
+}
 .block {
   width: 330px;
   /* height: 400px; */
@@ -241,5 +279,15 @@ export default {
 }
 .djs {
   line-height: 0;
+}
+.block {
+  position: relative;
+  overflow: visible;
+}
+.topimg {
+  width: 80px;
+  position: absolute;
+  top: -50px;
+  left: 130px;
 }
 </style>

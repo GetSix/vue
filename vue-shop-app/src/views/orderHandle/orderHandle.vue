@@ -9,9 +9,27 @@
           alt
         />
       </van-tab>
-      <van-tab title="待支付">待支付</van-tab>
-      <van-tab title="待收货">待收货</van-tab>
-      <van-tab title="待评价">待评价</van-tab>
+      <van-tab title="待支付">
+        <img
+          style="width:100%; height:100%;"
+          src="http://localhost:8082/img/noData.1c06e1e1.jpeg"
+          alt
+        />
+      </van-tab>
+      <van-tab title="待收货">
+        <img
+          style="width:100%; height:100%;"
+          src="http://localhost:8082/img/noData.1c06e1e1.jpeg"
+          alt
+        />
+      </van-tab>
+      <van-tab title="待评价">
+        <img
+          style="width:100%; height:100%;"
+          src="http://localhost:8082/img/noData.1c06e1e1.jpeg"
+          alt
+        />
+      </van-tab>
     </van-tabs>
   </div>
 </template>
