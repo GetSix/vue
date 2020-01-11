@@ -1,11 +1,12 @@
 <template>
   <div class="sort-item">
     <van-tabs>
-      <van-tab v-for="index in 8" :title="'标签 ' + index" :key="index">内容 {{ index }}</van-tab>
+      <van-tab v-for="p in category" :title="p.name" :key="p._id">{{p.name}}</van-tab>
     </van-tabs>
     <van-card
     v-for="item in list"
       @click='detail(item._id)'
+      v-show='item.productCategory.name==cname'
       :key="item._id"
       :price="item.price"
       :desc="item.descriptions"
@@ -16,7 +17,7 @@
     >
     <p>{{item.descriptions}}</p>
       <div slot="footer">
-        <van-button size="mini" style="background:#3bba63;color:white; height:20px;border-radius:50%;"><van-icon name="shopping-cart-o" @click.stop="addCart(item.pid)" /></van-button>
+        <van-icon name="cart-circle-o" size='25' color='#3bba63' @click.stop="addCart(item.pid)" />
       </div>
     </van-card>
   </div>
@@ -26,20 +27,32 @@ import axios from "axios";
 export default {
   data() {
     return {
-      list: []
-    };
+      list: [],
+      category:[],
+      cname:''
+    }
   },
   created() {
+     this.cname=localStorage.getItem('cname')
+      axios.get('http://192.168.16.39:3009/api/v1/product_categories').then(res=>{
+       console.log(res.data.categories)
+       this.category=res.data.categories
+       
+     })
     axios.get("http://192.168.16.39:3009/api/v1/products",{
       params:{
-        per:50
+        per:80
       }
     }).then(res => {
-      console.log(res.data.products)
+      // console.log(res.data.products)
       this.list = res.data.products;
-      console.log(this.list);
+      // console.log(this.list);
     });
-    // console.log(this.$el);
+     axios.get('http://192.168.16.39:3009/api/v1/product_categories').then(res=>{
+       console.log(res.data.categories)
+       this.category=res.data.categories
+       
+     })
   },
   methods: {
     detail(id){
