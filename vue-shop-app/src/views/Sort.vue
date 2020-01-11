@@ -5,13 +5,13 @@
     </header>
     <div class="main">
       <van-sidebar v-model="activeKey" >
-        <router-link :to="{name:'tuijian'}"><van-sidebar-item title="推荐" /></router-link>
-        <router-link :to="{name:'tuijian'}"><van-sidebar-item title="安心蔬菜" /></router-link>
+        <!-- <router-link :to="{name:'tuijian',query:{}}"><van-sidebar-item title="推荐" /></router-link>
+        <router-link :to="{name:'vegetable'}"><van-sidebar-item title="安心蔬菜" /></router-link>
         <router-link :to="{name:'douzhipin'}"><van-sidebar-item title="豆制品" /></router-link>
         <router-link :to="{name:'fruit'}"><van-sidebar-item title="新鲜水果" /></router-link>
         <router-link :to="{name:'egg'}"><van-sidebar-item title="肉禽蛋" /></router-link>
         <router-link :to="{name:'fish'}"><van-sidebar-item title="海鲜水产" /></router-link>
-        <router-link :to="{name:'tuijian'}"><van-sidebar-item title="推荐" /></router-link>
+
         <router-link :to="{name:'milk'}"><van-sidebar-item title="乳制烘焙" /></router-link>
         <router-link :to="{name:'breakfast'}"><van-sidebar-item title="营养早餐" /></router-link>
         <router-link :to="{name:'dingdong'}"><van-sidebar-item title="叮咚心选" /></router-link>
@@ -23,7 +23,8 @@
         <router-link :to="{name:'kuaishoucai'}"><van-sidebar-item title="快手菜" /></router-link>
         <router-link :to="{name:'ngbh'}"><van-sidebar-item title="南干北货" /></router-link>
         <router-link :to="{name:'baby'}"><van-sidebar-item title="宝宝餐" /></router-link>
-        <router-link :to="{name:'chicken'}"><van-sidebar-item title="厨房用品" /></router-link>
+        <router-link :to="{name:'chicken'}"><van-sidebar-item title="厨房用品" /></router-link> -->
+          <router-link :to="{name:item.name,query:{}}" :key="item._id" v-for="item in category" ><van-sidebar-item :title="item.name" @click="to(item._id)" /></router-link>
       </van-sidebar>
      <div class="right">
        <router-view></router-view>
@@ -41,12 +42,26 @@ export default {
     return {
       value: "",
       activeKey: 0,
-      
+      category:[]
     };
   },
   components: {},
+  created() {
+    axios.get('http://192.168.16.39:3009/api/v1/product_categories').then(res=>{
+       console.log(res.data.categories)
+       this.category=res.data.categories
+       
+     })
+      
+  },
   methods: {
-    
+     to(id){
+       console.log(1);
+       axios.get('http://192.168.16.39:3009/api/v1/product_categories/'+id).then(res=>{
+       console.log(res)
+      //  this.category=res.data.categories
+     })
+     }
   },
 };
 
@@ -64,17 +79,17 @@ header
   overflow: hidden;
   display: flex;
   flex: 1;
- height:37.8125rem;
+ height:34.9225rem;
 }
 .van-sidebar {
   float: left;
   overflow-y: auto;
-  width:24%;
+  width:25%;
    
 }
 
 .right{
-  width: 76%;
+  width: 75%;
   float: right;
   /* min-height: 1rem; */
   /* background: skyblue; */
