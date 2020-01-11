@@ -76,23 +76,12 @@ const routes = [{
       name: '肉禽蛋',
       component: () => import( /* webpackChunkName: "about" */ '../views/sort/rice.vue'),
 
-=======
-    component: () => import(/* webpackChunkName: "about" */ '../views/Sort.vue'),
-    children: [{
-      path: 'tuijian',
-      name: 'tuijian',
-      component: () => import(/* webpackChunkName: "about" */ '../views/sort/tuijian.vue'),
->>>>>>> skk
     }]
   },
   {
     path: 'details',
     name: 'details',
-<<<<<<< HEAD
     component: () => import( /* webpackChunkName: "about" */ '../views/sort/details.vue'),
-=======
-    component: () => import(/* webpackChunkName: "about" */ '../views/sort/details.vue'),
->>>>>>> skk
   },
   {
     path: '/eat',

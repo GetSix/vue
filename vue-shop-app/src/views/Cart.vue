@@ -1,14 +1,5 @@
 <template>
   <div class="cart">
-<<<<<<< HEAD
-    <h1>购物车页</h1>
-    <div style="overflow:hidden; height:1000px; width=100px;">
-	<div style="overflow:auto; height:1000px; wideth=120px;">
-    111
-	</div>
-</div>
-
-=======
     <van-sticky>
       <van-nav-bar class="top" title="我的购物车" right-text="删除" @click-right="onClickRight" />
     </van-sticky>
@@ -40,7 +31,6 @@
         <div class="payend">结算({{ totalNum }})</div>
       </div>
     </div>
->>>>>>> skk
   </div>
 </template>
 
