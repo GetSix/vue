@@ -33,7 +33,7 @@
       <img src="http://518taole.7-orange.cn/homead2.gif" alt="">
     </div>
       <van-grid square :column-num="5">
-      <van-grid-item  :to='{name:"tuijian"}'
+      <van-grid-item  :to='{name:""}'
         v-for="value in list"
         :key="value.id"
       >
@@ -114,7 +114,7 @@
       </div>
 
       <van-tabs class="all" :offset-top=50  sticky>
-        <van-tab title="全部">
+        <van-tab title="全部" style="margin-bottom:50px;">
           <van-grid :gutter="10" :column-num="2">
           <van-grid-item
           v-for=" item in cart"
@@ -130,7 +130,7 @@
           </van-grid-item>
           </van-grid>
         </van-tab>
-        <van-tab title="晚餐">
+        <van-tab title="晚餐" style="margin-bottom:50px;">
            <van-grid :gutter="10" :column-num="2">
           <van-grid-item
           v-for=" item in cart"
@@ -148,7 +148,7 @@
           </van-grid-item>
           </van-grid>
         </van-tab>
-        <van-tab title="人气">
+        <van-tab title="人气" style="margin-bottom:50px;">
            <van-grid :gutter="10" :column-num="2">
           <van-grid-item
           v-for=" item in cart"
@@ -165,7 +165,7 @@
           </van-grid-item>
           </van-grid>
         </van-tab>
-        <van-tab title="心选">
+        <van-tab title="心选" style="margin-bottom:50px;">
           <van-grid :gutter="10" :column-num="2">
           <van-grid-item
           v-for=" item in cart"

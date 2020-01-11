@@ -34,8 +34,8 @@
             </div>
           </div>
 
-        <div v-if="!show">
-        <van-grid :border="false" :column-num="2">
+        <div v-if="!show" style="margin-bottom:65px;">
+        <van-grid :border="false" :column-num="2" >
           <van-grid-item v-for="item in menu" :key="item.id">
             <van-image :radius=20  :src="item.img" />
             <h3>{{item.title}}</h3>
