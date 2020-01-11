@@ -64,9 +64,11 @@
       <div class='nav-warp'>
         <div class="nav">
           <ul style="width:1400px; height:192px; margin-left:8px;">
-            <li v-for="item in items" :key="item.id" @click="load">
-              <img :src="item.img" alt="">
-              <p class="tit">{{item.title}}</p>
+            <li v-for="item in cart" :key="item._id"
+            v-show="item.productCategory.name == '晚餐'"
+             @click="todetail(item._id)">
+              <img :src="item.coverImg" alt="">
+              <p class="tit">{{item.name}}</p>
               <p class="price">¥{{item.price}}</p>
               <van-icon  color="#3bba63" size="30" name="cart-circle-o" />
               <p class="price2" >¥{{item.price}}</p>
@@ -115,12 +117,11 @@
         <van-tab title="全部">
           <van-grid :gutter="10" :column-num="2">
           <van-grid-item
-          v-for=" item in active"
-          :key="item.id"  @click="load">
-          <img :src="item.img" alt="">
-
-          <p class="tit">{{item.title}}</p>
-          <p class="desc">{{item.desc}}</p>
+          v-for=" item in cart"
+          :key="item._id"  @click="todetail(item._id)">
+          <img :src="item.coverImg" alt="">
+          <p class="tit">{{item.name}}</p>
+          <p class="desc">{{item.descriptions}}</p>
           <div class="price-warp">
               <span  class="price">¥{{ item.price }}</span>
               <span class="originPrice">¥{{ item.price }}</span>
@@ -132,11 +133,13 @@
         <van-tab title="晚餐">
            <van-grid :gutter="10" :column-num="2">
           <van-grid-item
-          v-for=" item in active"
-          :key="item.id" @click="load">
-          <img :src="item.img" alt="">
-          <p class="tit">{{item.title}}</p>
-          <p class="desc">{{item.desc}}</p>
+          v-for=" item in cart"
+          :key="item._id" 
+          v-show="item.productCategory.name == '晚餐'"
+          @click="todetail(item._id)">
+          <img :src="item.coverImg" alt="">
+          <p class="tit">{{item.name}}</p>
+          <p class="desc">{{item.descriptions}}</p>
           <div class="price-warp">
               <span  class="price">¥{{ item.price }}</span>
               <span class="originPrice">¥{{ item.price }}</span>
@@ -148,11 +151,12 @@
         <van-tab title="人气">
            <van-grid :gutter="10" :column-num="2">
           <van-grid-item
-          v-for=" item in active"
-          :key="item.id" @click="load">
-          <img :src="item.img" alt="">
-          <p class="tit">{{item.title}}</p>
-          <p class="desc">{{item.desc}}</p>
+          v-for=" item in cart"
+          v-show="item.productCategory.name == '人气'"
+          :key="item._id" @click="todetail(item._id)">
+          <img :src="item.coverImg" alt="">
+          <p class="tit">{{item.name}}</p>
+          <p class="desc">{{item.descriptions}}</p>
           <div class="price-warp">
               <span  class="price">¥{{ item.price }}</span>
               <span class="originPrice">¥{{ item.price }}</span>
@@ -164,11 +168,13 @@
         <van-tab title="心选">
           <van-grid :gutter="10" :column-num="2">
           <van-grid-item
-          v-for=" item in active"
-          :key="item.id" @click="load">
-          <img :src="item.img" alt="">
-          <p class="tit">{{item.title}}</p>
-          <p class="desc">{{item.desc}}</p>
+          v-for=" item in cart"
+          :key="item._id"
+          v-show="item.productCategory.name == '叮咚心选'"
+           @click="todetail(item._id)">
+          <img :src="item.coverImg" alt="">
+          <p class="tit">{{item.name}}</p>
+          <p class="desc">{{item.descriptions}}</p>
           <div class="price-warp">
               <span  class="price">¥{{ item.price }}</span>
               <span class="originPrice">¥{{ item.price }}</span>
@@ -178,87 +184,30 @@
           </van-grid>
           </van-tab>
       </van-tabs>
-
-
 </div>
-
 </template>
-
 <script>
+import axios from 'axios';
 export default {
   name: 'home',
   components: {
   },
+  created() {
+    axios.get('http://192.168.16.39:3009/api/v1/products',{
+      params:{
+         per:80
+      }
+      })
+    .then( res =>{
+      console.log(res);
+      this.cart = res.data.products;
+    });
+
+  },
   data() {
     return {
       value:'',
-      active:[{
-        id:1,
-        img:'https://img.ddimg.mobi/product/73729284b788d1558072397291.jpg!deliver.product.list',
-        title:'康师傅大食代红烧牛肉面 5包/袋',
-        desc:'124g*5包 大块满足 畅快分享 ',
-        price:15.90,
-      },{
-        id:2,
-        img:'https://ddimg.ddxq.mobi/abf3023fb51611526109391551.jpg!maicai.product.list',
-        title:'四季宝柔滑花生酱 340g/瓶',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:16.90,
-      },{
-        id:3,
-        img:'https://ddimg.ddxq.mobi/becc0e6b257781528108118451.jpg!maicai.product.list',
-        title:'粮全其美葱香味手抓饼 900g/袋',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:18.80,
-      },{
-        id:4,
-        img:'https://ddimg.ddxq.mobi/47a79cef49d661492078512642.jpeg!maicai.product.list',
-        title:'松花菜半颗 约500g',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:7.59,
-      },{
-        id:5,
-        img:'https://img.ddimg.mobi/product/b960de0ed28d11562551037392.jpg!deliver.product.list',
-        title:'美国车厘子 250g',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:25.90,
-      },{
-        id:6,
-        img:'https://img.ddimg.mobi/product/73c7833c39d6d1545274259948.jpg!maicai.product.list',
-        title:'芸豆 300g',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:9.90,
-      },{
-        id:7,
-        img:'https://img.ddimg.mobi/product/e0f55322f48ae1543472645397.jpg!maicai.product.list',
-        title:'艺杏小油豆腐130g/袋',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:4.29,
-      },{
-        id:8,
-        img:'https://img.ddimg.mobi/product/9f71a4750f1591554301429547.jpg!deliver.product.list',
-        title:'农夫山泉饮用天然水 550ml*28瓶',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:32.80,
-      },{
-        id:9,
-        img:'https://img.ddimg.mobi/product/718558731a1eb1562568919636.jpg!deliver.product.list',
-        title:'伊赛澳洲原切冷冻牛腱 1kg',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:79.90,
-      },{
-        id:10,
-        img:'https://ddimg.ddxq.mobi/cedd7697d12571533723350035.jpg!maicai.product.list',
-        title:'妙可蓝多马苏里拉奶酪碎 125g/袋',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:19.90,
-      },{
-        id:11,
-        img:'https://img.ddimg.mobi/product/d9df7fe10be381548472525847.jpg!deliver.product.list',
-        title:'加费尔德舟山冷冻去脏小黄鱼 300g',
-        desc:'124g*5包 大块满足 畅快分享',
-        price:18.80,
-      }],
+      cart:[],
       list:[{
         id:1,
         img:'https://img.ddimg.mobi/faed0c89b1ac61561979943620.jpg',
@@ -300,70 +249,13 @@ export default {
         img:'https://img.ddimg.mobi/17964fae5012d1561980650167.jpg',
         text:'调味品'
       }],
-      items:[{
-        id:1,
-        img:'https://img.ddimg.mobi/product/4513b9fc5935f1548406258985.jpg!deliver.product.list',
-        title:'爱森五花肉 500g',
-        price:41.80,
-      },{
-        id:2,
-        img:'https://ddimg.ddxq.mobi/abf3023fb51611526109391551.jpg!maicai.product.list',
-        title:'四季宝柔滑花生酱 340g/瓶',
-        price:16.90,
-      },{
-        id:3,
-        img:'https://ddimg.ddxq.mobi/becc0e6b257781528108118451.jpg!maicai.product.list',
-        title:'粮全其美葱香味手抓饼 900g/袋',
-        price:18.80,
-      },{
-        id:4,
-        img:'https://ddimg.ddxq.mobi/47a79cef49d661492078512642.jpeg!maicai.product.list',
-        title:'松花菜半颗 约500g',
-        price:7.59,
-      },{
-        id:5,
-        img:'https://img.ddimg.mobi/product/b960de0ed28d11562551037392.jpg!deliver.product.list',
-        title:'美国车厘子 250g',
-        price:25.90,
-      },{
-        id:6,
-        img:'https://img.ddimg.mobi/product/73c7833c39d6d1545274259948.jpg!maicai.product.list',
-        title:'芸豆 300g',
-        price:9.90,
-      },{
-        id:7,
-        img:'https://img.ddimg.mobi/product/e0f55322f48ae1543472645397.jpg!maicai.product.list',
-        title:'艺杏小油豆腐130g/袋',
-        price:4.29,
-      },{
-        id:8,
-        img:'https://img.ddimg.mobi/product/9f71a4750f1591554301429547.jpg!deliver.product.list',
-        title:'农夫山泉饮用天然水 550ml*28瓶',
-        price:32.80,
-      },{
-        id:9,
-        img:'https://img.ddimg.mobi/product/718558731a1eb1562568919636.jpg!deliver.product.list',
-        title:'伊赛澳洲原切冷冻牛腱 1kg',
-        price:79.90,
-      },{
-        id:10,
-        img:'https://ddimg.ddxq.mobi/cedd7697d12571533723350035.jpg!maicai.product.list',
-        title:'妙可蓝多马苏里拉奶酪碎 125g/袋',
-        price:19.90,
-      },{
-        id:11,
-        img:'https://img.ddimg.mobi/product/d9df7fe10be381548472525847.jpg!deliver.product.list',
-        title:'加费尔德舟山冷冻去脏小黄鱼 300g',
-        price:18.80,
-      }],
     }
   },
   methods: {
-    load(){
-      this.$toast.loading({
-           forbidClick: true,
-  loadingType: 'spinner',
-          message: '加载中...'
+    todetail(id){
+        localStorage.setItem('id', id)
+        this.$router.push({
+          name:'details'
         });
     }
   },
@@ -565,4 +457,3 @@ export default {
     text-decoration: line-through;
 }
 </style>
- 
