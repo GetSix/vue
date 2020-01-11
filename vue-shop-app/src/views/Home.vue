@@ -115,12 +115,12 @@
         <van-tab title="全部">
           <van-grid :gutter="10" :column-num="2">
           <van-grid-item
-          v-for=" item in active"
-          :key="item.id"  @click="load">
-          <img :src="item.img" alt="">
+          v-for=" item in cart"
+          :key="item._id"  @click="load">
+          <img :src="item.coverImg" alt="">
 
-          <p class="tit">{{item.title}}</p>
-          <p class="desc">{{item.desc}}</p>
+          <p class="tit">{{item.name}}</p>
+          <p class="desc">{{item.descriptions}}</p>
           <div class="price-warp">
               <span  class="price">¥{{ item.price }}</span>
               <span class="originPrice">¥{{ item.price }}</span>
@@ -132,11 +132,11 @@
         <van-tab title="晚餐">
            <van-grid :gutter="10" :column-num="2">
           <van-grid-item
-          v-for=" item in active"
-          :key="item.id" @click="load">
-          <img :src="item.img" alt="">
-          <p class="tit">{{item.title}}</p>
-          <p class="desc">{{item.desc}}</p>
+          v-for=" item in cart"
+          :key="item._id" @click="load">
+          <img :src="item.coverImg" alt="">
+          <p class="tit">{{item.name}}</p>
+          <p class="desc">{{item.descriptions}}</p>
           <div class="price-warp">
               <span  class="price">¥{{ item.price }}</span>
               <span class="originPrice">¥{{ item.price }}</span>
@@ -148,11 +148,11 @@
         <van-tab title="人气">
            <van-grid :gutter="10" :column-num="2">
           <van-grid-item
-          v-for=" item in active"
-          :key="item.id" @click="load">
-          <img :src="item.img" alt="">
-          <p class="tit">{{item.title}}</p>
-          <p class="desc">{{item.desc}}</p>
+          v-for=" item in cart"
+          :key="item._id" @click="load">
+          <img :src="item.coverImg" alt="">
+          <p class="tit">{{item.name}}</p>
+          <p class="desc">{{item.descriptions}}</p>
           <div class="price-warp">
               <span  class="price">¥{{ item.price }}</span>
               <span class="originPrice">¥{{ item.price }}</span>
@@ -164,11 +164,11 @@
         <van-tab title="心选">
           <van-grid :gutter="10" :column-num="2">
           <van-grid-item
-          v-for=" item in active"
-          :key="item.id" @click="load">
-          <img :src="item.img" alt="">
-          <p class="tit">{{item.title}}</p>
-          <p class="desc">{{item.desc}}</p>
+          v-for=" item in cart"
+          :key="item._id" @click="load">
+          <img :src="item.coverImg" alt="">
+          <p class="tit">{{item.name}}</p>
+          <p class="desc">{{item.descriptions}}</p>
           <div class="price-warp">
               <span  class="price">¥{{ item.price }}</span>
               <span class="originPrice">¥{{ item.price }}</span>
@@ -185,13 +185,27 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'home',
   components: {
   },
+  created() {
+    axios.get('http://192.168.16.39:3009/api/v1/products',{
+      params:{
+         per:80
+      }
+      })
+    .then( res =>{
+      console.log(res);
+      this.cart = res.data.products;
+    });
+
+  },
   data() {
     return {
       value:'',
+      cart:[],
       active:[{
         id:1,
         img:'https://img.ddimg.mobi/product/73729284b788d1558072397291.jpg!deliver.product.list',
