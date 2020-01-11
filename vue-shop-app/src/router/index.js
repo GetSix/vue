@@ -75,6 +75,24 @@ const routes = [{
       name: '肉禽蛋',
       component: () => import( /* webpackChunkName: "about" */ '../views/sort/rice.vue'),
 
+    }, {
+
+      path: 'douzi',
+      name: '豆制品',
+      component: () => import( /* webpackChunkName: "about" */ '../views/sort/douzi.vue'),
+
+    }, {
+
+      path: 'fresh',
+      name: '新鲜水果',
+      component: () => import( /* webpackChunkName: "about" */ '../views/sort/fresh.vue'),
+
+    }, {
+
+      path: 'shucai',
+      name: '安心蔬菜',
+      component: () => import( /* webpackChunkName: "about" */ '../views/sort/shucai.vue'),
+
     }]
   },
   {

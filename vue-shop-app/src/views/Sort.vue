@@ -1,7 +1,7 @@
 <template>
   <div class="sort">
     <header>
-      <van-search placeholder="请输入搜索关键词" v-model="value" />
+      <van-search shape='round' placeholder="请输入搜索关键词" v-model="value" />
     </header>
     <div class="main">
       <van-sidebar v-model="activeKey" >
@@ -47,7 +47,11 @@ export default {
   },
   components: {},
   created() {
-    axios.get('http://192.168.16.39:3009/api/v1/product_categories').then(res=>{
+    axios.get('http://192.168.16.39:3009/api/v1/product_categories',{
+      params:{
+        per:13
+      }
+    }).then(res=>{
        console.log(res.data.categories)
        this.category=res.data.categories
        
