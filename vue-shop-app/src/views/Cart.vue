@@ -131,6 +131,9 @@ export default {
           Toast.success("已取消");
         });
     },
+
+
+
     showgoods() {
       axios
         .get("http://192.168.16.29:3009/api/v1/products", {
@@ -224,6 +227,19 @@ export default {
                 console.log(res);
                 Toast.success("删除成功");
                 this.cartsList.splice(index, 1);
+
+              axios.get("http://192.168.16.29:3009/api/v1/shop_carts",{
+                  headers:{
+                    authorization: " Bearer " +localStorage.getItem("token")
+                  }
+                })
+                  .then(res =>{
+                    console.log(res);
+                    console.log(res.data.length);
+                    this.num = res.data.length;
+                    // console.log(res.data.products.length);
+                  });
+
               });
           })
           .catch(() => {
