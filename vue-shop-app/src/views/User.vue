@@ -51,10 +51,12 @@
       </div>
 
       <div class="orderform coupons">
-        <div class="myorder">
-          <van-icon class="ordericon" name="gold-coin" color="#3bba63"></van-icon>
-          <p>我的优惠券</p>
-        </div>
+        <router-link :to="{name:'discount'}">
+          <div class="myorder">
+            <van-icon class="ordericon" name="gold-coin" color="#3bba63"></van-icon>
+            <p>我的优惠券</p>
+          </div>
+        </router-link>
         <div class="allorder">
           <p>2</p>
           <van-icon class="allordericon" name="arrow"></van-icon>
@@ -71,17 +73,19 @@
           <van-icon class="allordericon" name="arrow"></van-icon>
         </div>
       </div>
-      <div class="orderform greencart">
-        <div class="myorder">
-          <van-icon class="ordericon" name="gold-coin" color="#3bba63"></van-icon>
-          <p>我的绿卡</p>
-          <div>NEW</div>
+      <router-link :to="{name:'greencart'}">
+        <div class="orderform greencart">
+          <div class="myorder">
+            <van-icon class="ordericon" name="gold-coin" color="#3bba63"></van-icon>
+            <p>我的绿卡</p>
+            <div>NEW</div>
+          </div>
+          <div class="allorder">
+            <p>2</p>
+            <van-icon class="allordericon" name="arrow"></van-icon>
+          </div>
         </div>
-        <div class="allorder">
-          <p>2</p>
-          <van-icon class="allordericon" name="arrow"></van-icon>
-        </div>
-      </div>
+      </router-link>
       <div class="orderform coupons">
         <div class="myorder">
           <van-icon class="ordericon" name="phone" color="#3bba63"></van-icon>
@@ -181,14 +185,14 @@ a {
   color: aliceblue;
   line-height: 0;
 }
-section {
+.user section {
   background: #dfdfdf;
   flex: 1;
   /* height: 4rem; */
   overflow-x: auto;
   padding-bottom: 50px;
 }
-section .orderform {
+.user section .orderform {
   width: 100%;
   height: 50px;
   border-bottom: 1px solid #cccccc;
@@ -196,30 +200,30 @@ section .orderform {
   justify-content: space-between;
   background: #ffffff;
 }
-section .orderform .myorder {
+.user section .orderform .myorder {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-section .orderform .myorder p {
+.user section .orderform .myorder p {
   font-size: 15px;
 }
-section .orderform .myorder .ordericon {
+.user section .orderform .myorder .ordericon {
   font-size: 30px;
   margin-left: 15px;
 }
-section .orderform .allorder {
+.user section .orderform .allorder {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-section .orderform .allorder .allordericon {
+.user section .orderform .allorder .allordericon {
   color: #cccccc;
   font-size: 15px;
   margin-right: 20px;
   margin-left: 5px;
 }
-section .orderform .allorder p {
+.user section .orderform .allorder p {
   color: #cccccc;
   font-size: 15px;
 }
