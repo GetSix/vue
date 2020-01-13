@@ -56,7 +56,7 @@
         <van-goods-action-button type="warning" @click="addCart(id)" text="加入购物车" />
         <van-goods-action-button type="danger" text="立即购买" @click="show=true" />
       </van-goods-action>
-      <van-sku v-model="show" :sku="sku" :goods="goods"  @add-cart="onAddCartClicked(id)" />
+      <van-sku v-model="show" :sku="sku" :goods="goods" @add-cart="onAddCartClicked(id)" />
     </footer>
   </div>
 </template>
@@ -144,7 +144,7 @@ export default {
     this.id = localStorage.getItem("id");
     console.log(this.id);
     axios
-      .get("http://192.168.16.29:3009/api/v1/products/"+this.id)
+      .get("http://192.168.16.29:3009/api/v1/products/" + this.id)
       .then(res => {
         console.log(res.data);
         //当前商品id
@@ -173,24 +173,25 @@ export default {
       history.back();
     },
     addCart(id) {
-      let num =1
+      let num = 1;
       console.log(id);
       toast("添加购物车成功");
-      axios.post('http://192.168.16.29:3009/api/v1/shop_carts',{
-        params:{
-          product:id,
-          quantity:num
-        }
-      }).then(res=>{
-        console.log(res)
-      })
+      axios
+        .post("http://192.168.16.29:3009/api/v1/shop_carts", {
+          params: {
+            product: id,
+            quantity: num
+          }
+        })
+        .then(res => {
+          console.log(res);
+        });
     },
     toCart() {
       this.$router.push({
         name: "cart"
       });
     }
-   
   },
   computed: {
     goods() {
