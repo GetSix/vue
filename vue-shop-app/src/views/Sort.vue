@@ -47,16 +47,22 @@ export default {
   },
   components: {},
   created() {
+<<<<<<< HEAD
     axios.get('http://192.168.16.29:3009/api/v1/product_categories',{
       params:{
         per:13
       }
     }).then(res=>{
+=======
+    axios.get('http://192.168.16.39:3009/api/v1/product_categories',{params:{
+      per:10
+    }}).then(res=>{
+>>>>>>> dxf
        console.log(res.data.categories)
        this.category=res.data.categories
        this.fromHome();
      })
-      
+     
   },
   methods: {
      to(id,cname){

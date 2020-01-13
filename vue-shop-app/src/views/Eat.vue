@@ -176,7 +176,12 @@ export default {
 </script>
 <style scoped>
 /* 让menuList滚动条隐藏起来  */
-.menuList::-webkit-scrollbar { width: 0 !important }
+ ::-webkit-scrollbar {
+     width: 0 !important;
+   }
+   ::-webkit-scrollbar {
+     width: 0 !important;height: 0;
+   }
 
 .todayMenu{
     display: inline-block;
