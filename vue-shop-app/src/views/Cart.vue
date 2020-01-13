@@ -90,8 +90,15 @@ export default {
   created() {
     this.showgoods();
     this.showCarts();
+    this.isLogin();
   },
   methods: {
+    isLogin() {
+      if (localStorage.getItem("token")) {
+      } else {
+        this.$router.push({ name: "loginpage" });
+      }
+    },
     delCarts() {
       let saveList = [];
       let delList = [];
@@ -101,11 +108,22 @@ export default {
         .then(() => {
           // on confirm
           this.cartsList.forEach(delitem => {
-            if (delitem.isSel == false) {
-              saveList.push(delitem);
+            if (delitem.isSel == true) {
+              axios
+                .delete(
+                  "http://192.168.16.29:3009/api/v1/shop_carts/" + delitem._id,
+                  {
+                    headers: {
+                      authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                  }
+                )
+                .then(res => {
+                  console.log(res);
+                  this.showCarts();
+                });
             }
           });
-          this.cartsList = saveList;
         })
         .catch(() => {});
     },
@@ -223,8 +241,7 @@ export default {
             // on confirm
             axios
               .delete(
-                `http://192.168.16.29:3009/api/v1/shop_carts/` +
-                  item.product._id,
+                "http://192.168.16.29:3009/api/v1/shop_carts/" + item._id,
                 {
                   headers: {
                     authorization: "Bearer " + localStorage.getItem("token")
