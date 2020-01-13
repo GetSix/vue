@@ -1,5 +1,6 @@
 <template>
   <div class="orderHandlebox">
+    <van-nav-bar title="添加地址" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-address-list
       v-model="chosenAddressId"
       :list="list"
@@ -9,19 +10,21 @@
       @add="onAdd"
       @edit="onEdit"
     />
-    <van-nav-bar title="添加地址" left-text="返回" left-arrow @click-left="onClickLeft" />
-    <van-address-edit
-      :area-list="areaList"
-      show-postal
-      show-delete
-      show-set-default
-      show-search-result
-      :search-result="searchResult"
-      :area-columns-placeholder="['请选择', '请选择', '请选择']"
-      @save="onSave"
-      @delete="onDelete"
-      @change-detail="onChangeDetail"
-    />
+    <van-popup v-model="show" round position="bottom" get-container="#app">
+      <van-address-edit
+        :area-list="areaList"
+        show-postal
+        show-delete
+        address-info
+        show-set-default
+        show-search-result
+        :search-result="searchResult"
+        :area-columns-placeholder="['请选择', '请选择', '请选择']"
+        @save="onSave"
+        @delete="onDelete"
+        @change-detail="onChangeDetail"
+      />
+    </van-popup>
   </div>
 </template>
 <script>
@@ -43,16 +46,17 @@ export default {
       searchResult: [],
       myareaList: [],
       chosenAddressId: "1",
+      show: false,
       list: [
         {
           id: "1",
-          name: "张三",
+          name: "石宽宽",
           tel: "13000000000",
           address: "浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室"
         },
         {
           id: "2",
-          name: "李四",
+          name: "许兆宽",
           tel: "1310000000",
           address: "浙江省杭州市拱墅区莫干山路 50 号"
         }
@@ -60,7 +64,7 @@ export default {
       disabledList: [
         {
           id: "3",
-          name: "王五",
+          name: "丁小飞",
           tel: "1320000000",
           address: "浙江省杭州市滨江区江南大道 15 号"
         }
@@ -74,17 +78,16 @@ export default {
 
   methods: {
     onClickLeft() {
-      axios
-        .get(
-          "http://192.168.16.39:3009/api/v1/products/" +
-            "5e1971e50498030f783d2557"
-        )
-        .then(res => {
-          console.log(res);
-        });
+      this.$router.push({
+        name: "user"
+      });
     },
+    onAdd() {
+      this.show = true;
+    },
+    onEdit() {},
     onSave() {
-      console.log(this.searchResult);
+      console.log();
     },
     onDelete() {
       console.log(this.searchResult);

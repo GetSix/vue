@@ -2,7 +2,7 @@
   <van-overlay class="box" :show="show" @click="show=false">
     <div class="wrapper" @click.stop>
       <div class="block">
-        <img class="topimg" src="http://localhost:8082/img/normal.0447fe9b.png" alt />
+        <img class="topimg" src="../../img/normal.0447fe9b (1).png" alt />
         <van-nav-bar title="登录页">
           <van-icon name="cross" slot="right" @click="goUser" />
         </van-nav-bar>
@@ -251,7 +251,7 @@ export default {
   height: 100%;
 }
 .box {
-  background: url("http://localhost:8082/img/back2.a864ff79.jpg");
+  background: url("../../img/back2.a864ff79.jpg");
 }
 .block {
   width: 330px;
