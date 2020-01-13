@@ -48,7 +48,7 @@
     <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">猜你喜欢</van-divider>
     <div class="goods">
       <van-grid :gutter="10" :column-num="2">
-        <van-grid-item v-for="(item,index) in goodsList" :key="index">
+        <van-grid-item v-for="(item,index) in goodsList" :key="index" @click="toDetail(item)">
           <div class="goodimg">
             <img :src="item.coverImg" alt />
           </div>
@@ -69,7 +69,9 @@
 <script>
 import Vue from "vue";
 import { Dialog } from "vant";
+import { Toast } from "vant";
 
+Vue.use(Toast);
 // 全局注册
 Vue.use(Dialog);
 import axios from "axios";
@@ -90,8 +92,15 @@ export default {
   created() {
     this.showgoods();
     this.showCarts();
+    this.isLogin();
   },
   methods: {
+    isLogin() {
+      if (localStorage.getItem("token")) {
+      } else {
+        this.$router.push({ name: "loginpage" });
+      }
+    },
     delCarts() {
       let saveList = [];
       let delList = [];
@@ -101,13 +110,27 @@ export default {
         .then(() => {
           // on confirm
           this.cartsList.forEach(delitem => {
-            if (delitem.isSel == false) {
-              saveList.push(delitem);
+            if (delitem.isSel == true) {
+              axios
+                .delete(
+                  "http://192.168.16.29:3009/api/v1/shop_carts/" + delitem._id,
+                  {
+                    headers: {
+                      authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                  }
+                )
+                .then(res => {
+                  console.log(res);
+                  this.showCarts();
+                });
             }
           });
-          this.cartsList = saveList;
+          Toast.success("删除成功");
         })
-        .catch(() => {});
+        .catch(() => {
+          Toast.success("已取消");
+        });
     },
     showCarts() {
       axios
@@ -128,7 +151,8 @@ export default {
       axios
         .get("http://192.168.16.29:3009/api/v1/products", {
           params: {
-            per: 20
+            per: 20,
+            page: Math.floor(Math.random() * 4) + 1
           }
         })
         .then(res => {
@@ -153,6 +177,7 @@ export default {
         )
         .then(res => {
           console.log(res);
+          Toast.success("加入购物车成功");
           this.showCarts();
         });
     },
@@ -223,8 +248,7 @@ export default {
             // on confirm
             axios
               .delete(
-                `http://192.168.16.29:3009/api/v1/shop_carts/` +
-                  item.product._id,
+                "http://192.168.16.29:3009/api/v1/shop_carts/" + item._id,
                 {
                   headers: {
                     authorization: "Bearer " + localStorage.getItem("token")
@@ -233,6 +257,7 @@ export default {
               )
               .then(res => {
                 console.log(res);
+                Toast.success("删除成功");
                 this.cartsList.splice(index, 1);
               });
           })
@@ -280,6 +305,16 @@ export default {
           this.totalNum += parseInt(itemnum.product.quantity) / 10;
         }
       });
+    },
+    toDetail(xq) {
+      console.log(xq._id);
+      this.$router.push({
+        name: "details",
+        query: {
+          _id: xq._id
+        }
+      });
+      localStorage.setItem("id", xq._id);
     }
   }
 };
@@ -356,7 +391,7 @@ export default {
   align-items: center;
   padding: 0 20px;
   position: fixed;
-  bottom: 55px;
+  bottom: 50px;
   left: 0;
   z-index: 100;
 }
