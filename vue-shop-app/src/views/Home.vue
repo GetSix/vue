@@ -32,15 +32,19 @@
     <div class="banner">
       <img src="http://518taole.7-orange.cn/homead2.gif" alt="">
     </div>
+
+
       <van-grid square :column-num="5">
-      <van-grid-item  :to='{name:""}'
-        v-for="value in list"
-        :key="value.id"
-      >
-      <img :src="value.img" alt="">
-      <p>{{ value.text }}</p>
+      <van-grid-item  :to="{name:'sort',query:{index:index}}"
+        v-for="(value,index) in list"
+        :key="index">
+      <img :src="value.coverImg" alt="">
+      <p>{{ value.name }}</p>
       </van-grid-item>
       </van-grid>
+
+
+
       <div class="member-warp">
         <div class="member">
           <span class="left" style="float:left;" >加入会员·每年预计节省806元</span>
@@ -193,7 +197,13 @@ export default {
   components: {
   },
   created() {
-    axios.get('http://192.168.16.39:3009/api/v1/products',{
+    axios.get('http://192.168.16.29:3009/api/v1/product_categories',{
+      params:{ per:13 }
+    }).then(res=>{
+       console.log(res.data.categories)
+       this.list=res.data.categories
+     })
+    axios.get('http://192.168.16.29:3009/api/v1/products',{
       params:{
          per:80
       }
@@ -201,6 +211,19 @@ export default {
     .then( res =>{
       console.log(res);
       this.cart = res.data.products;
+
+    //   var flag = true;
+    // for (var i = 0; i < res.data.products.length; i++) {
+    //   flag = true;
+    //   for (var j = 0; j < this.list.length; j++) {
+    //     if (res.data.products[i].productCategory.name === this.list[j].productCategory.name) {
+    //       flag = false;
+    //     }
+    //   }
+    //   if (flag==true) {
+    //     this.list.push(res.data.products[i]);
+    //   }
+    // }
     });
 
   },
@@ -208,47 +231,7 @@ export default {
     return {
       value:'',
       cart:[],
-      list:[{
-        id:1,
-        img:'https://img.ddimg.mobi/faed0c89b1ac61561979943620.jpg',
-        text:'安心蔬菜'
-      },{
-        id:2,
-        img:'https://img.ddimg.mobi/a79822f496ec71561980537120.jpg',
-        text:'豆制品'
-      },{
-        id:3,
-        img:'https://img.ddimg.mobi/febc9219e5f061561980283162.jpg',
-        text:'水果'
-      },{
-        id:4,
-        img:'https://img.ddimg.mobi/57742da7f00ab1562725189267.jpg',
-        text:'肉禽蛋'
-      },{
-        id:5,
-        img:'https://img.ddimg.mobi/3f96191b097cd1562204510108.jpg',
-        text:'海鲜水产'
-      },{
-        id:6,
-        img:'https://img.ddimg.mobi/a19a8501bf4041561980956934.jpg',
-        text:'乳品烘焙'
-      },{
-        id:7,
-        img:'https://img.ddimg.mobi/baf53e7d1e9ce1561980371874.jpg',
-        text:'营养早餐'
-      },{
-        id:8,
-        img:'https://img.ddimg.mobi/cc39ecee3cee51564386403745.jpg',
-        text:'叮咚心选'
-      },{
-        id:9,
-        img:'https://img.ddimg.mobi/67260446df1451561980456552.jpg',
-        text:'米面粮油'
-      },{
-        id:10,
-        img:'https://img.ddimg.mobi/17964fae5012d1561980650167.jpg',
-        text:'调味品'
-      }],
+      list:[],
     }
   },
   methods: {
@@ -263,7 +246,14 @@ export default {
 </script>
 <style scoped>
 /* 让nav滚动条隐藏起来  */
-.nav::-webkit-scrollbar { width: 0 !important }
+
+  ::-webkit-scrollbar {
+     width: 0 !important;
+   }
+   ::-webkit-scrollbar {
+     width: 0 !important;height: 0;
+   }
+
   .head{
     background: url('http://518taole.7-orange.cn/backImage.png') no-repeat;
     height: 300px;
