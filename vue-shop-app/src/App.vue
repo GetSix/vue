@@ -32,21 +32,7 @@ export default {
       // console.log(res.data.products.length);
     });
   },
-  methods: {
-    goodsNum(){
-       axios.get("http://192.168.16.29:3009/api/v1/products", {
-          params: {
-            per: 5
-          }
-        })
-    .then(res =>{
-      console.log(res);
-      this.num = res.data.products.length;
-      console.log(res.data.products.length);
-      
-    });
-    }
-  },
+ 
 }
 </script>
 
