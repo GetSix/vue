@@ -47,14 +47,14 @@ export default {
   },
   components: {},
   created() {
-    axios.get('http://192.168.16.39:3009/api/v1/product_categories',{
+    axios.get('http://192.168.16.29:3009/api/v1/product_categories',{
       params:{
         per:13
       }
     }).then(res=>{
        console.log(res.data.categories)
        this.category=res.data.categories
-       
+       this.fromHome();
      })
       
   },
@@ -64,6 +64,11 @@ export default {
       //  this.category=res.data.categories
       
      
+     },
+     fromHome(){
+       this.activeKey = this.$route.query.index;
+       this.to("cname",this.category[this.activeKey].name);
+       this.$router.push({name:this.category[this.activeKey].name})
      }
   },
 };

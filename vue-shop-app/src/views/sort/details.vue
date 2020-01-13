@@ -144,7 +144,7 @@ export default {
     this.id = localStorage.getItem("id");
     console.log(this.id);
     axios
-      .get("http://192.168.16.39:3009/api/v1/products/"+this.id)
+      .get("http://192.168.16.29:3009/api/v1/products/"+this.id)
       .then(res => {
         console.log(res.data);
         //当前商品id
@@ -176,7 +176,7 @@ export default {
       let num =1
       console.log(id);
       toast("添加购物车成功");
-      axios.post('http://192.168.16.39:3009/api/v1/shop_carts',{
+      axios.post('http://192.168.16.29:3009/api/v1/shop_carts',{
         params:{
           product:id,
           quantity:num
