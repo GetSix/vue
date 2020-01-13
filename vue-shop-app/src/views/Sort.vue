@@ -1,10 +1,10 @@
 <template>
   <div class="sort">
     <header>
-      <van-search shape='round' placeholder="请输入搜索关键词" v-model="value" />
+      <van-search shape="round" placeholder="请输入搜索关键词" v-model="value" />
     </header>
     <div class="main">
-      <van-sidebar v-model="activeKey" >
+      <van-sidebar v-model="activeKey">
         <!-- <router-link :to="{name:'tuijian',query:{}}"><van-sidebar-item title="推荐" /></router-link>
         <router-link :to="{name:'vegetable'}"><van-sidebar-item title="安心蔬菜" /></router-link>
         <router-link :to="{name:'douzhipin'}"><van-sidebar-item title="豆制品" /></router-link>
@@ -23,18 +23,19 @@
         <router-link :to="{name:'kuaishoucai'}"><van-sidebar-item title="快手菜" /></router-link>
         <router-link :to="{name:'ngbh'}"><van-sidebar-item title="南干北货" /></router-link>
         <router-link :to="{name:'baby'}"><van-sidebar-item title="宝宝餐" /></router-link>
-        <router-link :to="{name:'chicken'}"><van-sidebar-item title="厨房用品" /></router-link> -->
-          <router-link  :to="{name:item.name,query:{}}" :key="item._id" v-for="item in category" ><van-sidebar-item :title="item.name" @click="to(item._id,item.name)" /></router-link>
+        <router-link :to="{name:'chicken'}"><van-sidebar-item title="厨房用品" /></router-link>-->
+        <router-link :to="{name:item.name,query:{}}" :key="item._id" v-for="item in category">
+          <van-sidebar-item :title="item.name" @click="to(item._id,item.name)" />
+        </router-link>
       </van-sidebar>
-     <div class="right">
-       <router-view></router-view>
-     </div>
+      <div class="right">
+        <router-view></router-view>
+      </div>
     </div>
-    
   </div>
 </template>
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "sort",
@@ -42,7 +43,7 @@ export default {
     return {
       value: "",
       activeKey: 0,
-      category:[]
+      category: []
     };
   },
   components: {},
@@ -59,44 +60,37 @@ export default {
      
   },
   methods: {
-     to(id,cname){
-       localStorage.setItem('cname',cname)
+    to(id, cname) {
+      localStorage.setItem("cname", cname);
       //  this.category=res.data.categories
-      
-     
-     },
-     fromHome(){
-       this.activeKey = this.$route.query.index;
-       this.to("cname",this.category[this.activeKey].name);
-       this.$router.push({name:this.category[this.activeKey].name})
-     }
-  },
+    },
+    fromHome() {
+      this.activeKey = this.$route.query.index;
+      this.to("cname", this.category[this.activeKey].name);
+      this.$router.push({ name: this.category[this.activeKey].name });
+    }
+  }
 };
-
-
 </script>
 <style scoped>
-header
-.sort {
+header .sort {
   display: flex;
   flex-direction: column;
-  flex:1;
-  
+  flex: 1;
 }
 .main {
   overflow: hidden;
   display: flex;
   flex: 1;
- height:34.9225rem;
+  height: 34.9225rem;
 }
 .van-sidebar {
   float: left;
   overflow-y: auto;
-  width:25%;
-   
+  width: 25%;
 }
 
-.right{
+.right {
   width: 75%;
   float: right;
   /* min-height: 1rem; */
@@ -104,7 +98,6 @@ header
   overflow-y: auto;
 }
 .van-sidebar-item :hover {
- 
   font-weight: bolder;
 }
 </style>

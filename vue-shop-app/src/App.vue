@@ -27,8 +27,8 @@ export default {
    })
     .then(res =>{
       console.log(res);
-       console.log(res.data.products.length);
-      this.num = res.data.products.length;
+       console.log(res.data.length);
+      this.num = res.data.length;
       // console.log(res.data.products.length);
     });
   },
