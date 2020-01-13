@@ -259,6 +259,8 @@ export default {
                 console.log(res);
                 Toast.success("删除成功");
                 this.cartsList.splice(index, 1);
+                this.allPrice(item, index);
+                this.allNum(item, index);
               });
           })
           .catch(() => {
