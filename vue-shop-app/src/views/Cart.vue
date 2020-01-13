@@ -82,6 +82,7 @@ export default {
       totalPrice: 0,
       cartsList: [],
       goodsList: [],
+      isSel: [],
       checked: false,
       allChecked: false
     };
@@ -141,7 +142,7 @@ export default {
       axios
         .post(
           "http://192.168.16.29:3009/api/v1/shop_carts",
-          { product: gooditem._id },
+          { product: gooditem._id, isSel: true },
           {
             headers: {
               authorization: "Bearer " + localStorage.getItem("token")
@@ -160,12 +161,14 @@ export default {
       this.cartsList.forEach(item => {
         item.isSel = this.allChecked;
       });
+
       this.totalPrice = 0;
       this.cartsList.forEach(item => {
         if (this.allChecked) {
-          this.totalPrice += (item.product.price * item.product.quantity) / 10;
+          this.totalPrice += item.product.price * item.quantity;
         }
       });
+      this.totalPrice = parseInt(this.totalPrice * 100) / 100;
       if (this.allChecked) {
         this.totalNum = this.cartsList.length;
       } else {
@@ -192,7 +195,8 @@ export default {
           "http://192.168.16.29:3009/api/v1/shop_carts",
           {
             product: item.product._id,
-            quantity: 1
+            quantity: 1,
+            isSel: true
           },
           {
             headers: {
@@ -203,7 +207,7 @@ export default {
           // headers: { authorization: "Bearer " + localStorage.getItem("token") }
         )
         .then(res => {
-          this.showCarts();
+          // this.showCarts();
         });
     },
 
@@ -217,12 +221,43 @@ export default {
         })
           .then(() => {
             // on confirm
-            this.cartsList.splice(index, 1);
+            axios
+              .delete(
+                `http://192.168.16.29:3009/api/v1/shop_carts/:${item._id}`,
+                {
+                  headers: {
+                    authorization: "Bearer " + localStorage.getItem("token")
+                  }
+                }
+              )
+              .then(res => {
+                console.log(res);
+                this.cartsList.splice(index, 1);
+              });
           })
           .catch(() => {
             item.quantity = 1;
             this.allPrice(item, index);
             this.allNum(item, index);
+          });
+      } else {
+        axios
+          .post(
+            "http://192.168.16.29:3009/api/v1/shop_carts",
+            {
+              product: item.product._id,
+              quantity: -1
+            },
+            {
+              headers: {
+                authorization: "Bearer " + localStorage.getItem("token")
+              }
+            }
+
+            // headers: { authorization: "Bearer " + localStorage.getItem("token") }
+          )
+          .then(res => {
+            // this.showCarts();
           });
       }
     },
@@ -235,6 +270,7 @@ export default {
           // this.totalPrice = Math.round(this.totalPrice * 100) / 100;
         }
       });
+      this.totalPrice = parseInt(this.totalPrice * 100) / 100;
     },
     allNum(item, index) {
       this.totalNum = 0;
