@@ -18,12 +18,12 @@
             v-model="item.isSel"
             checked-color="#07c160"
           />
-          <img :src="item.coverImg" alt />
+          <img :src="item.product.coverImg" alt />
         </div>
         <div class="handle">
-          <p class="goodsname">{{item.name}}</p>
+          <p class="goodsname">{{item.product.name}}</p>
           <div class="price">
-            <span>￥{{item.price}}</span>
+            <span>￥{{item.product.price}}</span>
             <div class="add">
               <div @click="subOne(item,index)">-</div>
               <div class="num">{{ item.quantity }}</div>
@@ -56,7 +56,7 @@
           <div class="gooddes">{{ item.descriptions }}</div>
           <div class="addcart">
             <span style="color:red;">￥{{ item.price }}</span>
-            <div class="shoppingcart" @click="addCart(item._id)">
+            <div class="shoppingcart" @click="addCart(item)">
               <van-icon size="20" color="#FFFFFF" name="shopping-cart-o" />
             </div>
           </div>
@@ -88,6 +88,7 @@ export default {
   },
   created() {
     this.showgoods();
+    this.showCarts();
   },
   methods: {
     delCarts() {
@@ -107,49 +108,62 @@ export default {
         })
         .catch(() => {});
     },
+    showCarts() {
+      axios
+        .get("http://192.168.16.29:3009/api/v1/shop_carts", {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.cartsList = res.data;
+          this.cartsList.forEach(item => {
+            item.isSel = false;
+          });
+        });
+    },
     showgoods() {
       axios
         .get("http://192.168.16.29:3009/api/v1/products", {
           params: {
-            per: 5
+            per: 20
           }
         })
         .then(res => {
           console.log(res);
           this.goodsList = res.data.products;
-          this.cartsList = res.data.products;
-          this.cartsList.forEach(item => {
-            item.isSel = false;
-            item.quantity = 1;
-          });
         });
     },
-    addCart(id) {
+    addCart(gooditem) {
       console.log(localStorage.getItem("token"));
+      console.log(gooditem._id);
       axios
-        .post("http://192.168.16.29:3009/api/v1/shop_carts", {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token")
-          },
+        .post(
+          "http://192.168.16.29:3009/api/v1/shop_carts",
+          { product: gooditem._id },
+          {
+            headers: {
+              authorization: "Bearer " + localStorage.getItem("token")
+            }
+          }
 
-          params: { product: id, quantity: 1 }
           // headers: { authorization: "Bearer " + localStorage.getItem("token") }
-        })
+        )
         .then(res => {
           console.log(res);
+          this.showCarts();
         });
     },
     checkAll() {
       this.allChecked = !this.allChecked;
-
-      console.log(this.allChecked);
       this.cartsList.forEach(item => {
         item.isSel = this.allChecked;
       });
       this.totalPrice = 0;
       this.cartsList.forEach(item => {
         if (this.allChecked) {
-          this.totalPrice += item.price * item.quantity;
+          this.totalPrice += (item.product.price * item.product.quantity) / 10;
         }
       });
       if (this.allChecked) {
@@ -172,6 +186,25 @@ export default {
       this.cartsList[index].quantity++;
       this.allPrice(item, index);
       this.allNum(item, index);
+      // this.cartsList[index].quantity
+      axios
+        .post(
+          "http://192.168.16.29:3009/api/v1/shop_carts",
+          {
+            product: item.product._id,
+            quantity: 1
+          },
+          {
+            headers: {
+              authorization: "Bearer " + localStorage.getItem("token")
+            }
+          }
+
+          // headers: { authorization: "Bearer " + localStorage.getItem("token") }
+        )
+        .then(res => {
+          this.showCarts();
+        });
     },
 
     subOne(item, index) {
@@ -198,8 +231,8 @@ export default {
       this.totalPrice = 0;
       this.cartsList.forEach(item => {
         if (item.isSel) {
-          this.totalPrice += item.price * item.quantity;
-          this.totalPrice = Math.round(this.totalPrice * 100) / 100;
+          this.totalPrice += item.product.price * item.quantity;
+          // this.totalPrice = Math.round(this.totalPrice * 100) / 100;
         }
       });
     },
@@ -207,7 +240,7 @@ export default {
       this.totalNum = 0;
       this.cartsList.forEach(itemnum => {
         if (itemnum.isSel == true) {
-          this.totalNum += itemnum.quantity;
+          this.totalNum += parseInt(itemnum.product.quantity) / 10;
         }
       });
     }
