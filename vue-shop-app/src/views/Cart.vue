@@ -223,7 +223,8 @@ export default {
             // on confirm
             axios
               .delete(
-                `http://192.168.16.29:3009/api/v1/shop_carts/:${item._id}`,
+                `http://192.168.16.29:3009/api/v1/shop_carts/` +
+                  item.product._id,
                 {
                   headers: {
                     authorization: "Bearer " + localStorage.getItem("token")
