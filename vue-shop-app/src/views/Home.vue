@@ -212,18 +212,6 @@ export default {
       console.log(res);
       this.cart = res.data.products;
 
-    //   var flag = true;
-    // for (var i = 0; i < res.data.products.length; i++) {
-    //   flag = true;
-    //   for (var j = 0; j < this.list.length; j++) {
-    //     if (res.data.products[i].productCategory.name === this.list[j].productCategory.name) {
-    //       flag = false;
-    //     }
-    //   }
-    //   if (flag==true) {
-    //     this.list.push(res.data.products[i]);
-    //   }
-    // }
     });
 
   },
@@ -426,10 +414,14 @@ export default {
   width: 116px;
   height: 116px;
 }
+.all .tit{
+  text-align:start;
+}
 
-.desc{
+.all .desc{
   margin-top: 0;
   color: #808080;
+  text-align: start;
 }
 .all span{
   display: inline-block;
