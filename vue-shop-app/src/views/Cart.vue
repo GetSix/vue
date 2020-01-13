@@ -1,7 +1,7 @@
 <template>
   <div class="cart">
     <van-sticky>
-      <van-nav-bar class="top" title="我的购物车" right-text="删除" @click-right="onClickRight" />
+      <van-nav-bar class="top" title="我的购物车" right-text="删除" @click-right="delCarts" />
     </van-sticky>
     <div class="cartslist">
       <div class="goodcart" v-for="(item,index) in cartsList" :key="index">
@@ -90,8 +90,22 @@ export default {
     this.showgoods();
   },
   methods: {
-    onClickRight() {
-      console.log("删除");
+    delCarts() {
+      let saveList = [];
+      let delList = [];
+      Dialog.confirm({
+        message: "是否删除该商品"
+      })
+        .then(() => {
+          // on confirm
+          this.cartsList.forEach(delitem => {
+            if (delitem.isSel == false) {
+              saveList.push(delitem);
+            }
+          });
+          this.cartsList = saveList;
+        })
+        .catch(() => {});
     },
     showgoods() {
       axios
@@ -170,6 +184,7 @@ export default {
         })
           .then(() => {
             // on confirm
+            this.cartsList.splice(index, 1);
           })
           .catch(() => {
             item.quantity = 1;
