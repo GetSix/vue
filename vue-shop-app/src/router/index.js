@@ -139,18 +139,15 @@ const routes = [{
   path: "/user/greencart",
   name: "greencart",
   component: () => import("../views/orderHandle/greenCart.vue")
-<<<<<<< HEAD
 },
 {
   path: "/user/address/addressEdit",
   name: "addressEdit",
   component: () => import("../views/addAdress/addressEdit.vue")
-=======
-},{
-  path:'/accounts',
-  name:'accounts',
-  component: ()=> import('../views/accounts/accounts.vue'),
->>>>>>> dxf
+}, {
+  path: '/accounts',
+  name: 'accounts',
+  component: () => import('../views/accounts/accounts.vue'),
 }
 ]
 
