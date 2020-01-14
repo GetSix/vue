@@ -48,12 +48,14 @@
     <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">猜你喜欢</van-divider>
     <div class="goods">
       <van-grid :gutter="10" :column-num="2">
-        <van-grid-item v-for="(item,index) in goodsList" :key="index" @click="toDetail(item)">
-          <div class="goodimg">
-            <img :src="item.coverImg" alt />
+        <van-grid-item v-for="(item,index) in goodsList" :key="index">
+          <div @click="toDetail(item)">
+            <div class="goodimg">
+              <img :src="item.coverImg" alt />
+            </div>
+            <div class="goodname">{{ item.name }}</div>
+            <div class="gooddes">{{ item.descriptions }}</div>
           </div>
-          <div class="goodname">{{ item.name }}</div>
-          <div class="gooddes">{{ item.descriptions }}</div>
           <div class="addcart">
             <span style="color:red;">￥{{ item.price }}</span>
             <div class="shoppingcart" @click="addCart(item)">
@@ -145,14 +147,25 @@ export default {
           this.cartsList.forEach(item => {
             item.isSel = false;
           });
+          this.guessYouLike();
         });
     },
-    showgoods() {
+    guessYouLike() {
+      let youLike = [];
+      this.cartsList.forEach(item => {
+        youLike.push(item.product.productCategory);
+        // if(){
+        // }
+      });
+      console.log(youLike);
+      let likeGoodId = this.findMost(youLike);
+      this.showgoods(likeGoodId);
+    },
+    showgoods(id) {
       axios
         .get("http://192.168.16.29:3009/api/v1/products", {
           params: {
-            per: 20,
-            page: Math.floor(Math.random() * 4) + 1
+            product_category: id
           }
         })
         .then(res => {
@@ -160,6 +173,26 @@ export default {
           this.goodsList = res.data.products;
         });
     },
+    findMost(arr) {
+      if (!arr.length) return;
+      if (arr.length === 1) return arr;
+      let res = {};
+      let maxName,
+        maxNum = 0;
+      // 遍历数组
+      arr.forEach(item => {
+        res[item] ? (res[item] += 1) : (res[item] = 1);
+      });
+      // 遍历 res
+      for (let r in res) {
+        if (res[r] > maxNum) {
+          maxNum = res[r];
+          maxName = r;
+        }
+      }
+      return maxName;
+    },
+
     addCart(gooditem) {
       console.log(localStorage.getItem("token"));
       console.log(gooditem._id);
@@ -195,7 +228,12 @@ export default {
       });
       this.totalPrice = parseInt(this.totalPrice * 100) / 100;
       if (this.allChecked) {
-        this.totalNum = this.cartsList.length;
+        // this.totalNum = this.cartsList.length;
+        // this.allNum();
+        this.totalNum = 0;
+        this.cartsList.forEach(item => {
+          this.totalNum += item.quantity;
+        });
       } else {
         this.totalNum = 0;
       }
@@ -239,7 +277,7 @@ export default {
     subOne(item, index) {
       this.cartsList[index].quantity--;
       this.allPrice(item, index);
-      this.allNum(item, index);
+      // this.allNum(item, index);
       if (this.cartsList[index].quantity == 0) {
         Dialog.confirm({
           message: "是否删除该商品"
@@ -286,6 +324,7 @@ export default {
           )
           .then(res => {
             // this.showCarts();
+            this.allNum(item, index);
           });
       }
     },
@@ -304,7 +343,7 @@ export default {
       this.totalNum = 0;
       this.cartsList.forEach(itemnum => {
         if (itemnum.isSel == true) {
-          this.totalNum += parseInt(itemnum.product.quantity) / 10;
+          this.totalNum += parseInt(itemnum.quantity);
         }
       });
     },
