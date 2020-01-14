@@ -177,12 +177,18 @@ export default {
       console.log(id);
       toast("添加购物车成功");
       axios
-        .post("http://192.168.16.29:3009/api/v1/shop_carts", {
-          params: {
+        .post(
+          "http://192.168.16.29:3009/api/v1/shop_carts",
+          {
             product: id,
             quantity: num
+          },
+          {
+            headers: {
+              authorization: "Bearer " + localStorage.getItem("token")
+            }
           }
-        })
+        )
         .then(res => {
           console.log(res);
         });
