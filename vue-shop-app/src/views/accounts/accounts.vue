@@ -1,8 +1,8 @@
 <template>
     <div class="goods">
         <van-nav-bar title="填写定单" left-text="返回" left-arrow @click-left="onClickLeft"/>
-        <!-- 收货地址 -->
-        <van-contact-card @click='toAddress()'></van-contact-card>
+      <!-- 收货地址 -->
+      <van-contact-card @click='toAddress()'></van-contact-card>
 
 
 
