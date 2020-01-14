@@ -95,6 +95,7 @@ export default {
     this.showgoods();
     this.showCarts();
     this.isLogin();
+    
   },
   methods: {
     isLogin() {
@@ -222,6 +223,7 @@ export default {
       this.cartsList.forEach(item => {
         item.isSel = this.allChecked;
       });
+      this.$store.state.num = 10;
 
       this.totalPrice = 0;
       this.cartsList.forEach(item => {

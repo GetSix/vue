@@ -51,7 +51,7 @@
     <footer style="position:fixed;z-index:999">
       <van-goods-action>
         <van-goods-action-icon icon="chat-o" text="客服" />
-        <van-goods-action-icon icon="cart-o" @click="toCart" text="购物车" info="5" />
+        <van-goods-action-icon icon="cart-o" @click="toCart" text="购物车" :info="this.$store.state.num == 0?'':this.$store.state.num" />
         <van-goods-action-icon icon="shop-o" text="店铺" info="12" />
         <van-goods-action-button type="warning" @click="addCart(id)" text="加入购物车" />
         <van-goods-action-button type="danger" text="立即购买" @click="show=true" />
@@ -191,6 +191,7 @@ export default {
         )
         .then(res => {
           console.log(res);
+          this.$store.state.num = 30;
         });
     },
     toCart() {
