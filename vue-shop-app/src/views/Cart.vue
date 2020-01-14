@@ -48,7 +48,6 @@
     <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">猜你喜欢</van-divider>
     <div class="goods">
       <van-grid :gutter="10" :column-num="2">
-<<<<<<< HEAD
         <van-grid-item v-for="(item,index) in goodsList" :key="index">
           <div @click="toDetail(item)">
             <div class="goodimg">
@@ -57,14 +56,6 @@
             <div class="goodname">{{ item.name }}</div>
             <div class="gooddes">{{ item.descriptions }}</div>
           </div>
-=======
-        <van-grid-item v-for="(item,index) in goodsList" :key="index" @click="toDetail(item)">
-          <div class="goodimg">
-            <img :src="item.coverImg" alt />
-          </div>
-          <div class="goodname">{{ item.name }}</div>
-          <div class="gooddes">{{ item.descriptions }}</div>
->>>>>>> xzk
           <div class="addcart">
             <span style="color:red;">￥{{ item.price }}</span>
             <div class="shoppingcart" @click="addCart(item)">
@@ -134,12 +125,9 @@ export default {
                 .then(res => {
                   console.log(res);
                   this.showCarts();
-<<<<<<< HEAD
                   this.totalPrice = 0;
                   this.totalNum = 0;
                   this.allChecked = false;
-=======
->>>>>>> xzk
                 });
             }
           });
@@ -162,7 +150,6 @@ export default {
           this.cartsList.forEach(item => {
             item.isSel = false;
           });
-<<<<<<< HEAD
           this.guessYouLike();
         });
     },
@@ -182,16 +169,6 @@ export default {
         .get("http://192.168.16.29:3009/api/v1/products", {
           params: {
             product_category: id
-=======
-        });
-    },
-    showgoods() {
-      axios
-        .get("http://192.168.16.29:3009/api/v1/products", {
-          params: {
-            per: 20,
-            page: Math.floor(Math.random() * 4) + 1
->>>>>>> xzk
           }
         })
         .then(res => {
@@ -199,7 +176,6 @@ export default {
           this.goodsList = res.data.products;
         });
     },
-<<<<<<< HEAD
     findMost(arr) {
       if (!arr.length) return;
       if (arr.length === 1) return arr;
@@ -220,8 +196,6 @@ export default {
       return maxName;
     },
 
-=======
->>>>>>> xzk
     addCart(gooditem) {
       console.log(localStorage.getItem("token"));
       console.log(gooditem._id);
@@ -257,16 +231,12 @@ export default {
       });
       this.totalPrice = parseInt(this.totalPrice * 100) / 100;
       if (this.allChecked) {
-<<<<<<< HEAD
         // this.totalNum = this.cartsList.length;
         // this.allNum();
         this.totalNum = 0;
         this.cartsList.forEach(item => {
           this.totalNum += item.quantity;
         });
-=======
-        this.totalNum = this.cartsList.length;
->>>>>>> xzk
       } else {
         this.totalNum = 0;
       }
@@ -310,11 +280,7 @@ export default {
     subOne(item, index) {
       this.cartsList[index].quantity--;
       this.allPrice(item, index);
-<<<<<<< HEAD
       // this.allNum(item, index);
-=======
-      this.allNum(item, index);
->>>>>>> xzk
       if (this.cartsList[index].quantity == 0) {
         Dialog.confirm({
           message: "是否删除该商品"
@@ -361,10 +327,7 @@ export default {
           )
           .then(res => {
             // this.showCarts();
-<<<<<<< HEAD
             this.allNum(item, index);
-=======
->>>>>>> xzk
           });
       }
     },
@@ -383,11 +346,7 @@ export default {
       this.totalNum = 0;
       this.cartsList.forEach(itemnum => {
         if (itemnum.isSel == true) {
-<<<<<<< HEAD
           this.totalNum += parseInt(itemnum.quantity);
-=======
-          this.totalNum += parseInt(itemnum.product.quantity) / 10;
->>>>>>> xzk
         }
       });
     },
