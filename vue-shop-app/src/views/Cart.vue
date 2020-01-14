@@ -1,22 +1,33 @@
 <template>
   <div class="cart">
     <van-sticky>
-      <van-nav-bar class="top" title="我的购物车" right-text="删除" @click-right="onClickRight" />
+      <van-nav-bar class="top" title="我的购物车" right-text="删除" @click-right="delCarts" />
     </van-sticky>
     <div class="cartslist">
-      <div class="goodcart" v-for="(item,index) in goodsList" :key="index">
+      <div class="goodcart" v-for="(item,index) in cartsList" :key="index">
         <div class="img">
-          <van-checkbox class="sincheckbox" v-model="item.isSel" checked-color="#07c160"></van-checkbox>
-          <img :src="item.coverImg" alt />
+          <!-- <input
+            class="selcheckbox"
+            type="checkbox"
+            v-model="item.isSel"
+            @click="checkSel(item,index)"
+          />-->
+          <van-checkbox
+            class="sincheckbox"
+            @click="checkSel(item,index)"
+            v-model="item.isSel"
+            checked-color="#07c160"
+          />
+          <img :src="item.product.coverImg" alt />
         </div>
         <div class="handle">
-          <p class="goodsname">{{item.goodsName}}</p>
+          <p class="goodsname">{{item.product.name}}</p>
           <div class="price">
-            <span>￥{{item.goodsPrice}}</span>
+            <span>￥{{item.product.price}}</span>
             <div class="add">
-              <div>-</div>
-              <div class="num">1</div>
-              <div>+</div>
+              <div @click="subOne(item,index)">-</div>
+              <div class="num">{{ item.quantity }}</div>
+              <div @click="addOne(item,index)">+</div>
             </div>
           </div>
         </div>
@@ -24,17 +35,46 @@
     </div>
     <div class="pay">
       <div class="allSel">
-        <van-checkbox v-model="allChecked" checked-color="#07c160">全选</van-checkbox>
+        <!-- <input type="checkbox" v-model="allChecked" value="111" /> -->
+        <van-checkbox @click="checkAll()" v-model="allChecked" checked-color="#07c160">全选</van-checkbox>
       </div>
       <div class="payele">
         <div class="total">合计:{{totalPrice}}</div>
         <div class="payend">结算({{ totalNum }})</div>
       </div>
     </div>
+
+    <!-- 猜你喜欢 -->
+    <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">猜你喜欢</van-divider>
+    <div class="goods">
+      <van-grid :gutter="10" :column-num="2">
+        <van-grid-item v-for="(item,index) in goodsList" :key="index" @click="toDetail(item)">
+          <div class="goodimg">
+            <img :src="item.coverImg" alt />
+          </div>
+          <div class="goodname">{{ item.name }}</div>
+          <div class="gooddes">{{ item.descriptions }}</div>
+          <div class="addcart">
+            <span style="color:red;">￥{{ item.price }}</span>
+            <div class="shoppingcart" @click="addCart(item)">
+              <van-icon size="20" color="#FFFFFF" name="shopping-cart-o" />
+            </div>
+          </div>
+        </van-grid-item>
+      </van-grid>
+    </div>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+import { Dialog } from "vant";
+import { Toast } from "vant";
+
+Vue.use(Toast);
+// 全局注册
+Vue.use(Dialog);
+import axios from "axios";
 export default {
   name: "cart",
   components: {},
@@ -42,50 +82,241 @@ export default {
     return {
       totalNum: 0,
       totalPrice: 0,
-      goodsList: [
-        {
-          goodsName: "111",
-          coverImg:
-            "http://img.ddimg.mobi/product/01687313250c81568173312616.jpg!deliver.product.list",
-          goodsPrice: "22",
-          isSel: true
-        },
-        {
-          goodsName: "222",
-          coverImg:
-            "http://img.ddimg.mobi/product/4d143e2d8ccee1568048072835.png!deliver.product.list",
-          goodsPrice: "12",
-          isSel: true
-        },
-        {
-          goodsName: "333",
-          coverImg:
-            "http://img.ddimg.mobi/product/bf6a208d90c831564757264390.JPG!deliver.product.list",
-          goodsPrice: "54",
-          isSel: true
-        },
-        {
-          goodsName: "444",
-          coverImg:
-            "http://img.ddimg.mobi/product/1c11c28151c2c1564712874504.jpg!deliver.product.list",
-          goodsPrice: "63",
-          isSel: true
-        },
-        {
-          goodsName: "444",
-          coverImg:
-            "http://img.ddimg.mobi/product/1c11c28151c2c1564712874504.jpg!deliver.product.list",
-          goodsPrice: "63",
-          isSel: true
-        }
-      ],
-      checked: true,
-      allChecked: true
+      cartsList: [],
+      goodsList: [],
+      isSel: [],
+      checked: false,
+      allChecked: false
     };
   },
+  created() {
+    this.showgoods();
+    this.showCarts();
+    this.isLogin();
+  },
   methods: {
-    onClickRight() {
-      console.log("删除");
+    isLogin() {
+      if (localStorage.getItem("token")) {
+      } else {
+        this.$router.push({ name: "loginpage" });
+      }
+    },
+    delCarts() {
+      let saveList = [];
+      let delList = [];
+      Dialog.confirm({
+        message: "是否删除该商品"
+      })
+        .then(() => {
+          // on confirm
+          this.cartsList.forEach(delitem => {
+            if (delitem.isSel == true) {
+              axios
+                .delete(
+                  "http://192.168.16.29:3009/api/v1/shop_carts/" + delitem._id,
+                  {
+                    headers: {
+                      authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                  }
+                )
+                .then(res => {
+                  console.log(res);
+                  this.showCarts();
+                });
+            }
+          });
+          Toast.success("删除成功");
+        })
+        .catch(() => {
+          Toast.success("已取消");
+        });
+    },
+    showCarts() {
+      axios
+        .get("http://192.168.16.29:3009/api/v1/shop_carts", {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.cartsList = res.data;
+          this.cartsList.forEach(item => {
+            item.isSel = false;
+          });
+        });
+    },
+    showgoods() {
+      axios
+        .get("http://192.168.16.29:3009/api/v1/products", {
+          params: {
+            per: 20,
+            page: Math.floor(Math.random() * 4) + 1
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.goodsList = res.data.products;
+        });
+    },
+    addCart(gooditem) {
+      console.log(localStorage.getItem("token"));
+      console.log(gooditem._id);
+      axios
+        .post(
+          "http://192.168.16.29:3009/api/v1/shop_carts",
+          { product: gooditem._id, isSel: true },
+          {
+            headers: {
+              authorization: "Bearer " + localStorage.getItem("token")
+            }
+          }
+
+          // headers: { authorization: "Bearer " + localStorage.getItem("token") }
+        )
+        .then(res => {
+          console.log(res);
+          Toast.success("加入购物车成功");
+          this.showCarts();
+        });
+    },
+    checkAll() {
+      this.allChecked = !this.allChecked;
+      this.cartsList.forEach(item => {
+        item.isSel = this.allChecked;
+      });
+
+      this.totalPrice = 0;
+      this.cartsList.forEach(item => {
+        if (this.allChecked) {
+          this.totalPrice += item.product.price * item.quantity;
+        }
+      });
+      this.totalPrice = parseInt(this.totalPrice * 100) / 100;
+      if (this.allChecked) {
+        this.totalNum = this.cartsList.length;
+      } else {
+        this.totalNum = 0;
+      }
+    },
+    checkSel(item, index) {
+      this.cartsList[index].isSel = !item.isSel;
+      if (this.cartsList.every(item => item.isSel == true)) {
+        this.allChecked = true;
+      } else {
+        this.allChecked = false;
+      }
+      this.allPrice(item, index);
+      this.allNum(item, index);
+    },
+    addOne(item, index) {
+      this.cartsList[index].quantity++;
+      this.allPrice(item, index);
+      this.allNum(item, index);
+      // this.cartsList[index].quantity
+      axios
+        .post(
+          "http://192.168.16.29:3009/api/v1/shop_carts",
+          {
+            product: item.product._id,
+            quantity: 1,
+            isSel: true
+          },
+          {
+            headers: {
+              authorization: "Bearer " + localStorage.getItem("token")
+            }
+          }
+
+          // headers: { authorization: "Bearer " + localStorage.getItem("token") }
+        )
+        .then(res => {
+          // this.showCarts();
+        });
+    },
+
+    subOne(item, index) {
+      this.cartsList[index].quantity--;
+      this.allPrice(item, index);
+      this.allNum(item, index);
+      if (this.cartsList[index].quantity == 0) {
+        Dialog.confirm({
+          message: "是否删除该商品"
+        })
+          .then(() => {
+            // on confirm
+            axios
+              .delete(
+                "http://192.168.16.29:3009/api/v1/shop_carts/" + item._id,
+                {
+                  headers: {
+                    authorization: "Bearer " + localStorage.getItem("token")
+                  }
+                }
+              )
+              .then(res => {
+                console.log(res);
+                Toast.success("删除成功");
+                this.cartsList.splice(index, 1);
+                this.allPrice(item, index);
+                this.allNum(item, index);
+              });
+          })
+          .catch(() => {
+            item.quantity = 1;
+            this.allPrice(item, index);
+            this.allNum(item, index);
+          });
+      } else {
+        axios
+          .post(
+            "http://192.168.16.29:3009/api/v1/shop_carts",
+            {
+              product: item.product._id,
+              quantity: -1
+            },
+            {
+              headers: {
+                authorization: "Bearer " + localStorage.getItem("token")
+              }
+            }
+
+            // headers: { authorization: "Bearer " + localStorage.getItem("token") }
+          )
+          .then(res => {
+            // this.showCarts();
+          });
+      }
+    },
+
+    allPrice(item, index) {
+      this.totalPrice = 0;
+      this.cartsList.forEach(item => {
+        if (item.isSel) {
+          this.totalPrice += item.product.price * item.quantity;
+          // this.totalPrice = Math.round(this.totalPrice * 100) / 100;
+        }
+      });
+      this.totalPrice = parseInt(this.totalPrice * 100) / 100;
+    },
+    allNum(item, index) {
+      this.totalNum = 0;
+      this.cartsList.forEach(itemnum => {
+        if (itemnum.isSel == true) {
+          this.totalNum += parseInt(itemnum.product.quantity) / 10;
+        }
+      });
+    },
+    toDetail(xq) {
+      console.log(xq._id);
+      this.$router.push({
+        name: "details",
+        query: {
+          _id: xq._id
+        }
+      });
+      localStorage.setItem("id", xq._id);
     }
   }
 };
@@ -94,9 +325,11 @@ export default {
 <style scope>
 .cart {
   width: 100%;
-  background: #f5f5ff;
+  box-sizing: border-box;
+  background: #e2e2d9;
   display: flex;
   flex-direction: column;
+  padding-bottom: 50px;
 }
 .cartslist {
   flex: 1;
@@ -149,20 +382,23 @@ export default {
   background: #f5f5f5;
   width: 30px;
 }
-.pay {
+.cart .pay {
   height: 60px;
   width: 100%;
   background: #f5f5f5;
-  position: fixed;
-  bottom: 55px;
+  /* background: rgba(27, 192, 35, 0.493); */
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
+  position: fixed;
+  bottom: 50px;
+  left: 0;
+  z-index: 100;
 }
 .pay .payele {
-  width: 150px;
+  width: 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -174,5 +410,43 @@ export default {
   border-radius: 30px;
   line-height: 40px;
   color: #f5f5f5;
+}
+.goods {
+  position: relative;
+  z-index: 1;
+}
+.goods .goodimg {
+  width: 100%;
+}
+.goods .goodimg img {
+  width: 100%;
+}
+.goods .addcart {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.goods .addcart .shoppingcart {
+  width: 30px;
+  height: 30px;
+  line-height: 40px;
+  color: #f5f5f5;
+  background: rgb(154, 245, 112);
+  border-radius: 50%;
+}
+.goodname {
+  font-size: 14px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+.gooddes {
+  font-size: 12px;
+  color: #808883;
+  text-align: left;
+  line-height: 20px;
+}
+.selcheckbox {
+  border-radius: 50%;
 }
 </style>
