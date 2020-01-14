@@ -86,8 +86,8 @@ export default {
       this.show = true;
     },
     onEdit() {},
-    onSave() {
-      console.log();
+    onSave(content) {
+      console.log(content);
     },
     onDelete() {
       console.log(this.searchResult);
