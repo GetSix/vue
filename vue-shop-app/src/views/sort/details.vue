@@ -72,6 +72,7 @@ export default {
       desc: "",
       price: "",
       show: false,
+      cartsList:[],
       sku: {
         // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
         // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
@@ -169,6 +170,19 @@ export default {
       });
   },
   methods: {
+     showCarts() {
+      axios
+        .get("http://192.168.16.29:3009/api/v1/shop_carts", {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          console.log(res);
+          this.cartsList = res.data;
+          this.$store.state.num = this.cartsList.length;
+        });
+    },
     onClickLeft() {
       history.back();
     },
@@ -191,7 +205,8 @@ export default {
         )
         .then(res => {
           console.log(res);
-          this.$store.state.num = 30;
+          // this.$store.state.num.length  = 30;
+          this.showCarts();
         });
     },
     toCart() {

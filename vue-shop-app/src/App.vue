@@ -7,14 +7,14 @@
       <van-tabbar-item to="/sort/tuijian" icon="search">分类</van-tabbar-item>
       <van-tabbar-item to="/eat" icon="star-o">吃什么</van-tabbar-item>
       <van-tabbar-item to="/cart" icon="cart-o"
-       :info="this.$store.state.num == 0 ?'':this.$store.state.num ">购物车</van-tabbar-item>
+       :info="this.$store.state.num == 0 ?'':this.$store.state.num  ">购物车</van-tabbar-item>
       <van-tabbar-item :to="{name:'user'}" icon="user-o">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 <script>
 import axios from 'axios';
-// import store from '../src/store/index';
+
 export default {
   data(){
     return{
