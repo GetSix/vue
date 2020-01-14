@@ -97,7 +97,7 @@ export default {
       console.log(this.$route.query.id);
       axios
         .put(
-          "http://192.168.16.29:3009/api/v1/addresses" + this.$route.query.id,
+          "http://192.168.16.29:3009/api/v1/addresses/" + this.$route.query.id,
 
           {
             receiver: content.name,
@@ -115,6 +115,9 @@ export default {
         )
         .then(res => {
           console.log(res);
+          this.$router.push({
+            name: "address"
+          });
           //   this.showAddress();
           //   this.show = false;
         });
@@ -122,7 +125,7 @@ export default {
     onDelete() {
       console.log(this.$route.query.id);
       axios
-        .post(
+        .delete(
           "http://192.168.16.29:3009/api/v1/addresses/" + this.$route.query.id,
           {
             headers: {
@@ -132,6 +135,9 @@ export default {
         )
         .then(res => {
           console.log(res);
+          this.$router.push({
+            name: "address"
+          });
         });
     },
     onChangeDetail(val) {
@@ -149,3 +155,9 @@ export default {
   }
 };
 </script>
+<style scope>
+.box {
+  /* background: rgb(189, 134, 33); */
+  height: 620px;
+}
+</style>
