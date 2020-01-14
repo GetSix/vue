@@ -79,7 +79,7 @@ export default {
   methods: {
     onClickLeft() {
       this.$router.push({
-        name: "user"
+        name: "accounts"
       });
     },
     onAdd() {

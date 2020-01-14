@@ -139,6 +139,10 @@ const routes = [{
   path: "/user/greencart",
   name: "greencart",
   component: () => import("../views/orderHandle/greenCart.vue")
+},{
+  path:'/accounts',
+  name:'accounts',
+  component: ()=> import('../views/accounts/accounts.vue'),
 }
 ]
 

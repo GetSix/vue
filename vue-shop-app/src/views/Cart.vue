@@ -40,7 +40,7 @@
       </div>
       <div class="payele">
         <div class="total">合计:{{totalPrice}}</div>
-        <div class="payend">结算({{ totalNum }})</div>
+        <div class="payend" @click="toAccounts()">结算({{ totalNum }})</div>
       </div>
     </div>
 
@@ -72,7 +72,6 @@
 import Vue from "vue";
 import { Dialog } from "vant";
 import { Toast } from "vant";
-
 Vue.use(Toast);
 // 全局注册
 Vue.use(Dialog);
@@ -98,6 +97,21 @@ export default {
     
   },
   methods: {
+    goodsLength(){
+            this.$store.state.num = this.cartsList.length;
+    },
+     toAccounts(){
+       //将购车的数据赋值给 this.$store.state.assountsList
+       this.$store.state.accountsList = this.cartsList;
+      console.log([...this.cartsList]);
+      console.log(this.$store.state.accountsList);
+       this.$store.state.accountsList.find(item =>{
+           //判断长度不为0 时跳转到结账页
+          if(item.isSel === true ){
+           return this.$router.push({name:'accounts'});
+          }
+       });
+    },
     isLogin() {
       if (localStorage.getItem("token")) {
       } else {
@@ -129,9 +143,11 @@ export default {
                   this.totalPrice = 0;
                   this.totalNum = 0;
                   this.allChecked = false;
+                  this.goodsLength();
                 });
             }
           });
+          this.goodsLength();
           Toast.success("删除成功");
         })
         .catch(() => {
@@ -152,6 +168,7 @@ export default {
             item.isSel = false;
           });
           this.guessYouLike();
+          this.goodsLength();
         });
     },
     guessYouLike() {
@@ -216,6 +233,9 @@ export default {
           console.log(res);
           Toast.success("加入购物车成功");
           this.showCarts();
+          console.log(this.cartsList);
+          
+          // this.goodsLength();
         });
     },
     checkAll() {
@@ -223,7 +243,7 @@ export default {
       this.cartsList.forEach(item => {
         item.isSel = this.allChecked;
       });
-      this.$store.state.num = 10;
+      
 
       this.totalPrice = 0;
       this.cartsList.forEach(item => {
@@ -304,6 +324,8 @@ export default {
                 this.cartsList.splice(index, 1);
                 this.allPrice(item, index);
                 this.allNum(item, index);
+
+                this.goodsLength();
               });
           })
           .catch(() => {
@@ -361,7 +383,7 @@ export default {
         }
       });
       localStorage.setItem("id", xq._id);
-    }
+    },
   }
 };
 </script>
