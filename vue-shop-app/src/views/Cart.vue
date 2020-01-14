@@ -125,6 +125,9 @@ export default {
                 .then(res => {
                   console.log(res);
                   this.showCarts();
+                  this.totalPrice = 0;
+                  this.totalNum = 0;
+                  this.allChecked = false;
                 });
             }
           });
