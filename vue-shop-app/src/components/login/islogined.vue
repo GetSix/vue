@@ -34,11 +34,11 @@ export default {
             }
           })
           .then(resed => {
-            console.log(resed);
+            // console.log(resed);
             this.nickName = resed.data.nickName;
             this.avatar =
               "http://api.cat-shop.penkuoer.com" + resed.data.avatar;
-            console.log(resed.data.avatar);
+            // console.log(resed.data.avatar);
             localStorage.setItem(
               "avatar",
               "http://api.cat-shop.penkuoer.com" + resed.data.avatar

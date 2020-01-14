@@ -111,7 +111,7 @@ const routes = [{
       path: '/user/loginpage',
       name: 'loginpage',
       component: () => import('../views/login/loginpage.vue')
-    },
+    }
 
   ]
 },
@@ -128,7 +128,7 @@ const routes = [{
 {
   path: '/address',
   name: 'address',
-  component: () => import('../views/addAdress/addAdress.vue')
+  component: () => import('../views/addAdress/addAdress.vue'),
 },
 {
   path: "/user/PIM",
@@ -139,6 +139,11 @@ const routes = [{
   path: "/user/greencart",
   name: "greencart",
   component: () => import("../views/orderHandle/greenCart.vue")
+},
+{
+  path: "/user/address/addressEdit",
+  name: "addressEdit",
+  component: () => import("../views/addAdress/addressEdit.vue")
 }
 ]
 

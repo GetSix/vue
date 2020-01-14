@@ -2,33 +2,17 @@
   <div class="orderHandlebox">
     <van-nav-bar title="我的订单" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-tabs v-model="active" animated>
-      <van-tab title="全部">
-        <img
-          style="width:100%; height:100%;"
-          src="http://localhost:8082/img/noData.1c06e1e1.jpeg"
-          alt
-        />
-      </van-tab>
       <van-tab title="待支付">
-        <img
-          style="width:100%; height:100%;"
-          src="http://localhost:8082/img/noData.1c06e1e1.jpeg"
-          alt
-        />
+        <img style="width:100%; height:100%;" src="../../img/noData.1c06e1e1.jpeg" alt />
       </van-tab>
       <van-tab title="待收货">
-        <img
-          style="width:100%; height:100%;"
-          src="http://localhost:8082/img/noData.1c06e1e1.jpeg"
-          alt
-        />
+        <img style="width:100%; height:100%;" src="../../img/noData.1c06e1e1.jpeg" alt />
       </van-tab>
       <van-tab title="待评价">
-        <img
-          style="width:100%; height:100%;"
-          src="http://localhost:8082/img/noData.1c06e1e1.jpeg"
-          alt
-        />
+        <img style="width:100%; height:100%;" src="../../img/noData.1c06e1e1.jpeg" alt />
+      </van-tab>
+      <van-tab title="售后/退款">
+        <img style="width:100%; height:100%;" src="../../img/noData.1c06e1e1.jpeg" alt />
       </van-tab>
     </van-tabs>
   </div>
@@ -48,7 +32,7 @@ export default {
     };
   },
   created() {
-    console.log(111);
+    // console.log(111);
     this.skipHandle();
   },
   methods: {
@@ -58,7 +42,7 @@ export default {
       });
     },
     skipHandle() {
-      console.log(this.$route.query.index);
+      // console.log(this.$route.query.index);
       this.active = this.$route.query.index;
     }
   }

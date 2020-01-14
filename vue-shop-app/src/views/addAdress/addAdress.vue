@@ -74,7 +74,15 @@ export default {
     onAdd() {
       this.show = true;
     },
-    onEdit() {},
+    onEdit(item, index) {
+      console.log(item);
+      this.$router.push({
+        name: "addressEdit",
+        query: {
+          id: item._id
+        }
+      });
+    },
 
     // 保存收货地址
     // vant插件  content vant默认参数获取地址栏输入信息
