@@ -186,7 +186,7 @@ export default {
       
             
           })
-      })
+      
     },
     toCart() {
       this.$router.push({
