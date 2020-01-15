@@ -326,7 +326,7 @@ export default {
                 this.cartsList.splice(index, 1);
                 this.allPrice(item, index);
                 this.allNum(item, index);
-
+                this.guessYouLike();
                 this.goodsLength();
               });
           })

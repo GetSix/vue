@@ -159,5 +159,6 @@ export default {
 .box {
   /* background: rgb(189, 134, 33); */
   height: 620px;
+  background: url("../../img/back2.a864ff79.jpg");
 }
 </style>
