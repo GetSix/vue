@@ -15,6 +15,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  store,
+  store,  //相当于stroe:stroe ,注册后，子组件使用this.$store访问
   render: h => h(App)
 }).$mount('#app')

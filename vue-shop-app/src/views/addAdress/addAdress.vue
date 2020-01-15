@@ -9,6 +9,7 @@
       :disabled-list="disabledList"
       disabled-text="以下地址超出配送范围"
       default-tag-text="默认"
+      @select="toAccount"
       @add="onAdd"
       @edit="onEdit"
     />
@@ -35,6 +36,7 @@ import { Tab, Tabs } from "vant";
 import { AddressEdit } from "vant";
 import axios from "axios";
 import areaList from "../../../public/data/area";
+import store from "../../store/index";
 Vue.use(AddressEdit);
 Vue.use(Tab).use(Tabs);
 Vue.use(NavBar);
@@ -66,15 +68,35 @@ export default {
   },
 
   methods: {
+    toAccount(item, index) {
+      console.log("111");
+      console.log(index);
+      let id = this.addressList[parseInt(index)]._id;
+      this.$router.push({
+        name: "accounts",
+        query: {
+          id: id
+        }
+      });
+    },
     onClickLeft() {
       this.$router.push({
-        name: "user"
+        name: "accounts"
       });
     },
     onAdd() {
       this.show = true;
     },
-    onEdit() {},
+    onEdit(item, index) {
+      console.log(item);
+      this.$router.push({
+        name: "addressEdit",
+        query: {
+          id: item._id,
+          index: index
+        }
+      });
+    },
 
     // 保存收货地址
     // vant插件  content vant默认参数获取地址栏输入信息
@@ -87,9 +109,10 @@ export default {
           {
             receiver: content.name,
             mobile: content.tel,
-            regions: content.province + content.city + content.county,
+            regions:
+              content.province + "-" + content.city + "-" + content.county,
             address: content.addressDetail,
-            idDefault: content.isDefault
+            isDefault: content.isDefault
           },
           {
             headers: {
@@ -104,6 +127,7 @@ export default {
         });
     },
     showAddress() {
+      console.log(this.$store.state.mmm);
       axios
         .get("http://192.168.16.29:3009/api/v1/addresses", {
           headers: {
@@ -123,7 +147,9 @@ export default {
             this.addressList[i].tel = showAddressRes.data.addresses[i].mobile;
             this.addressList[i].address =
               showAddressRes.data.addresses[i].address;
+            // this.addressList[i].areaCode = content[i].areaCode
           }
+          console.log(this.addressList);
           // this.addressList = showAddressRes.data.addresses;
         });
     },
@@ -132,12 +158,7 @@ export default {
     },
     onChangeDetail(val) {
       if (val) {
-        this.searchResult = [
-          {
-            name: "黄龙万科中心",
-            address: "杭州市西湖区"
-          }
-        ];
+        this.searchResult = [areaList];
       } else {
         this.searchResult = [];
       }

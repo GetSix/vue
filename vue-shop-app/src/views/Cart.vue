@@ -3,6 +3,13 @@
     <van-sticky>
       <van-nav-bar class="top" title="我的购物车" right-text="删除" @click-right="delCarts" />
     </van-sticky>
+    <div v-if="noCartShow" class="noCart">
+      <img src="../img/empty.5053d452.png" style="width:100%;" alt />
+      <p>购物车空空如也</p>
+      <div class="goShopBtn">
+        <van-button @click="toShop" style="font-size:20px;" type="primary" size="large" round>去购物</van-button>
+      </div>
+    </div>
     <div class="cartslist">
       <div class="goodcart" v-for="(item,index) in cartsList" :key="index">
         <div class="img">
@@ -40,7 +47,7 @@
       </div>
       <div class="payele">
         <div class="total">合计:{{totalPrice}}</div>
-        <div class="payend">结算({{ totalNum }})</div>
+        <div class="payend" @click="toAccounts()">结算({{ totalNum }})</div>
       </div>
     </div>
 
@@ -72,7 +79,6 @@
 import Vue from "vue";
 import { Dialog } from "vant";
 import { Toast } from "vant";
-
 Vue.use(Toast);
 // 全局注册
 Vue.use(Dialog);
@@ -84,6 +90,7 @@ export default {
     return {
       totalNum: 0,
       totalPrice: 0,
+      noCartShow: false,
       cartsList: [],
       goodsList: [],
       isSel: [],
@@ -97,6 +104,29 @@ export default {
     this.isLogin();
   },
   methods: {
+    toShop() {
+      this.$router.push({
+        name: "home"
+      });
+    },
+    goodsLength() {
+      this.$store.state.num = this.cartsList.length;
+      if (this.cartsList.length == 0) {
+        this.noCartShow = true;
+      } else {
+        this.noCartShow = false;
+      }
+    },
+    toAccounts() {
+      //将购车的数据赋值给 this.$store.state.assountsList
+      this.$store.state.accountsList = this.cartsList;
+      this.$store.state.accountsList.find(item => {
+        //判断长度不为0 时跳转到结账页
+        if (item.isSel === true) {
+          return this.$router.push({ name: "accounts" });
+        }
+      });
+    },
     isLogin() {
       if (localStorage.getItem("token")) {
       } else {
@@ -123,14 +153,15 @@ export default {
                   }
                 )
                 .then(res => {
-                  console.log(res);
                   this.showCarts();
                   this.totalPrice = 0;
                   this.totalNum = 0;
                   this.allChecked = false;
+                  this.goodsLength();
                 });
             }
           });
+          this.goodsLength();
           Toast.success("删除成功");
         })
         .catch(() => {
@@ -145,22 +176,19 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           this.cartsList = res.data;
           this.cartsList.forEach(item => {
             item.isSel = false;
           });
           this.guessYouLike();
+          this.goodsLength();
         });
     },
     guessYouLike() {
       let youLike = [];
       this.cartsList.forEach(item => {
         youLike.push(item.product.productCategory);
-        // if(){
-        // }
       });
-      console.log(youLike);
       let likeGoodId = this.findMost(youLike);
       this.showgoods(likeGoodId);
     },
@@ -172,7 +200,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           this.goodsList = res.data.products;
         });
     },
@@ -197,8 +224,6 @@ export default {
     },
 
     addCart(gooditem) {
-      console.log(localStorage.getItem("token"));
-      console.log(gooditem._id);
       axios
         .post(
           "http://192.168.16.29:3009/api/v1/shop_carts",
@@ -297,11 +322,12 @@ export default {
                 }
               )
               .then(res => {
-                console.log(res);
                 Toast.success("删除成功");
                 this.cartsList.splice(index, 1);
                 this.allPrice(item, index);
                 this.allNum(item, index);
+                this.guessYouLike();
+                this.goodsLength();
               });
           })
           .catch(() => {
@@ -351,7 +377,6 @@ export default {
       });
     },
     toDetail(xq) {
-      console.log(xq._id);
       this.$router.push({
         name: "details",
         query: {
@@ -371,7 +396,7 @@ export default {
   background: #e2e2d9;
   display: flex;
   flex-direction: column;
-  padding-bottom: 50px;
+  padding-bottom: 100px;
 }
 .cartslist {
   flex: 1;
@@ -490,5 +515,10 @@ export default {
 }
 .selcheckbox {
   border-radius: 50%;
+}
+.goShopBtn {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 40px;
 }
 </style>
