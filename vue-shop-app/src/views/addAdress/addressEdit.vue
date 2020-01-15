@@ -105,7 +105,7 @@ export default {
             regions:
               content.province + "-" + content.city + "-" + content.county,
             address: content.addressDetail,
-            idDefault: content.isDefault
+            isDefault: content.isDefault
           },
           {
             headers: {
