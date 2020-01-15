@@ -2,7 +2,10 @@
     <div class="goods">
         <van-nav-bar title="填写定单" left-text="返回" left-arrow @click-left="onClickLeft"/>
         <!-- 收货地址 -->
-        <van-contact-card @click='toAddress()'></van-contact-card>
+        <van-contact-card
+        :name="name"
+        :tel="tel"
+         @click='toAddress()'></van-contact-card>
         <!-- 发货时间 -->
        <div class="van-cell">
         <p class="top"><span style="float:left; margin-bottom:2px;">送达时间</span><br><br>
@@ -22,6 +25,8 @@ export default {
     return {
        date: '',
       show:false,
+      name:'',
+      tel:'',
       
     };
   },
@@ -49,7 +54,7 @@ export default {
 <style  scoped>
 .van-cell {
     width: 100%;
-    padding: 10px 16px 0px 16px;
+    padding: 10px 16px;
     overflow: hidden;
     color: #323233;
     font-size: 14px;

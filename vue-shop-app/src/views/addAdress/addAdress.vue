@@ -60,7 +60,7 @@ export default {
       ]
     };
   },
-  // http://192.168.16.39:9528
+  // http://192.168.16.29:9528
   created() {
     this.areaList = areaList;
     this.showAddress();
