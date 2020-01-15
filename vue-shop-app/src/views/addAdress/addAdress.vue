@@ -13,6 +13,7 @@
       @add="onAdd"
       @edit="onEdit"
     />
+
     <van-popup v-model="show" round position="bottom" get-container="#app">
       <van-address-edit
         :area-list="areaList"
@@ -69,8 +70,6 @@ export default {
 
   methods: {
     toAccount(item, index) {
-      console.log("111");
-      console.log(index);
       let id = this.addressList[parseInt(index)]._id;
       this.$router.push({
         name: "accounts",
@@ -158,7 +157,14 @@ export default {
     },
     onChangeDetail(val) {
       if (val) {
-        this.searchResult = [areaList];
+        // this.searchResult = [areaList];
+        console.log("详细地址");
+        this.searchResult = [
+          {
+            name: "是卡UN卡UN",
+            address: ""
+          }
+        ];
       } else {
         this.searchResult = [];
       }

@@ -126,7 +126,7 @@ const routes = [{
   component: () => import('../views/orderHandle/discount.vue')
 },
 {
-  path: '/address',
+  path: '/user/address',
   name: 'address',
   component: () => import('../views/addAdress/addAdress.vue'),
 },
