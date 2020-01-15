@@ -69,6 +69,7 @@
             <p>我的收货地址</p>
           </div>
         </router-link>
+
         <div class="allorder">
           <van-icon class="allordericon" name="arrow"></van-icon>
         </div>
@@ -142,6 +143,9 @@ export default {
         this.islogin = true;
       } else {
         this.islogin = false;
+        // this.$router.push({
+        //   name: "loginpage"
+        // });
       }
     }
   }
@@ -161,7 +165,7 @@ export default {
 // };
 </script>
 
-<style scope>
+<style scoped>
 a {
   color: #000000;
 }

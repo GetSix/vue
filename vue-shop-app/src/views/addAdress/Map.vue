@@ -261,8 +261,9 @@ export default {
       PubSub.publish(LOCATION_ADDRESS, item.name);
       // 存储到本地
       setLocalStore("userLocation", item.name);
-      // console.log(item.name);
+      console.log(item.name);
       this.$store.state.addAddress = item.name;
+      console.log(this.$store.state.addAddress);
       this.$router.back();
     }
   },

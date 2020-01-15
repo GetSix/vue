@@ -99,8 +99,10 @@ export default {
     };
   },
   created() {
-    this.showgoods();
-    this.showCarts();
+    if (localStorage.getItem("token")) {
+      this.showgoods();
+      this.showCarts();
+    }
     this.isLogin();
   },
   methods: {
