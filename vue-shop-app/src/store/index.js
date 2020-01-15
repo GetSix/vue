@@ -6,8 +6,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    num:0,
-    accountsList:[],
+    num: 0,
+    accountsList: [],
+    addAddress: ""
   },
   mutations: {
   },

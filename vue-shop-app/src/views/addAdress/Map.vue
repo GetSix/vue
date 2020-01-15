@@ -9,31 +9,37 @@
  -->
 <template>
   <div id="map">
-    <van-nav-bar title="请选择地址"
-                 :border=false
-                 :fixed="true"
-                 @click-left="onClickLeft"
-                 left-arrow
-                 style="height:2.5rem" />
+    <van-nav-bar
+      title="请选择地址"
+      :border="false"
+      :fixed="true"
+      @click-left="onClickLeft"
+      left-arrow
+      style="height:2.5rem"
+    />
     <!-- 地图部分 -->
     <div class="aMap">
       <!-- 搜索框 不是很好用-->
       <!-- <el-amap-search-box class="search-box"
                           :search-option="searchOption"
-                          :on-search-result="onSearchResult" /> -->
+      :on-search-result="onSearchResult" />-->
       <!-- 地图 -->
       <div class="amap-page-container">
-        <el-amap ref="map"
-                 vid="amapDemo"
-                 :plugin="plugin"
-                 :zoom="zoom"
-                 :center="center"
-                 class="amap-map"
-                 :events="events"
-                 v-show="showMap">
-          <el-amap-marker vid="component-marker"
-                          :position="makerConf.position"
-                          :content="makerConf.content" />
+        <el-amap
+          ref="map"
+          vid="amapDemo"
+          :plugin="plugin"
+          :zoom="zoom"
+          :center="center"
+          class="amap-map"
+          :events="events"
+          v-show="showMap"
+        >
+          <el-amap-marker
+            vid="component-marker"
+            :position="makerConf.position"
+            :content="makerConf.content"
+          />
         </el-amap>
       </div>
       <!-- 地址列表 -->
@@ -53,12 +59,13 @@
           <!-- 附近位置 -->
           <van-cell-group title="附近的地址">
             <ul>
-              <li class="nearLists"
-                  v-for="(item,index) in list"
-                  :key="index"
-                  @click="clickAddredd(item)">
-                <p class="
-                  title">{{item.name}}</p>
+              <li
+                class="nearLists"
+                v-for="(item,index) in list"
+                :key="index"
+                @click="clickAddredd(item)"
+              >
+                <p class="title">{{item.name}}</p>
                 <p class="subTitle">{{item.address}}</p>
               </li>
             </ul>
@@ -69,33 +76,37 @@
   </div>
 </template>
 <script>
-import VueAMap from 'vue-amap'
-import Vue from 'vue'
-import PubSub from 'pubsub-js'
-import { LOCATION_ADDRESS } from '../../config/pubsub_type'
-import { setLocalStore } from '../../config/global'
+import VueAMap from "vue-amap";
+import Vue from "vue";
+import PubSub from "pubsub-js";
+import { LOCATION_ADDRESS } from "../../config/pubsub_type";
+import { setLocalStore } from "../../config/global";
 Vue.use(VueAMap);
 VueAMap.initAMapApiLoader({
   // 申请的高德key
-  key: 'd14f820c75756dc0686f6489e85e24aa',
+  key: "d14f820c75756dc0686f6489e85e24aa",
   // 插件集合所有的
-  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch',
-    'AMap.Scale', 'AMap.OverView',
-    'AMap.ToolBar', 'AMap.MapType',
-    'AMap.PolyEditor', 'AMap.CircleEditor',
-    'AMap.Geolocation'],
-  uiVersion: '1.0',
-  v: '1.4.4'
+  plugin: [
+    "AMap.Autocomplete",
+    "AMap.PlaceSearch",
+    "AMap.Scale",
+    "AMap.OverView",
+    "AMap.ToolBar",
+    "AMap.MapType",
+    "AMap.PolyEditor",
+    "AMap.CircleEditor",
+    "AMap.Geolocation"
+  ],
+  uiVersion: "1.0",
+  v: "1.4.4"
 });
 export default {
-  created () {
-  },
-  mounted () {
-  },
+  created() {},
+  mounted() {},
   components: {},
-  data () {
+  data() {
     var me = this;
-    me.city = me.city || '苏州';
+    me.city = me.city || "苏州";
     return {
       showMap: true,
       list: [],
@@ -104,7 +115,7 @@ export default {
       zoom: 16,
       center: [114.397169, 30.50576],
       events: {
-        init: (o) => {
+        init: o => {
           o.setCity(me.city, result => {
             me.center = result;
             if (result && result.length > 0) {
@@ -116,24 +127,30 @@ export default {
           // Map UI优化
           this.$nextTick(() => {
             //去掉logo
-            document.getElementsByClassName("amap-logo")[0].style.display = "none";
+            document.getElementsByClassName("amap-logo")[0].style.display =
+              "none";
             // 去掉版权信息
-            document.getElementsByClassName('amap-copyright')[0].style.opacity = "0";
+            document.getElementsByClassName("amap-copyright")[0].style.opacity =
+              "0";
             // 修改搜索结果框的宽度
             // document.getElementsByClassName('search-tips')[0].style.width = '60%';
             // 隐藏比例尺
-            document.getElementsByClassName('amap-scalecontrol')[0].style.visibility = "hidden";
+            document.getElementsByClassName(
+              "amap-scalecontrol"
+            )[0].style.visibility = "hidden";
             // 修改定位当前位置
-            document.getElementsByClassName('amap-geolocation-con')[0].style.left = "85%";
-          })
+            document.getElementsByClassName(
+              "amap-geolocation-con"
+            )[0].style.left = "85%";
+          });
         },
-        // 拖拽 
-        "dragend": function (e) {
+        // 拖拽
+        dragend: function(e) {
           var point = this.getCenter();
           var pos = [point.lng, point.lat];
           me.makerConf.position = [point.lng, point.lat];
           me.getList(pos);
-        },
+        }
       },
       makerConf: {
         position: [114.397169, 30.50576],
@@ -144,11 +161,11 @@ export default {
         citylimit: true
       },
       plugin: [
-        'Scale',
+        "Scale",
         {
-          pName: 'Geolocation',
+          pName: "Geolocation",
           events: {
-            init (o) {
+            init(o) {
               // 获取当前位置
               o.getCurrentPosition((status, result) => {
                 if (result && result.position) {
@@ -160,20 +177,19 @@ export default {
                 }
               });
             },
-            complete: function (result) {
+            complete: function(result) {
               //定位成功
-              var address = result.formattedAddress
+              var address = result.formattedAddress;
               var point = result.position;
               var obj = {
                 address: address,
                 name: "",
                 location: point
-              }
+              };
               me.makerConf.position = [point.lng, point.lat];
               me.getList([point.lng, point.lat]);
             },
-            error: function () {
-            }
+            error: function() {}
           }
         }
       ]
@@ -181,25 +197,25 @@ export default {
   },
   methods: {
     // 获取位置列表
-    getList: function (result) {
+    getList: function(result) {
       //获取列表
       var me = this;
       me.$Geocoder({
         lnglatXY: result,
-        success: function (res) {
+        success: function(res) {
           if (res.regeocode && res.regeocode.pois) {
             me.list = res.regeocode.pois;
           } else {
             me.list = [];
           }
         },
-        error: function (res) {
+        error: function(res) {
           me.list = [];
         }
       });
     },
     // 搜索结果
-    onSearchResult (pois) {
+    onSearchResult(pois) {
       let latSum = 0;
       let lngSum = 0;
       var me = this;
@@ -218,17 +234,17 @@ export default {
       }
     },
     //将坐标点转化为，详细地址
-    $Geocoder (options) {
+    $Geocoder(options) {
       options = options || {};
       if (AMap) {
-        AMap.plugin(['AMap.Geocoder'], () => {
+        AMap.plugin(["AMap.Geocoder"], () => {
           const geocoder = new AMap.Geocoder({
             radius: options.radius || 1000,
             extensions: options.extensions || "all"
-          })
+          });
           var lnglatXY = options.lnglatXY || [114.397169, 30.50576]; //已知点坐标
-          geocoder.getAddress(lnglatXY, function (status, result) {
-            if (status === 'complete' && result.info === 'OK') {
+          geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === "complete" && result.info === "OK") {
               options.success && options.success(result);
             } else {
               options.error && options.error(status, result);
@@ -237,19 +253,21 @@ export default {
         });
       }
     },
-    onClickLeft () {
+    onClickLeft() {
       this.$router.back();
     },
-    clickAddredd (item) {
-      // 发通知给Header组件修改名称      
+    clickAddredd(item) {
+      // 发通知给Header组件修改名称
       PubSub.publish(LOCATION_ADDRESS, item.name);
       // 存储到本地
-      setLocalStore('userLocation', item.name);
+      setLocalStore("userLocation", item.name);
+      // console.log(item.name);
+      this.$store.state.addAddress = item.name;
       this.$router.back();
     }
   },
   watch: {
-    list: function () {
+    list: function() {
       this.currIndex = 0;
     }
   }

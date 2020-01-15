@@ -176,6 +176,7 @@ export default {
           }
         })
         .then(res => {
+          console.log(res);
           this.cartsList = res.data;
           this.cartsList.forEach(item => {
             item.isSel = false;

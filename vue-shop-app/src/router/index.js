@@ -152,6 +152,13 @@ const routes = [{
   path: '/user/address',
   name: 'address',
   component: () => import('../views/addAdress/addAdress.vue'),
+  children: [
+    {
+      path: "/map",
+      name: "addressMap",
+      component: () => import("../views/addAdress/Map.vue")
+    }
+  ]
 },
 {
   path: "/user/PIM",
