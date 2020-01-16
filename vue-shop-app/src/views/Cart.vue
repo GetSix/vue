@@ -99,8 +99,10 @@ export default {
     };
   },
   created() {
-    this.showgoods();
-    this.showCarts();
+    if (localStorage.getItem("token")) {
+      this.showgoods();
+      this.showCarts();
+    }
     this.isLogin();
   },
   methods: {
@@ -179,6 +181,7 @@ export default {
           }
         })
         .then(res => {
+          console.log(res);
           this.cartsList = res.data;
           this.cartsList.forEach(item => {
             item.isSel = false;
@@ -329,7 +332,7 @@ export default {
                 this.cartsList.splice(index, 1);
                 this.allPrice(item, index);
                 this.allNum(item, index);
-
+                this.guessYouLike();
                 this.goodsLength();
               });
           })
