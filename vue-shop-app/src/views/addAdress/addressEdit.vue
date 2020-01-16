@@ -49,9 +49,9 @@ export default {
     };
   },
   created() {
-    this.showAddress();
-    this.onChangeDetail();
-    this.addressInfo.addressDetail = localStorage.getItem("userLocation");
+    this.showAddress(); //展示要修改的地址
+    this.onChangeDetail(); //改变地址详情，跳转到定位页获取地理位置
+    this.addressInfo.addressDetail = localStorage.getItem("userLocation"); //舔砖回来时从localstorage中获取定位信息
   },
   computed: {},
   methods: {

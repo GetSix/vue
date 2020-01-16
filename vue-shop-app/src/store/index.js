@@ -8,7 +8,10 @@ export default new Vuex.Store({
   state: {
     num: 0,
     accountsList: [],
-    addAddress: ""
+    addAddress: "",
+    addressInfo: {
+      addressDetail: ""
+    }
   },
   mutations: {
   },

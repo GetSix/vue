@@ -3,6 +3,10 @@
     <van-sticky>
       <van-nav-bar class="top" title="我的购物车" right-text="删除" @click-right="delCarts" />
     </van-sticky>
+
+    <!-- v-if
+        判断购物车中有商品没
+    -->
     <div v-if="noCartShow" class="noCart">
       <img src="../img/empty.5053d452.png" style="width:100%;" alt />
       <p>购物车空空如也</p>
@@ -11,6 +15,7 @@
       </div>
     </div>
     <div class="cartslist">
+      <!-- 遍历购物车内容 -->
       <div class="goodcart" v-for="(item,index) in cartsList" :key="index">
         <div class="img">
           <!-- <input
@@ -99,18 +104,22 @@ export default {
     };
   },
   created() {
+    // 登录时执行这两个方法
     if (localStorage.getItem("token")) {
       this.showgoods();
       this.showCarts();
     }
+    console.log(this.$store.state.num1);
     this.isLogin();
   },
   methods: {
+    // 跳转到主页
     toShop() {
       this.$router.push({
         name: "home"
       });
     },
+    // 商品种类长度
     goodsLength() {
       this.$store.state.num = this.cartsList.length;
       if (this.cartsList.length == 0) {
@@ -119,22 +128,27 @@ export default {
         this.noCartShow = false;
       }
     },
+
     toAccounts() {
       //将购车的数据赋值给 this.$store.state.assountsList
       this.$store.state.accountsList = this.cartsList;
       this.$store.state.accountsList.find(item => {
-        //判断长度不为0 时跳转到结账页
+        //判断被选中的商品数量不为0 时跳转到结账页
         if (item.isSel === true) {
           return this.$router.push({ name: "accounts" });
         }
       });
     },
+
+    // 判断是否登录
     isLogin() {
       if (localStorage.getItem("token")) {
       } else {
         this.$router.push({ name: "loginpage" });
       }
     },
+
+    // 删除选中的商品
     delCarts() {
       let saveList = [];
       let delList = [];
@@ -144,6 +158,7 @@ export default {
         .then(() => {
           // on confirm
           this.cartsList.forEach(delitem => {
+            //循环遍历商品数据如果该商品被选中则删除他
             if (delitem.isSel == true) {
               axios
                 .delete(
@@ -170,6 +185,7 @@ export default {
           Toast.success("已取消");
         });
     },
+    // 展示购物车列表
     showCarts() {
       axios
         .get("http://192.168.16.29:3009/api/v1/shop_carts", {
@@ -187,14 +203,21 @@ export default {
           this.goodsLength();
         });
     },
+
+    // 根据购物车中商品种类的分布确定猜你喜欢的商品种类
     guessYouLike() {
       let youLike = [];
       this.cartsList.forEach(item => {
         youLike.push(item.product.productCategory);
       });
+      // 利用findMost找到购物车中商品种类出现最多的那个种类的分类id
       let likeGoodId = this.findMost(youLike);
+
+      // 利用showgoods方法把对应分类id的商品展示出来
       this.showgoods(likeGoodId);
     },
+
+    // 根据分类id展示商品
     showgoods(id) {
       axios
         .get("http://192.168.16.29:3009/api/v1/products", {
@@ -206,6 +229,8 @@ export default {
           this.goodsList = res.data.products;
         });
     },
+
+    // 遍历对象数组，找出分类id出现次数最多的那个对象的分类id
     findMost(arr) {
       if (!arr.length) return;
       if (arr.length === 1) return arr;
@@ -225,7 +250,7 @@ export default {
       }
       return maxName;
     },
-
+    // 加入购物车功能 goodsitem为页面展示数据是遍历出来的商品信息
     addCart(gooditem) {
       axios
         .post(
@@ -245,19 +270,26 @@ export default {
           this.showCarts();
         });
     },
+
+    // 全选按钮
     checkAll() {
       this.allChecked = !this.allChecked;
       this.cartsList.forEach(item => {
         item.isSel = this.allChecked;
       });
 
+      // 重新计算总价
       this.totalPrice = 0;
       this.cartsList.forEach(item => {
         if (this.allChecked) {
           this.totalPrice += item.product.price * item.quantity;
         }
       });
+
+      // 保留两位小数
       this.totalPrice = parseInt(this.totalPrice * 100) / 100;
+
+      // 重新计算总数
       if (this.allChecked) {
         // this.totalNum = this.cartsList.length;
         // this.allNum();
@@ -269,16 +301,23 @@ export default {
         this.totalNum = 0;
       }
     },
+
+    // 单选按钮 item index 为展示商品时v-for遍历出来的对象和该对象的下标
     checkSel(item, index) {
       this.cartsList[index].isSel = !item.isSel;
+      // 每一个单选都选中的情况
       if (this.cartsList.every(item => item.isSel == true)) {
         this.allChecked = true;
       } else {
+        //有单选按钮没选中
         this.allChecked = false;
       }
+
+      // 重新计算
       this.allPrice(item, index);
       this.allNum(item, index);
     },
+    // 商品数量+1
     addOne(item, index) {
       this.cartsList[index].quantity++;
       this.allPrice(item, index);
@@ -305,11 +344,13 @@ export default {
         });
     },
 
+    // 商品数量-1
     subOne(item, index) {
       this.cartsList[index].quantity--;
       this.allPrice(item, index);
       // this.allNum(item, index);
       if (this.cartsList[index].quantity == 0) {
+        //商品数量-到零时删除商品
         Dialog.confirm({
           message: "是否删除该商品"
         })
@@ -361,6 +402,7 @@ export default {
       }
     },
 
+    // 计算总价
     allPrice(item, index) {
       this.totalPrice = 0;
       this.cartsList.forEach(item => {
@@ -371,6 +413,7 @@ export default {
       });
       this.totalPrice = parseInt(this.totalPrice * 100) / 100;
     },
+    // 计算总数
     allNum(item, index) {
       this.totalNum = 0;
       this.cartsList.forEach(itemnum => {
@@ -379,6 +422,8 @@ export default {
         }
       });
     },
+
+    // 跳转到详情页
     toDetail(xq) {
       this.$router.push({
         name: "details",
@@ -392,7 +437,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 .cart {
   width: 100%;
   box-sizing: border-box;

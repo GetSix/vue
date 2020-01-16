@@ -58,7 +58,7 @@ export default {
 }
 .orderHandlebox {
   width: 100%;
-  height: 700px;
+  height: 40rem;
   flex: 1;
   overflow: hidden;
   background: #faf7f7;

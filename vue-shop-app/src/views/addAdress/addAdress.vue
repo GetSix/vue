@@ -15,12 +15,12 @@
     />
 
     <van-popup v-model="show" round position="bottom" get-container="#app">
-      <div hidden="hidden">{{addressInfo.addressDetail=$store.state.addAddress}}</div>
+      <!-- <div hidden="hidden">{{addressInfo.addressDetail=$store.state.addAddress}}</div> -->
       <van-address-edit
         :area-list="areaList"
         show-postal
         show-delete
-        :address-info="addressInfo"
+        :address-info="this.$store.state.addressInfo"
         show-set-default
         show-search-result
         :search-result="searchResult"
@@ -52,7 +52,7 @@ export default {
   components: {},
   activated: function() {
     // this.getCase();
-    console.log("111", this.$store.state.addAddress);
+    // console.log("111", this.$store.state.addAddress);
     // this.addressInfo.addressDetail = this.$store.state.addAddress;
   },
   watch: {
@@ -71,14 +71,14 @@ export default {
   data() {
     return {
       areaList,
-      searchResult: [],
-      myareaList: [],
+      searchResult: [], //vant默认对象 没用
+      myareaList: [], //vant 默认对象  没用
       chosenAddressId: "1",
       show: false,
       addressList: [],
-      addressInfo: {
-        addressDetail: "eqdwsdujwp"
-      },
+      // addressInfo: {
+      //   addressDetail: ""
+      // },
       disabledList: [
         {
           id: "3",
@@ -91,15 +91,15 @@ export default {
   },
   // http://192.168.16.39:9528
   created() {
-    console.log("131");
-    this.areaList = areaList;
-    this.showAddress();
+    this.areaList = areaList; //areaList 为导入的area.js里的地址数据
+    this.showAddress(); //组件初始化的时候展示地址列表
     // this.addressInfo.addressDetail = localStorage.getItem("userLocation");
   },
 
   methods: {
+    // 跳转到支付页
     toAccount(item, index) {
-      let id = this.addressList[parseInt(index)]._id;
+      let id = this.addressList[parseInt(index)]._id; //index为vant插件里面事件的默认参数
       this.$router.push({
         name: "accounts",
         query: {
@@ -107,21 +107,29 @@ export default {
         }
       });
     },
+
+    // 跳转到支付页
     onClickLeft() {
       this.$router.push({
         name: "accounts"
       });
     },
+
+    // 跳转到地理定位页
     toLocation() {
       this.$router.push({
         name: "addressMap"
       });
     },
+
+    // 点击新增地址时让弹出框显示
     onAdd() {
       this.show = true;
     },
+
+    // 跳转到编辑页
     onEdit(item, index) {
-      console.log(item);
+      // console.log(item);
       this.$router.push({
         name: "addressEdit",
         query: {
@@ -158,6 +166,8 @@ export default {
           this.show = false;
         });
     },
+
+    // 展示所有已保存的地址
     showAddress() {
       axios
         .get("http://192.168.16.29:3009/api/v1/addresses", {
@@ -170,6 +180,7 @@ export default {
           // 先把请求到的数据存到addressList里面
 
           // 再利用for循环为addressList添加id，name，等vant组件要求要用到的属性
+          // 属性值还是请求到的数据里面的内容
           for (let i = 0; i < showAddressRes.data.addresses.length; i++) {
             this.addressList[i].id = i;
             this.addressList[i].name =
@@ -184,7 +195,7 @@ export default {
         });
     },
     onDelete() {
-      console.log(this.searchResult);
+      // console.log(this.searchResult);
     }
   }
 };
@@ -196,5 +207,11 @@ export default {
   left: 330px;
   color: rgb(253, 62, 62);
   font-size: 20px;
+}
+.van-address-list__bottom {
+  position: fixed;
+  top: 550px;
+  left: 0;
+  height: 100%;
 }
 </style>
