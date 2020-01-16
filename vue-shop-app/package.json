@@ -7,6 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@types/twix": "^0.6.38",
     "axios": "^0.19.1",
     "core-js": "^3.4.4",
@@ -15,6 +16,16 @@
     "pubsub-js": "^1.8.0",
     "store": "^2.0.12",
     "twix": "^1.3.0",
+=======
+    "amap": "^1.0.7",
+    "axios": "^0.19.1",
+    "core-js": "^3.4.4",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "nodemon": "^2.0.2",
+    "pubsub-js": "^1.8.0",
+    "store": "^2.0.12",
+>>>>>>> xzk
     "vant": "^2.4.1",
     "vue": "^2.6.10",
     "vue-amap": "^0.5.10",

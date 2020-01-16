@@ -89,7 +89,7 @@ export default {
       ]
     };
   },
-  // http://192.168.16.39:9528
+  // http://192.168.16.29:9528
   created() {
     this.areaList = areaList; //areaList 为导入的area.js里的地址数据
     this.showAddress(); //组件初始化的时候展示地址列表
@@ -97,15 +97,28 @@ export default {
   },
 
   methods: {
+<<<<<<< HEAD
     // 跳转到支付页
+=======
+<<<<<<< HEAD
+    toAccount(chosenAddressId) {
+      console.log("111");
+      console.log(chosenAddressId);
+      let id = this.addressList[parseInt(chosenAddressId)]._id;
+      console.log(id);
+        this.$router.push({
+=======
+>>>>>>> master
     toAccount(item, index) {
       let id = this.addressList[parseInt(index)]._id; //index为vant插件里面事件的默认参数
       this.$router.push({
+>>>>>>> a5b51a72c4b401d70405c6db5da7006622506341
         name: "accounts",
         query: {
           id: id
         }
       });
+        
     },
 
     // 跳转到支付页
