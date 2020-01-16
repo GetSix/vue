@@ -123,6 +123,9 @@ export default {
       this.$store.state.accountsList.find(item => {
         //判断长度不为0 时跳转到结账页
         if (item.isSel === true) {
+          console.log(this.cartsList);
+           this.$store.state.cartList = this.cartsList;
+            console.log(this.$store.state.cartList);
           return this.$router.push({ name: "accounts" });
         }
       });
@@ -389,7 +392,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 .cart {
   width: 100%;
   box-sizing: border-box;

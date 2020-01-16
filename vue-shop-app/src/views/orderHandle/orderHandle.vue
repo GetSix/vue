@@ -4,6 +4,9 @@
     <van-tabs v-model="active" animated>
       <van-tab title="待支付">
         <img style="width:100%; height:100%;" src="../../img/noData.1c06e1e1.jpeg" alt />
+        <div class="order">
+            
+        </div>
       </van-tab>
       <van-tab title="待收货">
         <img style="width:100%; height:100%;" src="../../img/noData.1c06e1e1.jpeg" alt />

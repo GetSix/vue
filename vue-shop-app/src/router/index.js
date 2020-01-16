@@ -124,13 +124,11 @@ const routes = [{
   path: "/discount",
   name: "discount",
   component: () => import('../views/orderHandle/discount.vue')
-},
-{
+},{
   path: '/address',
   name: 'address',
   component: () => import('../views/addAdress/addAdress.vue'),
-},
-{
+},{
   path: "/user/PIM",
   name: "PIM",
   component: () => import("../views/login/me.vue")
@@ -139,8 +137,7 @@ const routes = [{
   path: "/user/greencart",
   name: "greencart",
   component: () => import("../views/orderHandle/greenCart.vue")
-},
-{
+},{
   path: "/user/address/addressEdit",
   name: "addressEdit",
   component: () => import("../views/addAdress/addressEdit.vue")
@@ -148,6 +145,14 @@ const routes = [{
   path: '/accounts',
   name: 'accounts',
   component: () => import('../views/accounts/accounts.vue'),
+},{
+  path:'/detailedList',
+  name:'detaList',
+  component: () => import('../views/accounts/detailedList.vue'),
+},{
+  path:'/discount',
+  name:'discount',
+  component: () => import('../views/orderHandle/discount.vue'),
 }
 ]
 

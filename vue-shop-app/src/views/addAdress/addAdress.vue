@@ -3,15 +3,18 @@
     <van-sticky>
       <van-nav-bar title="添加地址" left-text="返回" left-arrow @click-left="onClickLeft" />
     </van-sticky>
-    <van-address-list
-      v-model="chosenAddressId"
-      :list="addressList"
-      :disabled-list="disabledList"
-      disabled-text="以下地址超出配送范围"
-      default-tag-text="默认"
-      @add="onAdd"
-      @edit="onEdit"
-    />
+    <div @click="toAccount(chosenAddressId)">
+      <van-address-list
+        v-model="chosenAddressId"
+        :list="addressList"
+        :disabled-list="disabledList"
+        disabled-text="以下地址超出配送范围"
+        default-tag-text="默认"
+        @add="onAdd"
+        @edit="onEdit"
+      />
+    </div>
+
     <van-popup v-model="show" round position="bottom" get-container="#app">
       <van-address-edit
         :area-list="areaList"
@@ -67,6 +70,19 @@ export default {
   },
 
   methods: {
+    toAccount(chosenAddressId) {
+      console.log("111");
+      console.log(chosenAddressId);
+      let id = this.addressList[parseInt(chosenAddressId)]._id;
+      console.log(id);
+        this.$router.push({
+        name: "accounts",
+        query: {
+          id: id
+        }
+      });
+        
+    },
     onClickLeft() {
       this.$router.push({
         name: "accounts"
@@ -100,7 +116,7 @@ export default {
             regions:
               content.province + "-" + content.city + "-" + content.county,
             address: content.addressDetail,
-            idDefault: content.isDefault
+            isDefault: content.isDefault
           },
           {
             headers: {
