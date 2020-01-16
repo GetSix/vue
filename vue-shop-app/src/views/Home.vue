@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <div class="head">
-      <van-sticky>
-        <van-row type="flex" justify="space-around">
+    <div class="head" >
+      <van-sticky >
+        <van-row type="flex" justify="space-around" :style="showBgColor?'background-color: white;':''">
           <!-- 获取地址 -->
             <span class="adress" @click="toMap"><van-icon style="margin:0 5px;" name="location-o" />{{location}}</span>
           
@@ -267,12 +267,20 @@ export default {
       });
     this.location = localStorage.getItem("userLocation");
   },
+  mounted () {
+    let that = this;
+    that.$nextTick(() => {
+      //监听滚动事件
+      window.addEventListener('scroll', that.handleScroll)
+    })
+  },
   data() {
     return {
       value: "",
       cart: [],
       list: [],
-      location: ""
+      location: "",
+      showBgColor: false
     };
   },
   methods: {
@@ -286,7 +294,19 @@ export default {
       this.$router.push({
         name: "map"
       });
-    }
+    },
+     handleScroll () {
+      let that = this;
+      //垂直滚动的值兼容问题
+      let scrollTopE = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      let screenHeight = window.screen.availHeight
+      if (scrollTopE > 108) {
+        // 添加搜索栏颜色
+        this.showBgColor = true;
+      } else {
+        this.showBgColor = false;
+      }
+    },
   }
 };
 </script>
@@ -356,7 +376,7 @@ export default {
   line-height: 18px;
   vertical-align: middle;
   font-size: 16px;
-  float: left;
+  ;
   margin-left: 15px;
 }
 .van-count-down {
