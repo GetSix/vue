@@ -15,6 +15,7 @@
     />
 
     <van-popup v-model="show" round position="bottom" get-container="#app">
+      <div hidden="hidden">{{addressInfo.addressDetail=$store.state.addAddress}}</div>
       <van-address-edit
         :area-list="areaList"
         show-postal
@@ -49,15 +50,23 @@ Vue.use(NavBar);
 export default {
   name: "address",
   components: {},
-  // watch: {
-  //   addressInfo: function() {
-  //     this.addressInfo.addressDetail = this.$store.state.addAddress;
-  //   }
-  // },
+  activated: function() {
+    // this.getCase();
+    console.log("111", this.$store.state.addAddress);
+    // this.addressInfo.addressDetail = this.$store.state.addAddress;
+  },
+  watch: {
+    //   "addressInfo.addressDetail": function() {
+    //     this.addressInfo.addressDetail = this.$store.state.addAddress;
+    //   }
+  },
   computed: {
-    "addressInfo.addressDetail": function() {
-      this.addressInfo.addressDetail = this.$store.state.addAddress;
-    }
+    // addressInfo: function() {
+    //   this.addressInfo.addressDetail = this.$store.state.addAddress;
+    // return {
+    //   addressDetail: this.$store.state.addAddress
+    // };
+    // }
   },
   data() {
     return {
@@ -68,7 +77,7 @@ export default {
       show: false,
       addressList: [],
       addressInfo: {
-        addressDetail: this.$store.state.addAddress
+        addressDetail: "eqdwsdujwp"
       },
       disabledList: [
         {
@@ -82,9 +91,10 @@ export default {
   },
   // http://192.168.16.39:9528
   created() {
+    console.log("131");
     this.areaList = areaList;
     this.showAddress();
-    this.addressInfo.addressDetail = localStorage.getItem("userLocation");
+    // this.addressInfo.addressDetail = localStorage.getItem("userLocation");
   },
 
   methods: {
@@ -128,7 +138,6 @@ export default {
       axios
         .post(
           "http://192.168.16.29:3009/api/v1/addresses",
-
           {
             receiver: content.name,
             mobile: content.tel,
@@ -150,7 +159,6 @@ export default {
         });
     },
     showAddress() {
-      console.log(this.$store.state.mmm);
       axios
         .get("http://192.168.16.29:3009/api/v1/addresses", {
           headers: {
@@ -158,11 +166,10 @@ export default {
           }
         })
         .then(showAddressRes => {
-          console.log(showAddressRes);
-          // showAddressRes.data.addresses.forEach(ele => {
-
-          // });
           this.addressList = showAddressRes.data.addresses;
+          // 先把请求到的数据存到addressList里面
+
+          // 再利用for循环为addressList添加id，name，等vant组件要求要用到的属性
           for (let i = 0; i < showAddressRes.data.addresses.length; i++) {
             this.addressList[i].id = i;
             this.addressList[i].name =
@@ -172,34 +179,17 @@ export default {
               showAddressRes.data.addresses[i].address;
             // this.addressList[i].areaCode = content[i].areaCode
           }
-          console.log(this.addressList);
+          // console.log(this.addressList);
           // this.addressList = showAddressRes.data.addresses;
         });
     },
     onDelete() {
       console.log(this.searchResult);
-    },
-    onChangeDetail(val) {
-      if (val) {
-        // this.searchResult = [areaList];
-        console.log("详细地址");
-        this.$router.push({
-          name: "map"
-        });
-        this.searchResult = [
-          {
-            name: "是卡UN卡UN",
-            address: ""
-          }
-        ];
-      } else {
-        this.searchResult = [];
-      }
     }
   }
 };
 </script>
-<style scope>
+<style scoped>
 .addresslocation {
   position: absolute;
   top: 155px;

@@ -168,7 +168,7 @@ export default {
   }
 };
 </script>
-<style scope>
+<style scoped>
 .box {
   /* background: rgb(189, 134, 33); */
   height: 620px;
