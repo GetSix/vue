@@ -256,6 +256,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+*{
+  margin:0;
+  padding:0;
+}
 #map {
   position: fixed;
   top: 0;
@@ -275,11 +279,15 @@ export default {
     height: calc(100vh);
     .title {
       color: black;
-      font-size: 0.8rem;
+      font-size: 1rem;
+      text-align: left;
+      padding-left: 16px;
     }
     .subTitle {
       color: grey;
       font-size: 0.6rem;
+      text-align: left;
+      padding-left: 16px;
     }
   }
   .search-box {
@@ -290,13 +298,14 @@ export default {
   }
   .nearLists {
     padding-top: 1rem;
-    padding-left: 1rem;
+    padding-left: 0.1rem;
     height: 2.5rem;
     line-height: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     border-bottom: 0.1px solid #dedede;
+    text-align: left;
   }
   .amap-page-container {
     margin-top: 3rem;
@@ -312,5 +321,9 @@ export default {
   ul li.active {
     color: deeppink;
   }
+}
+.van-cell-group__title {
+  padding:16px 16px 8px 16px;
+  text-align: left;
 }
 </style>
