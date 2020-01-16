@@ -74,12 +74,14 @@ export default {
       console.log("111");
       console.log(chosenAddressId);
       let id = this.addressList[parseInt(chosenAddressId)]._id;
-      this.$router.push({
+      console.log(id);
+        this.$router.push({
         name: "accounts",
         query: {
           id: id
         }
       });
+        
     },
     onClickLeft() {
       this.$router.push({
