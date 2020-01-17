@@ -67,7 +67,7 @@
 <div class="van-cell" >
   <div class="top"><span style="float:left; margin-bottom:2px;">商品金额</span>
   </div>
-  <div class="bottom"><span class="time">¥{{ price }}</span></div>
+  <div class="bottom"><span class="time">¥{{ price.toFixed(2) }}</span></div>
 </div>
 <div class="van-cell" style="margin-bottom:70px;">
   <div class="top"><span style="float:left; margin-bottom:2px;">配送费</span>
@@ -140,7 +140,7 @@ export default {
       id:'1',
       time:'请选择送达时间',
       cartList:[],
-      radio:'1',
+      radio:'2',
        chosenCoupon: -1,
       coupons: [coupon,coupon1,coupon2],
       disabledCoupons: [coupon],
@@ -193,7 +193,7 @@ created() {
       console.log(this.$route.query.id);
       this.edit = true;
       this.id = this.$route.query.id;
-      axios.get('http://192.168.16.29:3009/api/v1/addresses/'+this.id,
+      axios.get('http://192.168.16.89:3009/api/v1/addresses/'+this.id,
       {
             headers: {
               authorization: "Bearer " + localStorage.getItem("token")
@@ -267,7 +267,7 @@ created() {
           console.log(this.$store.state.person.data.receiver);
           console.log(this.$store.state.orderList);
           console.log(localStorage.getItem("token"));
-          axios.post('http://192.168.16.29:3009/api/v1/orders',
+          axios.post('http://192.168.16.89:3009/api/v1/orders',
           this.data,
           {
           headers: {
@@ -277,6 +277,9 @@ created() {
           .then(res =>{
             console.log(res);
             this.$toast('订单提交成功');
+            console.log(this.price-this.ap);
+            
+             this.$store.state.price =this.price-this.ap;
             this.$router.push({name:'orderHandle'});
           })
       }

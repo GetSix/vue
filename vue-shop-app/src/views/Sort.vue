@@ -20,7 +20,6 @@
 import axios from "axios";
 
 export default {
-  name: "sort",
   data() {
     return {
       value: "",
@@ -30,7 +29,7 @@ export default {
   },
   components: {},
   created() {
-    axios.get('http://192.168.16.29:3009/api/v1/product_categories',{
+    axios.get('http://192.168.16.89:3009/api/v1/product_categories',{
       params:{
         per:13
       }

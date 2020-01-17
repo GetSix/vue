@@ -150,7 +150,7 @@ export default {
             if (delitem.isSel == true) {
               axios
                 .delete(
-                  "http://192.168.16.29:3009/api/v1/shop_carts/" + delitem._id,
+                  "http://192.168.16.89:3009/api/v1/shop_carts/" + delitem._id,
                   {
                     headers: {
                       authorization: "Bearer " + localStorage.getItem("token")
@@ -175,7 +175,7 @@ export default {
     },
     showCarts() {
       axios
-        .get("http://192.168.16.29:3009/api/v1/shop_carts", {
+        .get("http://192.168.16.89:3009/api/v1/shop_carts", {
           headers: {
             authorization: "Bearer " + localStorage.getItem("token")
           }
@@ -200,7 +200,7 @@ export default {
     },
     showgoods(id) {
       axios
-        .get("http://192.168.16.29:3009/api/v1/products", {
+        .get("http://192.168.16.89:3009/api/v1/products", {
           params: {
             product_category: id
           }
@@ -232,7 +232,7 @@ export default {
     addCart(gooditem) {
       axios
         .post(
-          "http://192.168.16.29:3009/api/v1/shop_carts",
+          "http://192.168.16.89:3009/api/v1/shop_carts",
           { product: gooditem._id, isSel: true },
           {
             headers: {
@@ -289,7 +289,7 @@ export default {
       // this.cartsList[index].quantity
       axios
         .post(
-          "http://192.168.16.29:3009/api/v1/shop_carts",
+          "http://192.168.16.89:3009/api/v1/shop_carts",
           {
             product: item.product._id,
             quantity: 1,
@@ -320,7 +320,7 @@ export default {
             // on confirm
             axios
               .delete(
-                "http://192.168.16.29:3009/api/v1/shop_carts/" + item._id,
+                "http://192.168.16.89:3009/api/v1/shop_carts/" + item._id,
                 {
                   headers: {
                     authorization: "Bearer " + localStorage.getItem("token")
@@ -344,7 +344,7 @@ export default {
       } else {
         axios
           .post(
-            "http://192.168.16.29:3009/api/v1/shop_carts",
+            "http://192.168.16.89:3009/api/v1/shop_carts",
             {
               product: item.product._id,
               quantity: -1

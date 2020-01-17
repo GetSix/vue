@@ -98,18 +98,9 @@ export default {
   },
 
   methods: {
-<<<<<<< HEAD
-    toAccount(chosenAddressId) {
-      console.log("111");
-      console.log(chosenAddressId);
-      let id = this.addressList[parseInt(chosenAddressId)]._id;
-      console.log(id);
-        this.$router.push({
-=======
     toAccount(item, index) {
       let id = this.addressList[parseInt(index)]._id;
       this.$router.push({
->>>>>>> a5b51a72c4b401d70405c6db5da7006622506341
         name: "accounts",
         query: {
           id: id

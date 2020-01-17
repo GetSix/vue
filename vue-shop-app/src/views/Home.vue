@@ -153,7 +153,7 @@
       <div class="otherItem">
         <span class="itemTitle">吃什么</span>
         <p class="itemSubTitle">童年落花生</p>
-        <img class="itemImg" src="http://localhost:8081/img/peanut.7c7a8e68.jpeg" alt />
+        <img class="itemImg" src="http://192.168.16.89:8081/img/peanut.7c7a8e68.jpeg" alt />
       </div>
       <div class="lowPrice">
         <span class="itemTitle">平价菜场</span>
@@ -248,7 +248,7 @@ export default {
   components: {},
   created() {
     axios
-      .get("http://192.168.16.29:3009/api/v1/product_categories", {
+      .get("http://192.168.16.89:3009/api/v1/product_categories", {
         params: { per: 13 }
       })
       .then(res => {
@@ -256,7 +256,7 @@ export default {
         this.list = res.data.categories;
       });
     axios
-      .get("http://192.168.16.29:3009/api/v1/products", {
+      .get("http://192.168.16.89:3009/api/v1/products", {
         params: {
           per: 80
         }
@@ -335,11 +335,12 @@ export default {
 }
 .van-col {
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: -4px;
 }
 .banner img {
   width: 100%;
   height: 100%;
+  margin-top: 0px;
 }
 .van-grid-item {
   font-size: 14px;

@@ -34,12 +34,12 @@ export default {
   },
   created() {
      this.cname=localStorage.getItem('cname')
-      axios.get('http://192.168.16.29:3009/api/v1/product_categories').then(res=>{
+      axios.get('http://192.168.16.89:3009/api/v1/product_categories').then(res=>{
        console.log(res.data.categories)
        this.category=res.data.categories
        
      })
-    axios.get("http://192.168.16.29:3009/api/v1/products",{
+    axios.get("http://192.168.16.89:3009/api/v1/products",{
       params:{
         per:80
       }
@@ -48,7 +48,7 @@ export default {
       this.list = res.data.products;
       // console.log(this.list);
     });
-     axios.get('http://192.168.16.29:3009/api/v1/product_categories').then(res=>{
+     axios.get('http://192.168.16.89:3009/api/v1/product_categories').then(res=>{
        console.log(res.data.categories)
        this.category=res.data.categories
        
@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     detail(id){
-      axios.get('http://192.168.16.29:3009/api/v1/products/'+id).then(res=>{
+      axios.get('http://192.168.16.89:3009/api/v1/products/'+id).then(res=>{
         console.log(res.data)
         localStorage.setItem('id',id)
         this.$router.push({

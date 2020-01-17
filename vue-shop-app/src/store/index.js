@@ -10,6 +10,7 @@ export default new Vuex.Store({
     accountsList:[],
     cartList:[],
     person:[],
+    price:0,
   },
   mutations: {
   },

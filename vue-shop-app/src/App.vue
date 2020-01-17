@@ -27,7 +27,7 @@ export default {
   created() {
     this.num = store.num;
     axios
-      .get("http://192.168.16.29:3009/api/v1/shop_carts", {
+      .get("http://192.168.16.89:3009/api/v1/shop_carts", {
         headers: {
           authorization: " Bearer " + localStorage.getItem("token")
         }
